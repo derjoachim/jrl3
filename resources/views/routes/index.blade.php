@@ -12,9 +12,9 @@
             <th></th>
             <th>Naam</th>
             <th>Afstand</th>
-            <th>Longitude</th>
-            <th>Latitude</th>
-            <th>Omschrijving</th>
+            <th>Start</th>
+            <th>Finish</th>
+            <th>Waardering</th>
             <th></th>
         </thead>
         <tfoot>
@@ -27,14 +27,16 @@
                     <td/>
                     <td><a href="{{ route('routes.show', $route->slug)}}">{{ $route->name }}</a></td>
                     <td>{{ $route->distance }}</td>
-                    <td>{{ $route->lon }}</td>
-                    <td>{{ $route->lat }}</td>
-                    <td>{{ $route->description }}</td>
+                    <td>{{ $route->lon_start }} - {{ $route->lat_start }}</td>
+                    <td>{{ $route->lon_finish }} - {{ $route->lat_finish }}</td>
+                    <td>{{ $route->rating }} / 5</td>
                     <td>
-                        {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
-                        {!! link_to_route('routes.edit','Edit', array($route->slug), array('class' => 'btn btn-info')) !!}
-                        {!! Form::submit('Delete',array('class','btn btn-danger')) !!}
-                        {!! Form::close() !!}    
+                        <div class="btn-group" role="group">
+                            {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
+                            {!! link_to_route('routes.edit','Edit', array($route->slug), array('class' => 'btn btn-info')) !!}
+                            {!! Form::submit('Delete',array('class' => 'btn btn-danger')) !!}
+                            {!! Form::close() !!}
+                        </div>
                     </td>
                 </tr>
             @endforeach
@@ -42,6 +44,5 @@
     </table>
 </div>
 @endif
-<p>
-</p>
+
 @endsection

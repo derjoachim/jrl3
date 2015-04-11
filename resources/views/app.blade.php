@@ -7,7 +7,9 @@
 	<title>Laravel</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-
+        <script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('/js/jrl.js') }}"></script>
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
@@ -34,6 +36,8 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
+                                        <li><a href="{{ url('/routes') }}">Routes</a></li>
+                                        <li><a href="{{ url('/workouts') }}">Workouts</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -57,10 +61,16 @@
 			<p>{{ Session::get('message') }}</p>
 		</div>
 	@endif
+        @if ($errors->any())
+                <div class='flash alert-danger'>
+			@foreach ( $errors->all() as $error )
+				<p>{{ $error }}</p>
+			@endforeach
+		</div>
+	@endif
 	@yield('content')
 
 	<!-- Scripts -->
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

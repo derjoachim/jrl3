@@ -109,6 +109,10 @@ return [
 	*/
 
 	'providers' => [
+                /*
+                 * Cviebrock's sluggable service
+                 */
+                'Cviebrock\EloquentSluggable\SluggableServiceProvider',
 
 		/*
 		 * Laravel Framework Service Providers...
@@ -136,8 +140,7 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
-
-		/*
+ 		/*
 		 * Application Service Providers...
 		 */
 		'Jrl3\Providers\AppServiceProvider',
