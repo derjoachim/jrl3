@@ -23,18 +23,18 @@
     </div>
     @if ( $route->lon_start && $route->lat_start )
         <div class="col-lg-3">
-            <h3>Start coordinates</h3>
+            <h3>Start</h3>
             <dl>
-                <dt>longitude</dt>
+                <dt>Lengtegraad</dt>
                 <dd>{{ $route->lon_start }}</dd>
-                <dt>latitude:</dt>
+                <dt>Breedtegraad</dt>
                 <dd>{{ $route->lat_start }}</dd>
             </dl>
-            <h3>Finish coordinates</h3>
+            <h3>Finish</h3>
             <dl>
-                <dt>longitude</dt>
-                    <dd>{{ $route->lon_finish }}</dd>
-                <dt>latitude:</dt>
+                <dt>Lengtegraad</dt>
+                <dd>{{ $route->lon_finish }}</dd>
+                <dt>Breedtegraad</dt>
                 <dd>{{ $route->lat_finish }}</dd>
             </dl>
          </div>
@@ -43,7 +43,7 @@
         <div class="col-lg-12"><div class="alert alert-info">Geen co&ouml;rdinaten bekend</div></div>
     @endif        
     <div class="col-lg-12">
-        {!! link_to_route('routes.edit','Edit', array($route->slug), array('class' => 'btn btn-info')) !!}
+        {!! link_to_route('routes.edit','Bewerk', array($route->slug), array('class' => 'btn btn-info')) !!}
     </div>
 </div>
 @endsection

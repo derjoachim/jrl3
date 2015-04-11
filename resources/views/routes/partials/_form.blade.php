@@ -25,8 +25,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('rating', 'Waardering:',['class' => 'control-label']) !!}
-            {!! Form::select('rating',[1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5], 
-            3, ['class' => 'form-control']) !!}
+            {!! Form::selectRange('rating', 1, 5, 3,['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-lg-3">

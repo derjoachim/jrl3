@@ -19,7 +19,7 @@
         </thead>
         <tfoot>
             <th colspan='6'>&nbsp;</th>
-            <th>{!! link_to_route('routes.create', 'Create Route',array(),array('class' => 'btn btn-primary')) !!}</th>
+            <th>{!! link_to_route('routes.create', 'Nieuwe Route',array(),array('class' => 'btn btn-primary')) !!}</th>
         </tfoot>
         <tbody>
             @foreach( $routes as $route )
@@ -33,8 +33,8 @@
                     <td>
                         <div class="btn-group" role="group">
                             {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
-                            {!! link_to_route('routes.edit','Edit', array($route->slug), array('class' => 'btn btn-info')) !!}
-                            {!! Form::submit('Delete',array('class' => 'btn btn-danger')) !!}
+                            {!! link_to_route('routes.edit','Bewerk', array($route->slug), array('class' => 'btn btn-info')) !!}
+                            {!! Form::submit('Verwijder',array('class' => 'btn btn-danger')) !!}
                             {!! Form::close() !!}
                         </div>
                     </td>
