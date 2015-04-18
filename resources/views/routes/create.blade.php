@@ -5,6 +5,6 @@
     <h2>Stel een nieuwe route op</h2>
     
     {!! Form::model(new Jrl3\Route, ['route' => 'routes.store']) !!}
-    @include('routes/partials/_form', ['submit_text' => 'Aanmaken'])
+    @include('routes/partials/_form', ['submit_text' => 'Aanmaken', 'rating' => 3])
     {!! Form::close() !!}
 @endsection

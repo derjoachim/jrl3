@@ -1,6 +1,7 @@
 <?php namespace Jrl3\Http\Controllers;
 
 use Jrl3\Workout;
+use Jrl3\Route;
 use Jrl3\Http\Requests;
 use Jrl3\Http\Controllers\Controller;
 use Input;
@@ -22,7 +23,8 @@ class WorkoutsController extends Controller {
      */
     public function index()
     {
-        $workouts = Workout::all();
+        $workouts = Workout::latest('date')->get();
+        
         return view('workouts.index', compact('workouts'));
     }
 
@@ -33,7 +35,10 @@ class WorkoutsController extends Controller {
      */
     public function create()
     {
-        return view('workouts.create');
+        $routes = $this->_getRoutes();
+        //echo '<pre>'.print_r($routes,true).'</pre>';exit;
+        
+        return view('workouts.create',compact('routes'));
     }
 
     /**
@@ -48,7 +53,7 @@ class WorkoutsController extends Controller {
     {
         $this->validate($request, $this->rules);
         $input = Input::all();
-        Route::create( $input );
+        Workout::create( $input );
 
         return Redirect::route('workouts.index')->with('message', 'Nieuwe workout opgeslagen');
     }
@@ -95,5 +100,23 @@ class WorkoutsController extends Controller {
     public function destroy($id)
     {
             //
+    }
+    
+    /**
+     * Helper function to retrieve all routes
+     * 
+     * @param void
+     * @return array arrRoute
+     * @TODO: Retrieve by userid
+     */
+    private function _getRoutes()
+    {
+        $routes = Route::all();
+        
+        $arrRoute = array('' => '-- Geen standaardroute --');
+        foreach ( $routes as $route):
+            $arrRoute[$route->id] = $route->name.' ('.$route->distance.' km)';
+        endforeach;
+        return $arrRoute; // @TODO: by userid
     }
 }

@@ -30,7 +30,7 @@
                     <td>{{ $workout->time_in_seconds }}</td>
                     <td>
                         <div class="btn-group" role="group">
-                            {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $route->slug))) !!}
+                            {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
                             {!! link_to_route('workouts.edit','Bewerk', array($workout->slug), array('class' => 'btn btn-info')) !!}
                             {!! Form::submit('Verwijder',array('class' => 'btn btn-danger')) !!}
                             {!! Form::close() !!}

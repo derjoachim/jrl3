@@ -4,7 +4,7 @@
 @section('content')
 <h2>Standaardroutes</h2>
 @if( !$routes->count() ) 
-<div class="alert alert-info">Geen standaardroutes gedefinieerd</div>
+<div class="alert alert-info">Geen standaardroutes gedefinieerd. Klik {!! link_to_route('routes.create', 'hier',array(),array()) !!} om een standaardroute vast te leggen.</div>
 @else
 <div class="row-fluid">
     <table class="table table-condensed table-striped">

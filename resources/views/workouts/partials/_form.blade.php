@@ -21,7 +21,7 @@
         <h3>Algemene gegevens</h3>
         <div class="form-group">
             {!! Form::label('date', 'Datum:',['class' => 'control-label']) !!}
-            {!! Form::text('date',null,['class' => 'form-control']) !!}
+            {!! Form::input('date','date',date('Y-m-d'),['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('start_time', 'Tijd:',['class' => 'control-label']) !!}
@@ -37,8 +37,8 @@
         <h3>Tijd en afstand</h3>
         <div class="form-group">
             {!! Form::label('route_id', 'Route:',['class' => 'control-label']) !!}
-            {!! Form::select('route_id',[0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5], 
-            0, ['class' => 'form-control']) !!}
+            {!! Form::select('route_id',$routes, 
+            $route_id, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('distance', 'Afstand:',['class' => 'control-label']) !!}
@@ -76,11 +76,11 @@
         </div>
         <div class="form-group">
             {!! Form::label('mood', 'Stemming:',['class' => 'control-label']) !!}
-            {!! Form::selectRange('mood', 1, 5, 3, ['class' => 'form-control']) !!}
+            {!! Form::selectRange('mood', 1, 5, $mood`, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('health', 'Gezondheid:',['class' => 'control-label']) !!}
-            {!! Form::selectRange('health', 1, 5, 3, ['class' => 'form-control']) !!}
+            {!! Form::selectRange('health', 1, 5, $health, ['class' => 'form-control']) !!}
         </div>
     </div>
 </div>

@@ -5,6 +5,6 @@
     <h2>Bewerk route {{ $route->name }}</h2>
     
     {!! Form::model($route, ['method' => 'PATCH', 'route' => ['routes.update', $route->slug]]) !!}
-    @include('routes/partials/_form', ['submit_text' => 'Opslaan'])
+    @include('routes/partials/_form', ['submit_text' => 'Opslaan','rating' => $route->rating])
     {!! Form::close() !!}
 @endsection

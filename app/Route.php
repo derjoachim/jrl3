@@ -15,4 +15,9 @@ class Route extends Model implements SluggableInterface {
         'save_to'    => 'slug',
         'on_update'  => true,
     );
+    
+    public function workouts()
+    {
+        return $this->hasMany('Jrl3\Workout');
+    }
 }
