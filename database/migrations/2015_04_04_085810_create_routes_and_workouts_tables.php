@@ -14,22 +14,24 @@ class CreateRoutesAndWorkoutsTables extends Migration {
 	{
 		Schema::create('routes', function(Blueprint $table)
 		{
-                    $table->increments('id');
-                    $table->string('name')->default('');
-                    $table->string('slug')->default('');
-                    $table->text('description')->default('');
-                    $table->string('lon_start')->nullable();
-                    $table->string('lat_start')->nullable();
-                    $table->string('lon_finish')->nullable();
-                    $table->string('lat_finish')->nullable();
-                    $table->tinyInteger('rating')->default(3);
-                    $table->decimal('distance',4,2);
-                    $table->timestamps();
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('name')->default('');
+            $table->string('slug')->default('');
+            $table->text('description')->default('');
+            $table->string('lon_start')->nullable();
+            $table->string('lat_start')->nullable();
+            $table->string('lon_finish')->nullable();
+            $table->string('lat_finish')->nullable();
+            $table->tinyInteger('rating')->default(3);
+            $table->decimal('distance',4,2);
+            $table->timestamps();
 		});
                 
         Schema::create('workouts',function(Blueprint $table)
         {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->integer('route_id')->unsigned()->nullable();
             $table->string('name')->default('');
             $table->string('slug')->default('');

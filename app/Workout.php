@@ -31,4 +31,10 @@ class Workout extends Model implements SluggableInterface {
     {
         return $this->belongsTo('Jrl3\Route','route_id');
     }
+
+    public function users()
+    {
+        return $this->belongsTo('Jrl3\User');
+    }
+
 }

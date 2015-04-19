@@ -6,15 +6,23 @@ use Jrl3\Http\Controllers\Controller;
 use Input;
 use Redirect;
 use Illuminate\Http\Request;
+use Auth;
 
 class RoutesController extends Controller {
 
+    /**
+     * Array of validation rules
+     * 
+     */
     protected $rules = [
-        'name' => ['required','min:3'],
-        //'slug' => ['required'],
-        'description' => ['required','min:10']
+        'name'          => ['required','min:3'],
+        'description'   => ['required','min:10']
     ];
     
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -48,8 +56,9 @@ class RoutesController extends Controller {
     {
         $this->validate($request, $this->rules);
         $input = Input::all();
-        Route::create( $input );
-
+        $route = new Route($input);
+        Auth::user()->routes()->save($route);
+ 
         return Redirect::route('routes.index')->with('message', 'Nieuwe route opgeslagen');
     }
 
@@ -67,12 +76,17 @@ class RoutesController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function edit(Route $route)
+    public function edit(Route $route, Request $request)
     {
-        return view('routes.edit', compact('route'));
+        if($route->user_id == $request->user()->id)
+        {
+            return view('routes.edit', compact('route'));
+        } else {
+            return Redirect::route('routes.index')->with('message','U heeft niet de rechten om deze route te bewerken');
+        }
     }
 
     /**
@@ -96,13 +110,18 @@ class RoutesController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function destroy(Route $route)
+    public function destroy(Route $route, Request $request)
     {
-        $route->delete();
-
-        return Redirect::route('routes.index')->with('message','De route is verwijderd');
+        if($route->user_id == $request->user()->id)
+        {
+            $route->delete();
+            return Redirect::route('routes.index')->with('message','De route is verwijderd');
+        } else {
+            return Redirect::route('routes.index')->with('message','U heeft niet de rechten om deze route te verwijderen');
+        }
     }
 
 }

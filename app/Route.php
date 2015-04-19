@@ -20,4 +20,9 @@ class Route extends Model implements SluggableInterface {
     {
         return $this->hasMany('Jrl3\Workout');
     }
+    
+    public function users()
+    {
+        return $this->belongsTo('Jrl3\User');
+    }
 }

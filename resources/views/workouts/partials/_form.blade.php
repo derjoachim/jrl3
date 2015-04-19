@@ -76,7 +76,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('mood', 'Stemming:',['class' => 'control-label']) !!}
-            {!! Form::selectRange('mood', 1, 5, $mood`, ['class' => 'form-control']) !!}
+            {!! Form::selectRange('mood', 1, 5, $mood, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('health', 'Gezondheid:',['class' => 'control-label']) !!}

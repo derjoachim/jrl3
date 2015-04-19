@@ -30,5 +30,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
-
+    
+    public function routes() 
+    {
+        return $this->hasMany('Jrl3\Route');
+    }
+    
+    public function workouts()
+    {
+        return $this->hasMany('Jrl3\Workout');
+    }
 }

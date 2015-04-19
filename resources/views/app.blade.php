@@ -35,8 +35,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/') }}">Home</a></li>
-                    <li><a href="{{ url('/routes') }}">Routes</a></li>
-                    <li><a href="{{ url('/workouts') }}">Workouts</a></li>
+                    @if (!Auth::guest())
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Standaardroutes<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/routes') }}">Toon alle Routes</a></li>
+                                <li><a href="{{ url('/routes/create') }}">Nieuwe Route</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Workouts<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/workouts') }}">Toon alle Workouts</a></li>
+                                <li><a href="{{ url('/workouts/create') }}">Nieuwe Workout</a></li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">

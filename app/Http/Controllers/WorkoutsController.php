@@ -7,14 +7,25 @@ use Jrl3\Http\Controllers\Controller;
 use Input;
 use Redirect;
 use Illuminate\Http\Request;
+use Auth;
 
 class WorkoutsController extends Controller {
-
+    /*
+     * Validation rules. @TODO: 'time_in_seconds'
+     */
     protected $rules = [
         'date' => ['required','date'],
         'name' => ['required','min:3'],
         'description' => ['required','min:10']
     ];
+
+    /**
+     * 
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -33,11 +44,9 @@ class WorkoutsController extends Controller {
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $routes = $this->_getRoutes();
-        //echo '<pre>'.print_r($routes,true).'</pre>';exit;
-        
+        $routes = $this->_getRoutes($request);
         return view('workouts.create',compact('routes'));
     }
 
@@ -53,7 +62,9 @@ class WorkoutsController extends Controller {
     {
         $this->validate($request, $this->rules);
         $input = Input::all();
-        Workout::create( $input );
+        //Workout::create( $input );
+        $workout = new Workout($input);
+        Auth::user()->workouts()->save($workout);
 
         return Redirect::route('workouts.index')->with('message', 'Nieuwe workout opgeslagen');
     }
@@ -108,8 +119,9 @@ class WorkoutsController extends Controller {
      * @param void
      * @return array arrRoute
      * @TODO: Retrieve by userid
+     * @TODO: Not sure whether this should be in the controller. Refactor if necessary.
      */
-    private function _getRoutes()
+    private function _getRoutes(Request $request)
     {
         $routes = Route::all();
         
@@ -117,6 +129,16 @@ class WorkoutsController extends Controller {
         foreach ( $routes as $route):
             $arrRoute[$route->id] = $route->name.' ('.$route->distance.' km)';
         endforeach;
-        return $arrRoute; // @TODO: by userid
+        return $arrRoute;
     }
+    
+    /**
+     * @TODO: Time in Seconds >> Time
+     * Not sure whether controller action
+     */
+    
+    /**
+     * @TODO: Time >> Time in Seconds
+     * Not sure whether controller action
+     */
 }
