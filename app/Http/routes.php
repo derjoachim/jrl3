@@ -30,3 +30,7 @@ Route::resource('workouts', 'WorkoutsController');
 Route::bind('routes', function($value, $route){
     return Jrl3\Route::whereSlug($value)->first();
 });
+
+Route::bind('workouts', function($value, $workout){
+    return Jrl3\Workout::whereSlug($value)->first();
+});

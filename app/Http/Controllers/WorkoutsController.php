@@ -72,12 +72,12 @@ class WorkoutsController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Workout $workout
      * @return Response
      */
-    public function show($id)
+    public function show(Workout $workout)
     {
-            //
+        return view('workouts.show', compact('workout'));
     }
 
     /**

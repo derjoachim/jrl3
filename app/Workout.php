@@ -14,16 +14,18 @@ class Workout extends Model implements SluggableInterface {
     use SluggableTrait;
 
     protected $sluggable = array(
-        'build_from' => 'date',
+        'build_from' => 'entry',
         'save_to'    => 'slug',
         'on_update'  => false,
     );
 
-    public function setSlugAttribute() {
-        // @TODO
+    public function getEntryAttribute() 
+    {
+        return $this->date . ' ' . $this->name;
     }
     
-    public function setDateAttribute($date) {
+    public function setDateAttribute($date) 
+    {
         $this->attributes['date'] = Carbon::createFromFormat('Y-m-d', $date);
     }
     
