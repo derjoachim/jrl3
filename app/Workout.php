@@ -34,7 +34,7 @@ class Workout extends Model implements SluggableInterface {
      * for such a case, but alas, this is PHP. Ugly code it is. Will refactor later
      * to a presenter. 
      */
-    public function getTimeInSecondsAttribute($fld = 'time_in_seconds')
+    public function getTimeInSeconds($fld = 'time_in_seconds')
     {
         $secs = $this->attributes[$fld];
         $hrs = floor($secs / 3600);

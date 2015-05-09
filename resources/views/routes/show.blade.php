@@ -9,7 +9,7 @@
     });
 </script>
 @endif
-<div class="row-fluid">
+<div class="row">
     <div class="col-lg-12">
         <div class="page-header">
             <h2>

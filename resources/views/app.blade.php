@@ -69,20 +69,21 @@
             </div>
         </div>
     </nav>
-    @if (Session::has('message'))
-        <div class="flash alert-info">
-            <p>{{ Session::get('message') }}</p>
-        </div>
-    @endif
-    @if ($errors->any())
-        <div class='flash alert-danger'>
-            @foreach ( $errors->all() as $error )
-                <p>{{ $error }}</p>
-            @endforeach
-        </div>
-    @endif
-    @yield('content')
-
+    <div class="container-fluid">
+        @if (Session::has('message'))
+            <div class="flash alert-info">
+                <p>{{ Session::get('message') }}</p>
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class='flash alert-danger'>
+                @foreach ( $errors->all() as $error )
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+        @yield('content')
+    </div>
         <!-- Scripts -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
     </body>

@@ -9,7 +9,7 @@
     });
 </script>
 @endif
-<div class="row-fluid">
+<div class="row">
     <div class="col-lg-12">
         <div class="page-header">
             <h2>
@@ -18,11 +18,62 @@
             <h3>{{ $workout->distance }} kilometer - {{ $t }}</h3>    
         </div>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-6">
+        <h3>Algemene Gegevens</h3>
+        <dl>
+            <dt>Datum:</dt>
+            <dd>{{ $workout->date }}</dd>
+            <dt>Tijd:</dt>
+            <dd>{{ $workout->start_time }}</dd>
+            @if ( $workout->route_id > 0) 
+            <dt>Route:</dt>
+            <dd>{{ $workout->route_id }}</dd> <!-- @TODO -->
+            @endif
+            <dt>Finish tijd:</dt>
+            <dd>{{ $t }}</dd>
+            <dt>Afstand:</dt>
+            <dd>{{ $workout->distance }}</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3">
+        <h3>Weer</h3>
+        <dl>
+            <dt>Temperatuur:</dt>
+            <dd>{{ $workout->temperature }}</dd>
+            <dt>Luchtdruk:</dt>
+            <dd>{{ $workout->pressure }}</dd>
+            <dt>Vochtigheid:</dt>
+            <dd>{{ $workout->humidity }}</dd>
+            <dt>Windsnelheid:</dt>
+            <dd>{{ $workout->wind_speed }}</dd>
+            <dt>Windrichting:</dt>
+            <dd>{{ $workout->wind_direction }}</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3">
+        <h3>Vibe</h3>
+        <dl>
+            <dt>Voltooid:</dt>
+            <dd>@if ($workout->finished == 1)
+            Ja
+            @else
+            Nee
+            @endif
+            </dd>
+            <dt>Stemming:</dt>
+            <dd>{{ $workout->mood }}</dd>
+            <dt>Gezondheid</dt>
+            <dd>{{ $workout->health }}</dd>
+        </dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <h3>Beschrijving</h3>
         {!! $workout->description !!}
     </div>
     @if ( $workout->lon_start && $workout->lat_start )
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <h3>Start</h3>
             <dl>
                 <dt>Lengtegraad</dt>
@@ -30,6 +81,7 @@
                 <dt>Breedtegraad</dt>
                 <dd>{{ $workout->lat_start }}</dd>
             </dl>
+            @if ($workout->lon_finish && $workout->lat_finish)
             <h3>Finish</h3>
             <dl>
                 <dt>Lengtegraad</dt>
@@ -37,10 +89,11 @@
                 <dt>Breedtegraad</dt>
                 <dd>{{ $workout->lat_finish }}</dd>
             </dl>
-         </div>
-        <div class="col-lg-9" style="height: 400px;" id="map_canvas"></div>
+            @endif
+        </div>
+        <div class="col-lg-6" style="height: 300px;" id="map_canvas"></div>
     @else
-        <div class="col-lg-12"><div class="alert alert-info">Geen co&ouml;rdinaten bekend</div></div>
+        <div class="col-lg-8"><div class="alert alert-info">Geen co&ouml;rdinaten bekend</div></div>
     @endif        
     <div class="col-lg-12">
         {!! link_to_route('workouts.edit','Bewerk', array($workout->slug), array('class' => 'btn btn-info')) !!}

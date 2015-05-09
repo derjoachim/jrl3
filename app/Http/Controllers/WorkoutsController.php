@@ -77,7 +77,7 @@ class WorkoutsController extends Controller {
      */
     public function show(Workout $workout)
     {
-        return view('workouts.show', compact('workout'))->with('t',$workout->getTimeInSecondsAttribute());
+        return view('workouts.show', compact('workout'))->with('t',$workout->getTimeInSeconds());
     }
 
     /**
@@ -131,14 +131,4 @@ class WorkoutsController extends Controller {
         endforeach;
         return $arrRoute;
     }
-    
-    /**
-     * @TODO: Time in Seconds >> Time
-     * Not sure whether controller action
-     */
-    
-    /**
-     * @TODO: Time >> Time in Seconds
-     * Not sure whether controller action
-     */
 }

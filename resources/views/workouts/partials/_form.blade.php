@@ -60,6 +60,10 @@
             {!! Form::text('pressure',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
+            {!! Form::label('humidity', 'Vochtigheid:',['class' => 'control-label']) !!}
+            {!! Form::text('humidity',null,['class' => 'form-control']) !!}
+        </div>
+        <div class="form-group">
             {!! Form::label('wind_speed', 'Windsnelheid:',['class' => 'control-label']) !!}
             {!! Form::text('wind_speed',null,['class' => 'form-control']) !!}
         </div>
