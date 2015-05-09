@@ -1,4 +1,9 @@
 /vendor
 /node_modules
+nbproject/
+.idea/
 .env
 .env.example
+
+access_log
+error_log

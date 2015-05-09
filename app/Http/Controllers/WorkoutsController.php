@@ -77,7 +77,7 @@ class WorkoutsController extends Controller {
      */
     public function show(Workout $workout)
     {
-        return view('workouts.show', compact('workout'));
+        return view('workouts.show', compact('workout'))->with('t',$workout->getTimeInSecondsAttribute());
     }
 
     /**
