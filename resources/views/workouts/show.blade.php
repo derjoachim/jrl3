@@ -15,7 +15,11 @@
             <h2>
                 {{ $workout->name }}
             </h2>
-            <h3>{{ $workout->distance }} kilometer - {{ $t }}</h3>    
+            <h3>{{ $workout->distance }} kilometer 
+                @if ( $workout->finished == '1')
+                - {{ $t }}
+                @endif
+            </h3>    
         </div>
     </div>
     <div class="col-lg-6">

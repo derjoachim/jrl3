@@ -16,12 +16,15 @@ class Workout extends Model implements SluggableInterface {
     protected $sluggable = array(
         'build_from' => 'entry',
         'save_to'    => 'slug',
-        'on_update'  => false,
+        'on_update'  => true,
     );
 
     public function getEntryAttribute() 
     {
-        return $this->attributes['date'] . ' ' . $this->name;
+        $dt = Carbon::parse($this->attributes['date']);
+        $strdt = $dt->year.'-'.($dt->month < 10 ? '0': '').$dt->month.'-'.
+            ($dt->day < 10 ? '0' : '').$dt->day;
+        return $strdt. ' ' . $this->name;
     }
     
     public function setDateAttribute($date) 
@@ -30,28 +33,16 @@ class Workout extends Model implements SluggableInterface {
     }
 
     /*
-     * Times are saved in seconds. One day, I created a beautiful Python oneliner
-     * for such a case, but alas, this is PHP. Ugly code it is. Will refactor later
-     * to a presenter. 
+     * Times are saved in seconds. This method converts this value in a readable 
+     * format
+     * @param $fld string : attribute key
+     * @return string HH:ii:ss
      */
-    public function getTimeInSeconds($fld = 'time_in_seconds')
+    public function getTime($fld = 'time_in_seconds')
     {
         $secs = $this->attributes[$fld];
-        $hrs = floor($secs / 3600);
-        $secs -= ($hrs * 3600);
-        $mins = floor($secs / 60);
-        $secs -= ($mins * 60);
-        
-        $t = '';
-        if($hrs > 0) {
-            $t .= $hrs.':';
-        }
-        if($mins > 0) {
-            $t .= ($mins < 10 ? '0'.$mins : $mins).':';
-        }
-        $t .= $secs;
-        
-        return $t;       
+        $t = ($secs > 3600 ? 'H:' : '') . 'i:s';
+        return gmdate($t, $secs);
     }
     
     public function setTimeInSecondsAttribute($time)

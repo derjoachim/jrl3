@@ -1,6 +1,7 @@
 <script type="text/javascript" defer>
     /*
      * @TODO: Retrieve weather data
+     * @TODO: Retrieve data from Strava
      */
     $(document).ready(function() {
 	AddGMToHead();
@@ -20,17 +21,16 @@
     <div class="col-lg-3">
         <h3>Algemene gegevens</h3>
         <div class="form-group">
+            {!! Form::label('name', 'Naam:',['class' => 'control-label']) !!}
+            {!! Form::text('name',null,['class' => 'form-control']) !!}
+        </div>
+        <div class="form-group">
             {!! Form::label('date', 'Datum:',['class' => 'control-label']) !!}
             {!! Form::input('date','date',date('Y-m-d'),['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('start_time', 'Tijd:',['class' => 'control-label']) !!}
             {!! Form::text('start_time',null,['class' => 'form-control']) !!}
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('name', 'Naam:',['class' => 'control-label']) !!}
-            {!! Form::text('name',null,['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-lg-3">
@@ -46,7 +46,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('time_in_seconds', 'Eindtijd:',['class' => 'control-label']) !!}
-            {!! Form::text('time_in_seconds',null,['class' => 'form-control']) !!}
+            {!! Form::text('time_in_seconds',(isset($t) ? $t : null),['class' => 'form-control']) !!}
         </div>
     </div>
     <div class='col-lg-3'>
@@ -76,7 +76,7 @@
         <h3>Vibe</h3>
         <div class="form-group">
             {!! Form::label('finished', 'Voltooid:',['class' => 'control-label']) !!}
-            {!! Form::checkbox('finished',null) !!}
+            {!! Form::checkbox('finished', '1', true) !!}
         </div>
         <div class="form-group">
             {!! Form::label('mood', 'Stemming:',['class' => 'control-label']) !!}
@@ -85,6 +85,14 @@
         <div class="form-group">
             {!! Form::label('health', 'Gezondheid:',['class' => 'control-label']) !!}
             {!! Form::selectRange('health', 1, 5, $health, ['class' => 'form-control']) !!}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="form-group">
+            {!! Form::label('description', 'Omschrijving:',['class' => 'control-label']) !!}
+            {!! Form::textarea('description', null, ['class' => 'form-control ckeditor']) !!}
         </div>
     </div>
 </div>
@@ -111,12 +119,6 @@
     <div class="col-lg-9" id="map_canvas" style="min-height: 400px;"></div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
-        <div class="form-group">
-            {!! Form::label('description', 'Omschrijving:',['class' => 'control-label']) !!}
-            {!! Form::textarea('description', null, ['class' => 'form-control ckeditor']) !!}
-        </div>
-    </div>
     <div class="col-lg-12">
         <div class="form-group">
             {!! Form::submit($submit_text, ['class'=>'btn btn-primary']) !!}

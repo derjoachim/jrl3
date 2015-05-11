@@ -23,11 +23,11 @@
         <tbody>
             @foreach( $workouts as $workout )
                 <tr>
-                    <td>{{ $workout->date }}
+                    <td>{{ date('d-m-Y', strtotime($workout->date)) }}
                     <td><a href="{{ route('workouts.show', $workout->slug)}}">{{ $workout->name }}</a></td>
-                    <td>{{ $workout->route_id }}</td>
+                    <td>{{ $workout->route }}</td>
                     <td>{{ $workout->distance }} </td>
-                    <td>{{ $workout->time_in_seconds }}</td>
+                    <td>{{ $workout->time }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
