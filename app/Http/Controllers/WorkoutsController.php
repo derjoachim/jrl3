@@ -1,18 +1,17 @@
 <?php namespace Jrl3\Http\Controllers;
 
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Input;
 use Jrl3\Workout;
 use Jrl3\Route;
 use Jrl3\Http\Requests;
 use Jrl3\Http\Controllers\Controller;
-use Input;
 use Redirect;
-use Illuminate\Http\Request;
-use Auth;
 
 class WorkoutsController extends Controller {
-    /*
-     * Validation rules. @TODO: 'time_in_seconds'
-     */
+
     protected $rules = [
         'date' => ['required','date'],
         'name' => ['required','min:3'],
@@ -30,7 +29,7 @@ class WorkoutsController extends Controller {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return view
      */
     public function index()
     {
@@ -55,7 +54,8 @@ class WorkoutsController extends Controller {
     public function create(Request $request)
     {
         $routes = $this->_getRoutes($request);
-        return view('workouts.create',compact('routes'));
+        $date = date("Y-m-d");
+        return view('workouts.create',compact('routes','date'));
     }
 
     /**
@@ -84,25 +84,32 @@ class WorkoutsController extends Controller {
      */
     public function show(Workout $workout)
     {
-        return view('workouts.show', compact('workout'))->with('t',$workout->getTime());
+        $t = $workout->getTime();
+        $route = null;
+        if($workout->route_id > 0) {
+            $route = Route::find($workout->route_id)->name;
+        }
+        return view('workouts.show', compact('workout','t','route'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  
-     * @return Response
+     * @param  Workout $workout
+     * @param Request $request
+     * @return view 
+     * @todo: find a better way to handle mood and health
      */
     public function edit(Workout $workout, Request $request)
     {
         if($workout->user_id == $request->user()->id) {
             $routes = $this->_getRoutes($request);
-            return view('workouts.edit', compact('workout'),compact('routes'))->with([
-                'route_id' => $workout->route_id,
-                'mood' => $workout->mood,
-                'health' => $workout->health,
-                't' => $workout->getTime()
-                ]);
+            $mood = $workout->mood;
+            $health = $workout->health;
+            $t = $workout->getTime();
+            $date = $workout->date->format('Y-m-d');
+            
+            return view('workouts.edit', compact('workout','routes','mood','health','t','date'));
         } else {
             return view('workouts.index')->with('message', 'U heeft niet de juiste rechten om deze workout te bewerken.');
         }
@@ -153,12 +160,6 @@ class WorkoutsController extends Controller {
      */
     private function _getRoutes()
     {
-        $routes = Route::all();
-        
-        $arrRoute = array('' => '-- Geen standaardroute --');
-        foreach ( $routes as $route):
-            $arrRoute[$route->id] = $route->name.' ('.$route->distance.' km)';
-        endforeach;
-        return $arrRoute;
+        return array('' => '--- Geen route ---') + Route::lists('name','id');
     }
 }

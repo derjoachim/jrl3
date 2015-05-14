@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('date', 'Datum:',['class' => 'control-label']) !!}
-            {!! Form::input('date','date',date('Y-m-d'),['class' => 'form-control']) !!}
+            {!! Form::input('date','date',$date,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('start_time', 'Tijd:',['class' => 'control-label']) !!}
@@ -37,8 +37,7 @@
         <h3>Tijd en afstand</h3>
         <div class="form-group">
             {!! Form::label('route_id', 'Route:',['class' => 'control-label']) !!}
-            {!! Form::select('route_id',$routes, 
-            $route_id, ['class' => 'form-control']) !!}
+            {!! Form::select('route_id',$routes, null, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('distance', 'Afstand:',['class' => 'control-label']) !!}

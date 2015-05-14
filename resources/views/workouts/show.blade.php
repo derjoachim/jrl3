@@ -4,7 +4,7 @@
 @if ($workout->lon_start && $workout->lat_start)
 <script type="text/javascript" defer>
     $(document).ready(function() {
-	AddGMToHead();
+	AddGMToHead();eerste route
         setTimeout(function() {drawMap({{ $workout->lat_start }}, {{ $workout->lon_start }},'map_canvas');},700);
     });
 </script>
@@ -26,13 +26,13 @@
         <h3>Algemene Gegevens</h3>
         <dl>
             <dt>Datum:</dt>
-            <dd>{{ $workout->date }}</dd>
+            <dd>{{ $workout->date->format('d-m-Y') }}</dd>
             <dt>Tijd:</dt>
             <dd>{{ $workout->start_time }}</dd>
-            @if ( $workout->route_id > 0) 
-            <dt>Route:</dt>
-            <dd>{{ $workout->route_id }}</dd> <!-- @TODO -->
-            @endif
+            @unless ( is_null($route) ) 
+                <dt>Route:</dt>
+                <dd>{{ $route }}</dd>
+            @endunless
             <dt>Finish tijd:</dt>
             <dd>{{ $t }}</dd>
             <dt>Afstand:</dt>
