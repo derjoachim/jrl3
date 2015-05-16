@@ -4,18 +4,63 @@
      * @TODO: Retrieve data from Strava
      */
     $(document).ready(function() {
-	AddGMToHead();
-	$("#lon_start").on("change", function(event) {
+        AddGMToHead();
+        $("#lon_start").on("change", function(event) {
             drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');
-	});
-	$("#lat_start").on("change", function(event) {
+        });
+        $("#lat_start").on("change", function(event) {
             drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');
-	});
-	if(!($('#lat_start').val()) || !($('#lon_start').val())) {
+        });
+        if(!($('#lat_start').val()) || !($('#lon_start').val())) {
             getcoords();
- 	}
-	setTimeout(function() {drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');},700);
+        }
+        setTimeout(function() {drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');},700);
+        
+        $('#btn-weather').on("click", function(event){
+            if( $('#date').val() == '') {
+                alert("Vult u svp een datum in");
+                return false;
+            }
+            if($('#start_time').val() == '') {
+                alert('Vult u svp een geldige tijd HH:MM in');
+                return false;
+            }
+            if($('#lon_start').val() == '' || $('#lat_start').val() == '') {
+                alert('Vult u SVP uw coordinaten in');
+                return false;
+            }
+            $.getJSON( "/forecast", {
+                date: $('#date').val(),
+                time: $('#start_time').val(),
+                lon: $('#lon_start').val(),
+                lat: $('#lat_start').val(),
+                format: "json",
+                method: "POST"
+            })
+            .done(function(data){
+                $('#temperature').val(Math.round(data.currently.temperature));
+                $('#pressure').val(Math.round(data.currently.pressure));
+                $('#humidity').val(Math.round(100 * data.currently.humidity));
+                $('#wind_speed').val(Math.round(data.currently.windSpeed * 3.6));
+                $('#wind_direction').val(deg2compass(data.currently.windBearing));
+           })
+            .fail(function(data){
+                alert("Fout bij ophalen weer. ");
+            });
+        });
     });
+    
+    /*
+     * Convert degrees to compass direction
+     * Source: http://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words
+     * @param int nuw
+     * @return string compass direction e.g. NNW
+     */
+    function deg2compass(num) {
+        val = Math.round((parseInt(num)/22.5)+.5);
+        arr = new Array("N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW");
+        return arr[(val % 16)];
+    }
 </script>
 <div class="row">
     <div class="col-lg-3">
@@ -50,6 +95,7 @@
     </div>
     <div class='col-lg-3'>
         <h3>Weer</h3>
+        <a class="btn btn-warning" id="btn-weather"><i class="icon glyphicon glyphicon-cloud"></i> Fetch</a>
         <div class="form-group">
             {!! Form::label('temperature', 'Temperatuur:',['class' => 'control-label']) !!}
             {!! Form::text('temperature',null,['class' => 'form-control']) !!}

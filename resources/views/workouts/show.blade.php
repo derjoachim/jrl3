@@ -4,7 +4,7 @@
 @if ($workout->lon_start && $workout->lat_start)
 <script type="text/javascript" defer>
     $(document).ready(function() {
-	AddGMToHead();eerste route
+        AddGMToHead();
         setTimeout(function() {drawMap({{ $workout->lat_start }}, {{ $workout->lon_start }},'map_canvas');},700);
     });
 </script>
