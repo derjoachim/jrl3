@@ -5,5 +5,7 @@ nbproject/
 .env
 .env.example
 
+/public/tmp
+
 access_log
 error_log

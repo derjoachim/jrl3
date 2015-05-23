@@ -52,7 +52,7 @@ return [
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'nl',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
 	|
 	*/
 
-	'fallback_locale' => 'en',
+	'fallback_locale' => 'nl',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -109,10 +109,10 @@ return [
 	*/
 
 	'providers' => [
-                /*
-                 * Cviebrock's sluggable service
-                 */
-                'Cviebrock\EloquentSluggable\SluggableServiceProvider',
+        /*
+        * Cviebrock's sluggable service
+        */
+        'Cviebrock\EloquentSluggable\SluggableServiceProvider',
 
 		/*
 		 * Laravel Framework Service Providers...
@@ -129,7 +129,7 @@ return [
 		'Illuminate\Filesystem\FilesystemServiceProvider',
 		'Illuminate\Foundation\Providers\FoundationServiceProvider',
 		'Illuminate\Hashing\HashServiceProvider',
-                'Illuminate\Html\HtmlServiceProvider',
+        'Illuminate\Html\HtmlServiceProvider',
 		'Illuminate\Mail\MailServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
 		'Illuminate\Pipeline\PipelineServiceProvider',

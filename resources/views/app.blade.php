@@ -48,6 +48,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/workouts') }}">Toon alle Workouts</a></li>
                                 <li><a href="{{ url('/workouts/create') }}">Nieuwe Workout</a></li>
+                                <li><a href="{{ url('upload') }}">Upload Workoutbestand</a></li>
                             </ul>
                         </li>
                     @endif

@@ -60,6 +60,11 @@ class Workout extends Model implements SluggableInterface {
         return $this->belongsTo('Jrl3\User');
     }
     
+    public function waypoints()
+    {
+        return $this->hasMany('Jrl3\Waypoint');
+    }
+    
     private function _time_to_seconds($time)
     {
         $arTime = array_reverse(explode(':',$time));

@@ -29,7 +29,7 @@ function getcoords(prefix)
  * Get the weather from worldweather.com
  * @param lon int : Longitude in degrees
  * @param lat int : latitude in degrees
- */
+ * /
 function fetch_weather(lat,lon) 
 {
 	var bRefresh = false;// -> TODO: make it dependent on timestamp
@@ -72,7 +72,7 @@ function fetch_weather(lat,lon)
 		$('pressure').set('value',sessionStorage.getItem("pressure"));
 		$('wind').set('value',sessionStorage.getItem("wind"));
 	}
-}
+}*/
 
 /*
  * Add Google maps API JS to the document HEAD

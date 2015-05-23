@@ -17,6 +17,8 @@ Route::get('/', 'HomeController@index');
 Route::get('home', 'HomeController@index');
 
 Route::get('forecast','ForecastController@fetch');
+Route::get('upload','FilesController@upload');
+Route::post('parse','FilesController@parse');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
