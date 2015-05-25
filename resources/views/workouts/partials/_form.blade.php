@@ -4,113 +4,33 @@
      */
     $(document).ready(function() {
         AddGMToHead();
-        var arrMarker = new Array();
         var arrWps = new Array();     
         
-        $("#lon_start").on("change", function(event) {
-            if($("#lat_start").val() && $("#lon_start").val()) {
-                arrMarker[0] = new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
-                arrWps = new Array();
-            }
-            drawMap(arrMarker,arrWps,'map_canvas');
-        });
-        $("#lat_start").on("change", function(event) {
-           if($("#lat_start").val() && $("#lon_start").val()) {
-                arrMarker[0] = new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
-                arrWps = new Array();
-            }
-            drawMap(arrMarker,arrWps,'map_canvas');
+        $("#lon_start","#lat_start").on("change", function(event) {
+            drawMap(new Array(),'map_canvas');
         });
 
-        $("#lon_finish").on("change", function(event) {
-           if($("#lat_finish").val() && $("#lon_finish").val()) {
-                arrMarker[1] = new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
-                arrWps = new Array();
-            }
-            drawMap(arrMarker,arrWps,'map_canvas');
+        $("#lon_finish","#lat_finish").on("change", function(event) {
+            drawMap(new Array(),'map_canvas');
         });
         
-        $("#lat_finish").on("change", function(event) {
-           if($("#lat_finish").val() && $("#lon_finish").val()) {
-                arrMarker[1] = new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
-                arrWps = new Array();
-            }
-            drawMap(arrMarker,arrWps,'map_canvas');
-        });
-
         // If lat/lon is empty, try by finding the coordinates
         if(!($('#lat_start').val()) || !($('#lon_start').val())) {
             getcoords();
-        } else {
-            // Otherwise, fill marker arrays by input values
-            arrMarker[0] = new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
-            if($('#lat_finish').val() && $('#lon_finish').val()) {
-                arrMarker[1] = new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
-            }
-        }    
+        }
         
         @if (isset($workout) and $workout->id > 0 )
-        $.getJSON("/waypoints", {
-            "id": {{ $workout->id }},
-            "method": "POST",
-            "format": "json",
-        }).done(function(data) {
-            $.each(data, function(key,i) { 
-                arrWps.push(new Array(i.lat,i.lon));
-            });
-        });
-        console.log(arrWps.lenght+' waypoints found');
+        arrWps = getWaypoints({{ $workout->id }});
         @endif
-        
+
         setTimeout(function() {
-            drawMap(arrMarker,arrWps,'map_canvas');
-        },900);
+            drawMap(arrWps,'map_canvas');
+        },700);
 
         $('#btn-weather').on("click", function(event){
-            if( $('#date').val() == '') {
-                alert("Vult u svp een datum in");
-                return false;
-            }
-            if($('#start_time').val() == '') {
-                alert('Vult u svp een geldige tijd HH:MM in');
-                return false;
-            }
-            if($('#lon_start').val() == '' || $('#lat_start').val() == '') {
-                alert('Vult u SVP uw coordinaten in');
-                return false;
-            }
-            $.getJSON( "/forecast", {
-                date: $('#date').val(),
-                time: $('#start_time').val(),
-                lon: $('#lon_start').val(),
-                lat: $('#lat_start').val(),
-                format: "json",
-                method: "POST"
-            })
-            .done(function(data){
-                $('#temperature').val(Math.round(data.currently.temperature));
-                $('#pressure').val(Math.round(data.currently.pressure));
-                $('#humidity').val(Math.round(100 * data.currently.humidity));
-                $('#wind_speed').val(Math.round(data.currently.windSpeed * 3.6));
-                $('#wind_direction').val(deg2compass(data.currently.windBearing));
-           })
-            .fail(function(data){
-                alert("Fout bij ophalen weer. ");
-            });
+            fetch_weather();
         });
-    });
-    
-    /*
-     * Convert degrees to compass direction
-     * Source: http://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words
-     * @param int nuw
-     * @return string compass direction e.g. NNW
-     */
-    function deg2compass(num) {
-        val = Math.round((parseInt(num)/22.5)+.5);
-        arr = new Array("N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW");
-        return arr[(val % 16)];
-    }
+    });   
 </script>
 <div class="row">
     <div class="col-lg-3">

@@ -5,7 +5,8 @@
 <script type="text/javascript" defer>
     $(document).ready(function() {
         AddGMToHead();
-        setTimeout(function() {drawMap({{ $workout->lat_start }}, {{ $workout->lon_start }},'map_canvas');},700);
+        var arrWps = getWaypoints({{ $workout->id }});
+        setTimeout(function() {drawMap(arrWps,'map_canvas');},700);
     });
 </script>
 @endif
@@ -95,6 +96,10 @@
             </dl>
             @endif
         </div>
+        <input type="hidden" id="lat_start" value="{{ $workout->lat_start }}" />
+        <input type="hidden" id="lon_start" value="{{ $workout->lon_start }}" />
+        <input type="hidden" id="lat_finish" value="{{ $workout->lat_finish }}" />
+        <input type="hidden" id="lon_finish" value="{{ $workout->lon_finish }}" />
         <div class="col-lg-6" style="height: 300px;" id="map_canvas"></div>
     @else
         <div class="col-lg-8"><div class="alert alert-info">Geen co&ouml;rdinaten bekend</div></div>

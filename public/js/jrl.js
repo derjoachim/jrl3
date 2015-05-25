@@ -1,4 +1,9 @@
 var apicode = "d1b7e70b48125943112710";
+/*
+ * Try to get coordinates based on HTML5 geolocation API
+ * @param {type} prefix
+ * @returns {Boolean}
+ */
 function getcoords(prefix) 
 {
     if(!prefix) { prefix = '';}
@@ -30,7 +35,7 @@ function getcoords(prefix)
  */
 function AddGMToHead()
 {
-    if(typeof(google) == "undefined") { 
+    if(typeof(google) === "undefined") { 
         var script = document.createElement("script");
         script.type = "text/javascript";
         script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyAqDEqlfOFkyVxhHtU0kjuOWaXLwBwDQGY&sensor=true&callback=drawMap";
@@ -38,29 +43,48 @@ function AddGMToHead()
         console.log('successfully added GM API');
     }
 }
-
+/*
+ * Fills the data for the green start marker
+ * @returns {Boolean}
+ */
+function fillStartMarker(arr) 
+{
+    if($("#lat_start").val() && $("#lon_start").val()) {
+        return new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
+    }
+    return new Array();
+}
+/*
+ * Fills the data for the red stop marker
+ * @returns {undefined}
+ */
+function fillStopMarker(arr)
+{
+    if($("#lat_finish").val() && $("#lon_finish").val()) {
+        return new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
+    }
+    return new Array();
+}
 
 /*
  * Draws map based on longitude and latitude
  * @param array arrMarker: array of markers to be drawn
- * @param array arrWps: array of waypoints with longitude and latitude
  * @param elemid: id of the element
  * @param prefix string: prefix
  */
-function drawMap(arrMarker,arrWps,elemid,prefix)
+function drawMap(arrWps,elemid,prefix)
 {
-    if(typeof(arrMarker) == "undefined") {
-        console.log("No markers defined");
-        return false;
-    }
-    if(String(prefix).length == 0) { prefix = '';}
+    var arrMarker = new Array();
+    arrMarker[0] = fillStartMarker();
+    arrMarker[1] = fillStopMarker();
+    
+    if(String(prefix).length === 0) { prefix = '';}
     var lon = arrMarker[0][1];
     var lat = arrMarker[0][0];
  
-    var myLatlng = new google.maps.LatLng(arrMarker[0][0], arrMarker[0][1]);
     var myOptions = {
         zoom: 16,
-        center: myLatlng,
+        center: new google.maps.LatLng(lat, lon),
         streetViewControl: true,
         mapTypeControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -90,26 +114,96 @@ function drawMap(arrMarker,arrWps,elemid,prefix)
         });
         
     });
-    // Draw the route
-    var arrRoute = new Array();
-    var bounds = new google.maps.LatLngBounds();
-    $.each(arrWps, function(elem, val){
-        var tmpLatLng = new google.maps.LatLng(Number(val[0]), Number(val[1]));
-        arrRoute.push(tmpLatLng);
-        bounds.extend(tmpLatLng);
-    });
-    var myRoute = new google.maps.Polyline({
-        path: arrRoute,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2
-    });
-    map.setCenter(bounds.getCenter());
-    map.fitBounds(bounds);
-    myRoute.setMap(map);
+    
+    if(arrWps.length > 0 ) {
+        var arrRoute = new Array();
+        var bounds = new google.maps.LatLngBounds();
+        $.each(arrWps, function(elem, val){
+            var tmpLatLng = new google.maps.LatLng(Number(val[0]), Number(val[1]));
+            arrRoute.push(tmpLatLng);
+            bounds.extend(tmpLatLng);
+        });
+        var myRoute = new google.maps.Polyline({
+            path: arrRoute,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+        map.setCenter(bounds.getCenter());
+        map.fitBounds(bounds);
+        myRoute.setMap(map);        
+    }
 }
 
+/*
+ * 
+ * @param {type} num
+ * @returns {arr|Array}
+ */
+function fetch_weather() {
+    if( $('#date').val() == '') {
+        alert("Vult u svp een datum in");
+        return false;
+    }
+    if($('#start_time').val() == '') {
+        alert('Vult u svp een geldige tijd HH:MM in');
+        return false;
+    }
+    if($('#lon_start').val() == '' || $('#lat_start').val() == '') {
+        alert('Vult u SVP uw coordinaten in');
+        return false;
+    }
+    $.getJSON( "/forecast", {
+        date: $('#date').val(),
+        time: $('#start_time').val(),
+        lon: $('#lon_start').val(),
+        lat: $('#lat_start').val(),
+        format: "json",
+        method: "POST"
+    })
+    .done(function(data){
+        $('#temperature').val(Math.round(data.currently.temperature));
+        $('#pressure').val(Math.round(data.currently.pressure));
+        $('#humidity').val(Math.round(100 * data.currently.humidity));
+        $('#wind_speed').val(Math.round(data.currently.windSpeed * 3.6));
+        $('#wind_direction').val(deg2compass(data.currently.windBearing));
+    })
+    .fail(function(data){
+        console.log("Fout bij ophalen weer.");
+    });
+}
+
+/*
+ * Convert degrees to compass direction
+ * Source: http://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words
+ * @param int num
+ * @return string compass direction e.g. NNW
+ */
+function deg2compass(num) {
+    val = Math.round((parseInt(num)/22.5)+.5);
+    arr = new Array("N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW");
+    return arr[(val % 16)];
+}
+
+/*
+ * Retrieve all waypoints for a workout
+ * @param {integer} id
+ * @returns {arrWps|Array}
+ */
+function getWaypoints(id) {
+    arrWps = new Array();
+    $.getJSON("/waypoints", {
+        "id": id,
+        "method": "POST",
+        "format": "json"
+    }).done(function(data) {
+        $.each(data, function(key,i) { 
+            arrWps.push(new Array(i.lat,i.lon));
+        });
+    });
+    return arrWps;
+}
 /*
  * Opens a Jquery modal
  * @param id: ID of the modal element
@@ -117,10 +211,10 @@ function drawMap(arrMarker,arrWps,elemid,prefix)
  */
 function jqmodal(elem,yeoldeurl)
 {
-	$.ajax({
-		type: "GET",
-		url: yeoldeurl,
-	}).done(function(html){
-		jQuery('#'+elem).html(html);
-	});
+    $.ajax({
+        type: "GET",
+        url: yeoldeurl
+    }).done(function(html){
+        $('#'+elem).html(html);
+    });
 }
