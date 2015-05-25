@@ -26,55 +26,6 @@ function getcoords(prefix)
 }
 
 /*
- * Get the weather from worldweather.com
- * @param lon int : Longitude in degrees
- * @param lat int : latitude in degrees
- * /
-function fetch_weather(lat,lon) 
-{
-	var bRefresh = false;// -> TODO: make it dependent on timestamp
-	if(!sessionStorage) { bRefresh = true;} // Old data isn't saved, so the JSON call must be made
-	else if($time() - sessionStorage.getItem("timestamp") > 1000 * 60 * 15) { bRefresh = true;}
-
-	if(bRefresh)
-	{
-		sessionStorage.clear();
-		sessionStorage.setItem("timestamp",$time());
-		sessionStorage.setItem("lon_start",lon);
-		sessionStorage.setItem("lat_start",lat);
-		var gRequest = new Request.JSONP({
-			method: 'get', 
-			data: {
-					'q': lat+','+lon,
-					'format': 'json',
-					'num_of_days': '2',
-					'key': apicode
-			},
-			url: 'http://free.worldweatheronline.com/feed/weather.ashx',
-			onComplete: function(evt) {
-				if(evt.data && evt.data.current_condition.length > 0) {
-					var cc = evt.data.current_condition[0];
-					var wind = cc.winddir16Point+" "+cc.windspeedKmph+" km/h";
-					$each({ 'humidity':cc.humidity,'temperature':cc.temp_C,"pressure":cc.pressure,"wind":wind}, function(val,idx){
-						if(sessionStorage) {
-							sessionStorage.setItem(idx,val);
-						}
-						$(idx).set('value',val);
-					});
-				}
-			}
-		}).send();
-	}
-	else if(sessionStorage)
-	{ 
-		$('humidity').set('value',sessionStorage.getItem("humidity"));
-		$('temperature').set('value',sessionStorage.getItem("temperature"));
-		$('pressure').set('value',sessionStorage.getItem("pressure"));
-		$('wind').set('value',sessionStorage.getItem("wind"));
-	}
-}*/
-
-/*
  * Add Google maps API JS to the document HEAD
  */
 function AddGMToHead()
@@ -91,20 +42,22 @@ function AddGMToHead()
 
 /*
  * Draws map based on longitude and latitude
- * @param lon: longitude
- * @param lat: latitude
+ * @param array arrMarker: array of markers to be drawn
+ * @param array arrWps: array of waypoints with longitude and latitude
  * @param elemid: id of the element
  * @param prefix string: prefix
  */
-function drawMap(lat,lon,elemid,prefix)
+function drawMap(arrMarker,arrWps,elemid,prefix)
 {
-    if(String(prefix).length == 0) { prefix = '';}
-    if(typeof(lon) == "undefined" || typeof(lat) == "undefined")
-    {
-        console.log("Invalid latitude "+lat+" or longitude "+lon);
+    if(typeof(arrMarker) == "undefined") {
+        console.log("No markers defined");
         return false;
     }
-    var myLatlng = new google.maps.LatLng(lat, lon);
+    if(String(prefix).length == 0) { prefix = '';}
+    var lon = arrMarker[0][1];
+    var lat = arrMarker[0][0];
+ 
+    var myLatlng = new google.maps.LatLng(arrMarker[0][0], arrMarker[0][1]);
     var myOptions = {
         zoom: 16,
         center: myLatlng,
@@ -112,20 +65,49 @@ function drawMap(lat,lon,elemid,prefix)
         mapTypeControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+    var infowindow = new google.maps.InfoWindow();
     var map = new google.maps.Map(document.getElementById(elemid),myOptions);
-    var marker = new google.maps.Marker({
-        map:map,
-        draggable:true,
-        //animation: google.maps.Animation.DROP,
-        position: myLatlng
+    $.each(arrMarker, function(elem,val){
+        var tmpLatLng = new google.maps.LatLng(Number(val[0]), Number(val[1]));
+        var marker = new google.maps.Marker({
+            map:map,
+            draggable:true,
+            icon: "http://maps.google.com/mapfiles/ms/icons/" + val[2] + ".png",
+            position: tmpLatLng
+        });
+        
+        google.maps.event.addListener(marker, 'click', (function(marker) {
+            return function() {
+                infowindow.setContent(val[3]);
+                infowindow.open(map, marker);
+            }
+        })(marker));
+        google.maps.event.addListener(marker,'mouseup',function(e) {
+            var mypos = e.latLng;
+            $('#'+prefix+'lat_start').val(mypos.lat());
+            $('#'+prefix+'lon_start').val(mypos.lng());
+            map.setCenter(mypos);
+        });
+        
     });
-
-    google.maps.event.addListener(marker,'mouseup',function(e) {
-        var mypos = e.latLng;
-        $('#'+prefix+'lat_start').val(mypos.lat());
-        $('#'+prefix+'lon_start').val(mypos.lng());
-        map.setCenter(mypos)
+    // Draw the route
+    var arrRoute = new Array();
+    var bounds = new google.maps.LatLngBounds();
+    $.each(arrWps, function(elem, val){
+        var tmpLatLng = new google.maps.LatLng(Number(val[0]), Number(val[1]));
+        arrRoute.push(tmpLatLng);
+        bounds.extend(tmpLatLng);
     });
+    var myRoute = new google.maps.Polyline({
+        path: arrRoute,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+    });
+    map.setCenter(bounds.getCenter());
+    map.fitBounds(bounds);
+    myRoute.setMap(map);
 }
 
 /*

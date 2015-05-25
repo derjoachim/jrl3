@@ -1,21 +1,71 @@
 <script type="text/javascript" defer>
     /*
-     * @TODO: Retrieve weather data
      * @TODO: Retrieve data from Strava
      */
     $(document).ready(function() {
         AddGMToHead();
+        var arrMarker = new Array();
+        var arrWps = new Array();     
+        
         $("#lon_start").on("change", function(event) {
-            drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');
+            if($("#lat_start").val() && $("#lon_start").val()) {
+                arrMarker[0] = new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
+                arrWps = new Array();
+            }
+            drawMap(arrMarker,arrWps,'map_canvas');
         });
         $("#lat_start").on("change", function(event) {
-            drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');
+           if($("#lat_start").val() && $("#lon_start").val()) {
+                arrMarker[0] = new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
+                arrWps = new Array();
+            }
+            drawMap(arrMarker,arrWps,'map_canvas');
         });
+
+        $("#lon_finish").on("change", function(event) {
+           if($("#lat_finish").val() && $("#lon_finish").val()) {
+                arrMarker[1] = new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
+                arrWps = new Array();
+            }
+            drawMap(arrMarker,arrWps,'map_canvas');
+        });
+        
+        $("#lat_finish").on("change", function(event) {
+           if($("#lat_finish").val() && $("#lon_finish").val()) {
+                arrMarker[1] = new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
+                arrWps = new Array();
+            }
+            drawMap(arrMarker,arrWps,'map_canvas');
+        });
+
+        // If lat/lon is empty, try by finding the coordinates
         if(!($('#lat_start').val()) || !($('#lon_start').val())) {
             getcoords();
-        }
-        setTimeout(function() {drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');},700);
+        } else {
+            // Otherwise, fill marker arrays by input values
+            arrMarker[0] = new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
+            if($('#lat_finish').val() && $('#lon_finish').val()) {
+                arrMarker[1] = new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
+            }
+        }    
         
+        @if (isset($workout) and $workout->id > 0 )
+        $.getJSON("/waypoints", {
+            "id": {{ $workout->id }},
+            "method": "POST",
+            "format": "json",
+        }).done(function(data) {
+            $.each(data, function(key,i) { 
+                arrWps.push(new Array(i.lat,i.lon));
+            });
+        });
+        console.log(arrWps.lenght+' waypoints found');
+        @endif
+        
+        setTimeout(function() {
+            drawMap(arrMarker,arrWps,'map_canvas');
+        },900);
+
         $('#btn-weather').on("click", function(event){
             if( $('#date').val() == '') {
                 alert("Vult u svp een datum in");

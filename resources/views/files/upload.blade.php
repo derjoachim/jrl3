@@ -20,7 +20,7 @@
         </div>
     @endif
     <div class="col-lg-12">
-        <p id="success" class="alert alert-success"></p>        
+        <p id="success" class="alert alert-info">Kies een .gpx bestand om te uploaden.</p>        
     </div>
 </div>
 <div class="row-fluid">

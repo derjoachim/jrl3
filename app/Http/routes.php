@@ -18,7 +18,8 @@ Route::get('home', 'HomeController@index');
 
 Route::get('forecast','ForecastController@fetch');
 Route::get('upload','FilesController@upload');
-Route::post('parse','FilesController@parse');
+Route::post('parse','WorkoutsController@parse');
+Route::get('waypoints','WorkoutsController@waypoints');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

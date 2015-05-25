@@ -2,13 +2,21 @@
 
 use Auth;
 use Carbon\Carbon;
+use Config; 
+use DB;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 use Input;
 use Jrl3\Workout;
 use Jrl3\Route;
+use Jrl3\Waypoint;
 use Jrl3\Http\Requests;
 use Jrl3\Http\Controllers\Controller;
 use Redirect;
+use Validator;
 
 class WorkoutsController extends Controller {
 
@@ -85,11 +93,12 @@ class WorkoutsController extends Controller {
     public function show(Workout $workout)
     {
         $t = $workout->getTime();
+        $id = $workout->id;
         $route = null;
         if($workout->route_id > 0) {
             $route = Route::find($workout->route_id)->name;
         }
-        return view('workouts.show', compact('workout','t','route'));
+        return view('workouts.show', compact('workout','t','route','id'));
     }
 
     /**
@@ -149,7 +158,91 @@ class WorkoutsController extends Controller {
             return Redirect::route('workouts.index')->with('message','U heeft niet de rechten om deze route te verwijderen');
         }
     }
-    
+    /*
+     * Parse an uploaded file into a workout and its trackpoints.
+     * 
+     * @param void
+     * @return Redirect
+     */
+    public function parse()
+	{
+        $file = Input::file('file');
+        $arrVal = array('file' => $file);
+        $validator = Validator::make($arrVal,[
+            'file' => ['required','mimes:xml,gpx']
+        ]);
+
+        if($validator->fails()) {
+            return Redirect::to('upload')->withInput()->withErrors($validator);
+        }
+  
+        $destinationPath = base_path() . '/public/tmp/';
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $file->getFileName().'.'.$extension;
+        $file->move($destinationPath, $fileName);
+        $json = json_encode(simplexml_load_file($destinationPath.$fileName));
+        $data = json_decode($json);
+
+        $trkseg = $data->trk->trkseg->trkpt;
+        $first = $trkseg[0];
+        $last = array_pop($trkseg);
+        
+        // GPX has its times stored in the UTC time zone. Convert it to your own.
+        // Make sure that it is set in app/config.php!
+        $tz = Config::get('app.timezone');
+        $ts = Carbon::parse($first->time,'UTC');
+        $ts->setTimezone($tz);
+        
+        // Calculate the elapsed time
+        $elapsed_time = Carbon::parse($last->time)->diffInSeconds(Carbon::parse($first->time));
+  
+        // @TODO: Calculate moving time?
+        
+        // @TODO: Refactor into Eloquent. This will make slugging somewhat easier.
+        $workout_id = DB::table('workouts')->insertGetId(
+            array(
+                'name' => $data->trk->name,
+                'date' => $ts->format('Y-m-d'),
+                'slug' => $ts->format('Y-m-d').'-'.'gpx-import', 
+                'user_id' => Auth::user()->id,
+                'start_time' => $ts->format('H:i:s'),
+                'time_in_seconds' => $elapsed_time,
+                'lat_start' => $first->{'@attributes'}->lat,
+                'lon_start' => $first->{'@attributes'}->lon,
+                'lat_finish' => $last->{'@attributes'}->lat,
+                'lon_finish' => $last->{'@attributes'}->lon,
+                'created_at' => Carbon::now(),
+        ));
+        
+        $arrWps = array();
+        foreach($trkseg as $t){
+            $arrWps[] = array(
+                'workout_id' => $workout_id,
+                'timestamp' => $t->time,
+                'lon' => $t->{'@attributes'}->lon,
+                'lat' => $t->{'@attributes'}->lat,
+            );
+        }
+        DB::table('waypoints')->insert($arrWps);
+            
+        $workout = DB::table('workouts')->where('id', '=', $workout_id)->first();
+        // @TODO: Dirty hack. Please refactor
+        return Redirect::to('workouts/'.$workout->slug.'/edit');
+	}
+    /*
+     * Get all waypoints by route_id
+     * @param integer id : id of the route
+     * @return json
+     */
+    public function waypoints(Request $request)
+    {
+        $id = $request->input('id');
+        if(is_numeric($id)) {
+            return json_encode(Workout::find($id)->waypoints);
+        } else {
+            // @TODO: Foutafhandeling
+        }
+    }
     /**
      * Helper function to retrieve all routes
      * 
