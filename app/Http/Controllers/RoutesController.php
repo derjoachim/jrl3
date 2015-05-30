@@ -123,5 +123,21 @@ class RoutesController extends Controller {
             return Redirect::route('routes.index')->with('message','U heeft niet de rechten om deze route te verwijderen');
         }
     }
+    
+    /**
+     * Retrieve route data as JSON
+     * @param int $id
+     * @return jsonresponse
+     */
+    public function getById(Request $request)
+    {
+        $id = $request->input('id');
+        if(is_numeric($id)) {
+            return Route::find($id);//->waypoints;
+        } else {
+            // @TODO: Foutafhandeling
+        }
+    }
+
 
 }

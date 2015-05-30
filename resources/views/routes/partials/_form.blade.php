@@ -2,10 +2,10 @@
     $(document).ready(function() {
 	AddGMToHead();
 	$("#lon_start").on("change", function(event) {
-            drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');
+            drawMap(new Array(),'map_canvas');
 	});
 	$("#lat_start").on("change", function(event) {
-            drawMap($('#lat_start').val(),$('#lon_start').val(),'map_canvas');
+            drawMap(new Array(),'map_canvas');
 	});
 	if(!($('#lat_start').val()) || !($('#lon_start').val())) {
             getcoords();

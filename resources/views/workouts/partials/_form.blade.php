@@ -22,6 +22,27 @@
         @if (isset($workout) and $workout->id > 0 )
         arrWps = getWaypoints({{ $workout->id }});
         @endif
+        
+        $("#route_id").on("change",function(elem){
+            if($("#route_id").val() == "") {
+                $("#distance").val("");
+                return;
+            } 
+            $.getJSON( "/routes/byid", {
+                id: $('#route_id').val(),
+                format: "json",
+                method: "POST"
+            })
+            .done(function(data){
+                if(data.distance && parseInt(data.distance) > 0 ) {
+                    $("#distance").val(data.distance);
+                } 
+            })
+            .fail(function(data){
+                $("#distance").val("");
+                console.log("Fout bij ophalen route.");
+            });
+        });
 
         setTimeout(function() {
             drawMap(arrWps,'map_canvas');

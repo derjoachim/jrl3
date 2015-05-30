@@ -20,6 +20,7 @@ Route::get('forecast','ForecastController@fetch');
 Route::get('upload','FilesController@upload');
 Route::post('parse','WorkoutsController@parse');
 Route::get('waypoints','WorkoutsController@waypoints');
+Route::get('routes/byid','RoutesController@getById');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

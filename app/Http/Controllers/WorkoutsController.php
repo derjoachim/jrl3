@@ -238,7 +238,7 @@ class WorkoutsController extends Controller {
     {
         $id = $request->input('id');
         if(is_numeric($id)) {
-            return json_encode(Workout::find($id)->waypoints);
+            return Workout::find($id)->waypoints;
         } else {
             // @TODO: Foutafhandeling
         }
