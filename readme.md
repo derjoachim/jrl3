@@ -3,7 +3,7 @@
 ### Third Movement
 
 This project is intended solely for me to have a web based logging tool for my runs. 
-Earlier attempts were made, but never finished. 
+Earlier attempts were made, but never finished. Hence the 'third' designation.
 
 ### Strava
 
