@@ -159,7 +159,7 @@ class WorkoutsController extends Controller {
         }
     }
     /*
-     * Parse an uploaded file into a workout and its trackpoints.
+     * Parse an uploaded .gpx file into a workout and its trackpoints.
      * 
      * @param void
      * @return Redirect
@@ -184,6 +184,34 @@ class WorkoutsController extends Controller {
         $data = json_decode($json);
 
         $trkseg = $data->trk->trkseg->trkpt;
+        
+        // Calculate an approximate distance in kilometers
+        $distance = 0;
+        $lastLon = null;
+        $lastLat = null;
+        // Also: calculate moving time
+        $moving_time = 0;
+        $lastTs = null;
+        
+        foreach($trkseg as $pt) {
+            $lat = $pt->{'@attributes'}->lat;
+            $lon = $pt->{'@attributes'}->lon;
+            $ts = $pt->time;
+
+            if(!is_null($lastLon) && !is_null($lastLat)) {    
+                // Was there movement?
+                if( $lat != $lastLat || $lon != $lastLon ) {
+                    $moving_time += Carbon::parse($ts)->diffInSeconds(Carbon::parse($lastTs));
+                    $distance += $this->_calcDistance($lat, $lon, $lastLat, $lastLon);
+                }
+            }
+            $lastLon = $lon;
+            $lastLat = $lat;
+            $lastTs = $ts;
+        }
+        $distance = round($distance,2);
+
+        // Start calculating elapsed time
         $first = $trkseg[0];
         $last = array_pop($trkseg);
         
@@ -194,10 +222,9 @@ class WorkoutsController extends Controller {
         $ts->setTimezone($tz);
         
         // Calculate the elapsed time
-        $elapsed_time = Carbon::parse($last->time)->diffInSeconds(Carbon::parse($first->time));
+        //$elapsed_time = Carbon::parse($last->time)->diffInSeconds(Carbon::parse($first->time));
   
-        // @TODO: Calculate moving time?
-        
+//        dd($elapsed_time. ' '.$moving_time. ' '. $distance);
         // @TODO: Refactor into Eloquent. This will make slugging somewhat easier.
         $workout_id = DB::table('workouts')->insertGetId(
             array(
@@ -206,7 +233,7 @@ class WorkoutsController extends Controller {
                 'slug' => $ts->format('Y-m-d').'-'.'gpx-import', 
                 'user_id' => Auth::user()->id,
                 'start_time' => $ts->format('H:i:s'),
-                'time_in_seconds' => $elapsed_time,
+                'time_in_seconds' => $moving_time,
                 'lat_start' => $first->{'@attributes'}->lat,
                 'lon_start' => $first->{'@attributes'}->lon,
                 'lat_finish' => $last->{'@attributes'}->lat,
@@ -254,5 +281,36 @@ class WorkoutsController extends Controller {
     private function _getRoutes()
     {
         return array('' => '--- Geen route ---') + Route::lists('name','id');
+    }
+    
+    /**
+     * Calculate the distance between two points in kilometers
+     * Because fuck the imperial system :-P
+     * 
+     * Source: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
+     * 
+     * @param $lat1
+     * @param $lon1
+     * @param $lat2
+     * @param $lon2
+     * @return $km : Distance in kilometers
+     */
+    private function _calcDistance($lat1, $lon1, $lat2, $lon2)
+    {
+        $pi80 = M_PI / 180;
+        $lat1 *= $pi80;
+        $lon1 *= $pi80;
+        $lat2 *= $pi80;
+        $lon2 *= $pi80;
+
+        $r = 6372.797; // mean radius of Earth in km
+        $dlat = $lat2 - $lat1;
+        $dlon = $lon2 - $lon1;
+        $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlon / 2) * sin($dlon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $km = $r * $c;
+
+        //echo '<br/>'.$km;
+        return $km;
     }
 }
