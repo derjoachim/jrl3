@@ -1,23 +1,31 @@
-## Laravel PHP Framework
+## Joachim's Running Log 
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+### Third Movement
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+This project is intended solely for me to have a web based logging tool for my runs. 
+Earlier attempts were made, but never finished. 
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+### Strava
 
-## Official Documentation
+If you have a [Strava](http://strava.com) account, you can synchronize your workouts
+and routes. At the time of this writing, I have no other plans for the Strava API.
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+### GPX import
 
-## Contributing
+Another way to import data, is through [the .gpx format](http://www.topografix.com/gpx.asp). 
+You can upload a .gpx file, which is being parsed and translated into coordinates, 
+distance and elapsed time. Neat!
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+### Forecast.io
+
+One thing I always find important in tracking my results, is weather data. I run 
+better in cold weather than in hot & stuffy weather. I built in the option of 
+retrieving weather for a certain set of coordinates on a certain date and time. 
+The [forecast.io](https://forecast.io) API allows the user to look into the past 
+as well, so you can work on your logs days or even weeks after your workout.
 
 ### License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Although this project is entirely intended for my personal use, please feel free 
+to clone my project and adjust it to your wishes. Please read the [License](license.md) 
+file for details.
