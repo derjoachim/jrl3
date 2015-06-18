@@ -10,7 +10,7 @@ class ForecastController extends Controller {
      * Fetches weather data based on workout form request
      * @param Request $request
      * @return json
-     * @TODO: The JSON call should probably be in a service class.
+     * @TODO: Refactor into Repository class.
      */
     public function fetch(Request $request) {
         $url = 'https://api.forecast.io/forecast/'.

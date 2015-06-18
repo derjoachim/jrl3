@@ -40,4 +40,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->hasMany('Jrl3\Workout');
     }
+    
+    public function fitness_services()
+    {
+        return $this->hasMany('Jrl3\FitnessService','fitness_services_users');
+    }
 }

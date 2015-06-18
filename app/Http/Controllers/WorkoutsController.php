@@ -192,7 +192,6 @@ class WorkoutsController extends Controller {
         // Also: calculate moving time
         $moving_time = 0;
         $lastTs = null;
-        
         foreach($trkseg as $pt) {
             $lat = $pt->{'@attributes'}->lat;
             $lon = $pt->{'@attributes'}->lon;
@@ -232,6 +231,7 @@ class WorkoutsController extends Controller {
                 'date' => $ts->format('Y-m-d'),
                 'slug' => $ts->format('Y-m-d').'-'.'gpx-import', 
                 'user_id' => Auth::user()->id,
+                'distance' => $distance,
                 'start_time' => $ts->format('H:i:s'),
                 'time_in_seconds' => $moving_time,
                 'lat_start' => $first->{'@attributes'}->lat,
@@ -280,7 +280,7 @@ class WorkoutsController extends Controller {
      */
     private function _getRoutes()
     {
-        return array('' => '--- Geen route ---') + Route::lists('name','id');
+        return array('' => '--- Geen route ---') + Route::lists('name','id')->all();
     }
     
     /**
