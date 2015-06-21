@@ -221,9 +221,6 @@ class WorkoutsController extends Controller {
         $ts->setTimezone($tz);
         
         // Calculate the elapsed time
-        //$elapsed_time = Carbon::parse($last->time)->diffInSeconds(Carbon::parse($first->time));
-  
-//        dd($elapsed_time. ' '.$moving_time. ' '. $distance);
         // @TODO: Refactor into Eloquent. This will make slugging somewhat easier.
         $workout_id = DB::table('workouts')->insertGetId(
             array(

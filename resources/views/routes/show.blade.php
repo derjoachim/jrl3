@@ -4,8 +4,9 @@
 @if ($route->lon_start && $route->lat_start)
 <script type="text/javascript" defer>
     $(document).ready(function() {
-	AddGMToHead();
-        setTimeout(function() {drawMap({{ $route->lat_start }}, {{ $route->lon_start }},'map_canvas');},700);
+        AddGMToHead();
+        
+        setTimeout(function() {drawMap(new Array(), 'map_canvas');},700);
     });
 </script>
 @endif
@@ -37,7 +38,12 @@
                 <dt>Breedtegraad</dt>
                 <dd>{{ $route->lat_finish }}</dd>
             </dl>
-         </div>
+        </div>
+        <input type="hidden" id="lat_start" value="{{ $route->lat_start }}" />
+        <input type="hidden" id="lon_start" value="{{ $route->lon_start }}" />
+        <input type="hidden" id="lat_finish" value="{{ $route->lat_finish }}" />
+        <input type="hidden" id="lon_finish" value="{{ $route->lon_finish }}" />
+
         <div class="col-lg-9" style="height: 400px;" id="map_canvas"></div>
     @else
         <div class="col-lg-12"><div class="alert alert-info">Geen co&ouml;rdinaten bekend</div></div>

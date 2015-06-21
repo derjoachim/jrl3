@@ -47,7 +47,7 @@ function AddGMToHead()
  * Fills the data for the green start marker
  * @returns {Boolean}
  */
-function fillStartMarker(arr) 
+function fillStartMarker() 
 {
     if($("#lat_start").val() && $("#lon_start").val()) {
         return new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
@@ -58,7 +58,7 @@ function fillStartMarker(arr)
  * Fills the data for the red stop marker
  * @returns {undefined}
  */
-function fillStopMarker(arr)
+function fillStopMarker()
 {
     if($("#lat_finish").val() && $("#lon_finish").val()) {
         return new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
