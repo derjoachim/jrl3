@@ -26,9 +26,14 @@
                     <td>{{ $workout['distance'] }} </td>
                     <td>{{ $workout['time'] }}</td>
                     <td>
+                        @if ( !$workout['workout_id'] )
                         <div class="btn-group" role="group">
-                            <a class="btn btn-info" href="{{ action("StravaController@import",array('id' => $workout['id'])) }}">Import</a>
+                            <a class="btn btn-small btn-info" href="{{ action("StravaController@import",array('id' => $workout['id'])) }}">
+                                <i class="glyphicon glyphicon-import"></i>&nbsp;Import</a>
                         </div>
+                        @else
+                        <p>&nbsp;</p>
+                        @endif
                     </td>
                 </tr>
             @endforeach

@@ -3,6 +3,7 @@
 use cURL;
 
 use DB;
+use Jrl3\FitnessService;
 use Jrl3\Repositories\ServicesRepository;
 
 class StravaServiceRepository extends ServicesRepository
@@ -37,4 +38,17 @@ class StravaServiceRepository extends ServicesRepository
             ->setOptions([CURLOPT_VERBOSE => true])
             ->send();
     }
+    
+    public function getWorkoutId($id) 
+    {
+        $wfs = DB::table('workouts_fitness_services')
+            ->where('fitness_service_id','=',$this->service_id)
+            ->where('fitness_service_remote_identifier','=',$id)->first();
+        if( $wfs ) {
+            return $wfs->workout_id;
+        }
+        return null;
+    }
+            
+
 }

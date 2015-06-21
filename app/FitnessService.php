@@ -20,4 +20,9 @@ class FitnessService extends Model implements SluggableInterface {
     {
         return $this->hasMany('Jrl3\User','fitness_services_users');
     }
+    
+    public function workouts()
+    {
+        return $this->hasMany('Jrl3\Workout','workouts_fitness_services');
+    }
 }
