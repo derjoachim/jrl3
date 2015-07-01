@@ -184,7 +184,7 @@ class WorkoutsController extends Controller {
         $data = json_decode($json);
 
         $trkseg = $data->trk->trkseg->trkpt;
-        
+
         // Calculate an approximate distance in kilometers
         $distance = 0;
         $lastLon = null;
@@ -220,11 +220,20 @@ class WorkoutsController extends Controller {
         $ts = Carbon::parse($first->time,'UTC');
         $ts->setTimezone($tz);
         
-        // Calculate the elapsed time
+        // Try to determine a name
+        $name = "GPX Import ".$ts->format('Y-m-d');
+        // Strava exports GPX thus:
+        if(property_exists($data->trk, "name")) {
+            $name = $data->trk->name;
+        } else if(property_exists($data->metadata, "name")) {
+            // MeeRun puts its name in the metadata
+            $name = $data->metadata->name;
+        }
+        
         // @TODO: Refactor into Eloquent. This will make slugging somewhat easier.
         $workout_id = DB::table('workouts')->insertGetId(
             array(
-                'name' => $data->trk->name,
+                'name' => $name,
                 'date' => $ts->format('Y-m-d'),
                 'slug' => $ts->format('Y-m-d').'-'.'gpx-import', 
                 'user_id' => Auth::user()->id,
