@@ -25,4 +25,9 @@ class Route extends Model implements SluggableInterface {
     {
         return $this->belongsTo('Jrl3\User');
     }
+    
+    public static function getAllInArray()
+    {
+        return array('' => '--- Geen route ---') + self::lists('name','id')->all();
+    }
 }

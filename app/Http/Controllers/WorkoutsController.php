@@ -42,7 +42,7 @@ class WorkoutsController extends Controller {
     public function index()
     {
         $workouts = Workout::latest('date')->get();
-        $routes = $this->_getRoutes();
+        $routes = Route::getAllInArray();
         
         // @TODO: This is a quick 'n dirty solution. There probably a better
         // solution
@@ -61,7 +61,7 @@ class WorkoutsController extends Controller {
      */
     public function create(Request $request)
     {
-        $routes = $this->_getRoutes($request);
+        $routes = Route::getAllInArray();
         $date = date("Y-m-d");
         return view('workouts.create',compact('routes','date'));
     }
@@ -112,7 +112,7 @@ class WorkoutsController extends Controller {
     public function edit(Workout $workout, Request $request)
     {
         if($workout->user_id == $request->user()->id) {
-            $routes = $this->_getRoutes($request);
+            $routes = Route::getAllInArray();
             $mood = $workout->mood;
             $health = $workout->health;
             $t = $workout->getTime();
@@ -157,6 +157,15 @@ class WorkoutsController extends Controller {
         } else {
             return Redirect::route('workouts.index')->with('message','U heeft niet de rechten om deze route te verwijderen');
         }
+    }
+    
+    /**
+     * Retrieve all Waypoints
+     */
+    public function waypoints(Request $request)
+    {
+        $id = $request->get('id');
+        return Workout::find($id)->waypoints;
     }
     /*
      * Parse an uploaded .gpx file into a workout and its trackpoints.
@@ -220,7 +229,7 @@ class WorkoutsController extends Controller {
         $ts = Carbon::parse($first->time,'UTC');
         $ts->setTimezone($tz);
         
-        // Try to determine a name
+        // Try to determine a name. This fallback makes some sense
         $name = "GPX Import ".$ts->format('Y-m-d');
         // Strava exports GPX thus:
         if(property_exists($data->trk, "name")) {
@@ -230,22 +239,20 @@ class WorkoutsController extends Controller {
             $name = $data->metadata->name;
         }
         
-        // @TODO: Refactor into Eloquent. This will make slugging somewhat easier.
-        $workout_id = DB::table('workouts')->insertGetId(
-            array(
-                'name' => $name,
-                'date' => $ts->format('Y-m-d'),
-                'slug' => $ts->format('Y-m-d').'-'.'gpx-import', 
-                'user_id' => Auth::user()->id,
-                'distance' => $distance,
-                'start_time' => $ts->format('H:i:s'),
-                'time_in_seconds' => $moving_time,
-                'lat_start' => $first->{'@attributes'}->lat,
-                'lon_start' => $first->{'@attributes'}->lon,
-                'lat_finish' => $last->{'@attributes'}->lat,
-                'lon_finish' => $last->{'@attributes'}->lon,
-                'created_at' => Carbon::now(),
-        ));
+        $workout = new Workout();
+        $workout->name = $name;
+        $workout->date = $ts->format('Y-m-d');
+        $workout->user_id = Auth::user()->id;
+        $workout->distance = $distance;
+        $workout->start_time = $ts->format('H:i:s');
+        $workout->time_in_seconds = $moving_time;
+        $workout->lat_start = $first->{'@attributes'}->lat;
+        $workout->lon_start = $first->{'@attributes'}->lon;
+        $workout->lat_finish = $last->{'@attributes'}->lat;
+        $workout->lon_finish = $last->{'@attributes'}->lon;
+        $workout->save();
+        
+        $workout_id = $workout->id;
         
         $arrWps = array();
         foreach($trkseg as $t){
@@ -259,36 +266,10 @@ class WorkoutsController extends Controller {
         DB::table('waypoints')->insert($arrWps);
             
         $workout = DB::table('workouts')->where('id', '=', $workout_id)->first();
-        // @TODO: Dirty hack. Please refactor
+        // Dirty hack. Please refactor if needed
         return Redirect::to('workouts/'.$workout->slug.'/edit');
 	}
-    /*
-     * Get all waypoints by route_id
-     * @param integer id : id of the route
-     * @return json
-     */
-    public function waypoints(Request $request)
-    {
-        $id = $request->input('id');
-        if(is_numeric($id)) {
-            return Workout::find($id)->waypoints;
-        } else {
-            // @TODO: Foutafhandeling
-        }
-    }
-    /**
-     * Helper function to retrieve all routes
-     * 
-     * @param void
-     * @return array arrRoute
-     * @TODO: Retrieve by userid
-     * @TODO: Not sure whether this should be in the controller. Refactor if necessary.
-     */
-    private function _getRoutes()
-    {
-        return array('' => '--- Geen route ---') + Route::lists('name','id')->all();
-    }
-    
+
     /**
      * Calculate the distance between two points in kilometers
      * Because fuck the imperial system :-P
@@ -316,7 +297,6 @@ class WorkoutsController extends Controller {
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
         $km = $r * $c;
 
-        //echo '<br/>'.$km;
         return $km;
     }
 }
