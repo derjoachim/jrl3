@@ -1,5 +1,6 @@
 {
     "providers": [
+        "Barryvdh\\Debugbar\\ServiceProvider",
         "Cviebrock\\EloquentSluggable\\SluggableServiceProvider",
         "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "Illuminate\\Auth\\AuthServiceProvider",
@@ -31,6 +32,7 @@
         "Jrl3\\Providers\\RouteServiceProvider"
     ],
     "eager": [
+        "Barryvdh\\Debugbar\\ServiceProvider",
         "Cviebrock\\EloquentSluggable\\SluggableServiceProvider",
         "Illuminate\\Auth\\AuthServiceProvider",
         "Illuminate\\Routing\\ControllerServiceProvider",
@@ -67,12 +69,14 @@
         "command.listener.make": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.model.make": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.optimize": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
+        "command.policy.make": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.provider.make": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.request.make": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.route.cache": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.route.clear": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.route.list": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.serve": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
+        "command.test.make": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.tinker": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.up": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
         "command.vendor.publish": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",

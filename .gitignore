@@ -1,6 +1,7 @@
 /vendor
 /node_modules
 nbproject/
+storage/
 .idea/
 .env
 .env.example

@@ -110,8 +110,9 @@ return [
 
 	'providers' => [
         /*
-        * Cviebrock's sluggable service
-        */
+         * 3rd party Service Providers
+         */
+        'Barryvdh\Debugbar\ServiceProvider',
         'Cviebrock\EloquentSluggable\SluggableServiceProvider',
 
 		/*
@@ -148,7 +149,7 @@ return [
 		'Jrl3\Providers\ConfigServiceProvider',
 		'Jrl3\Providers\EventServiceProvider',
 		'Jrl3\Providers\RouteServiceProvider',
-
+        
 	],
 
 	/*
