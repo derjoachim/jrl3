@@ -41,6 +41,7 @@
         </tbody>
     </table>
 </div>
+{!! $workouts->render() !!}
 @endif
 
 @endsection
