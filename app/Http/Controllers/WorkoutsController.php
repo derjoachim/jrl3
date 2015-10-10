@@ -41,7 +41,8 @@ class WorkoutsController extends Controller {
      */
     public function index()
     {
-        $workouts = Workout::latest('date')->paginate(10);
+        //$workouts = Workout::latest('date')->paginate(10);
+        $workouts = Workout::latest('date')->whereUserId(Auth::user()->id)->paginate(10);
         $routes = Route::getAllInArray();
         
         // @TODO: This is a quick 'n dirty solution. There probably a better
@@ -98,7 +99,16 @@ class WorkoutsController extends Controller {
         if($workout->route_id > 0) {
             $route = Route::find($workout->route_id)->name;
         }
-        return view('workouts.show', compact('workout','t','route','id'));
+        
+        $prev = Workout::where('id','<',$id)->whereUserId(Auth::user()->id)->max('id');
+        if ( ! is_null($prev)) {
+            $prev = Workout::find($prev)->slug;
+        }
+        $next = Workout::where('id','>',$id)->whereUserId(Auth::user()->id)->min('id');
+        if ( ! is_null($next)) {
+            $next = Workout::find($next)->slug;
+        }
+        return view('workouts.show', compact('workout','t','route','id','next','prev'));
     }
 
     /**

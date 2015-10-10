@@ -11,7 +11,7 @@
 </script>
 @endif
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-9">
         <div class="page-header">
             <h2>
                 {{ $workout->name }}
@@ -23,6 +23,24 @@
             </h3>    
         </div>
     </div>
+    <div class="col-lg-3">
+        <div class="btn-group">
+            @unless (is_null($prev))
+            <a href="{{ route('workouts.show', $prev)}}" class="btn btn-default">
+                <i class="icon glyphicon glyphicon-arrow-left"></i>
+                &nbsp;Vorige
+            </a>
+            @endunless
+            {!! link_to_route('workouts.edit','Bewerk', array($workout->slug), array('class' => 'btn btn-default')) !!}
+            @unless (is_null($next))
+            <a href="{{ route('workouts.show', $next)}}"  class="btn btn-default">
+                <i class="icon glyphicon glyphicon-arrow-right"></i>
+                &nbsp;Volgende
+            </a>
+            @endunless
+        </div>
+    </div>
+
     <div class="col-lg-6">
         <h3>Algemene Gegevens</h3>
         <dl>
@@ -104,8 +122,5 @@
     @else
         <div class="col-lg-8"><div class="alert alert-info">Geen co&ouml;rdinaten bekend</div></div>
     @endif        
-    <div class="col-lg-12">
-        {!! link_to_route('workouts.edit','Bewerk', array($workout->slug), array('class' => 'btn btn-info')) !!}
-    </div>
 </div>
 @endsection
