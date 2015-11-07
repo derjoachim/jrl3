@@ -129,7 +129,7 @@ class WorkoutsController extends Controller {
             
             return view('workouts.edit', compact('workout','routes','mood','health','t','date'));
         } else {
-            return view('workouts.index')->with('message', trans('workout_not_authorized'));
+            return view('workouts.index')->with('message', trans('jrl.workout_not_authorized'));
         }
     }
 
@@ -147,7 +147,7 @@ class WorkoutsController extends Controller {
             $input['finished'] = 0;
         }
         $workout->update($input);
-        return Redirect::route('workouts.show',$workout->slug)->with('message',trans('workout_saved'));
+        return Redirect::route('workouts.show',$workout->slug)->with('message',trans('jrl.workout_saved'));
     }
 
     /**
@@ -162,9 +162,9 @@ class WorkoutsController extends Controller {
         if($workout->user_id == $request->user()->id)
         {
             $workout->delete();
-            return Redirect::route('workouts.index')->with('message',trans('workout_deleted'));
+            return Redirect::route('workouts.index')->with('message',trans('jrl.workout_deleted'));
         } else {
-            return Redirect::route('workouts.index')->with('message',trans('workout_not_authorized'));
+            return Redirect::route('workouts.index')->with('message',trans('jrl.workout_not_authorized'));
         }
     }
     
