@@ -28,6 +28,6 @@ class Route extends Model implements SluggableInterface {
     
     public static function getAllInArray()
     {
-        return array('' => '--- Geen route ---') + self::lists('name','id')->all();
+        return array('' => '--- ' . trans('jrl.no_route') . ' ---') + self::lists('name','id')->all();
     }
 }

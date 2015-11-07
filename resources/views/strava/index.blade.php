@@ -2,17 +2,17 @@
 @extends('app')
 
 @section('content')
-<h2>Laatste Strava-entries</h2>
+<h2>{{ ucfirst(trans('jrl.most_recent'))}} Strava-{{ trans_choice('jrl.entries',2) }}</h2>
 @if( !count($workouts) ) 
-<div class="alert alert-info">Geen workouts gevonden binnen Strava.</div>
+<div class="alert alert-info">{{ trans('jrl.no_workouts_found') }}</div>
 @else
 <div class="row-fluid">
     <table class="table table-condensed table-striped">
         <thead>
-            <th>Datum</th>
-            <th>Naam</th>
-            <th>Afstand</th>
-            <th>Eindtijd</th>
+            <th>{{ ucfirst(trans('app.date')) }}</th>
+            <th>{{ ucfirst(trans('jrl.name')) }}</th>
+            <th>{{ ucfirst(trans('jrl.distance')) }}</th>
+            <th>{{ ucfirst(trans('jrl.finish_time')) }}</th>
             <th></th>
         </thead>
         <tfoot>
@@ -29,7 +29,7 @@
                         @if ( !$workout['workout_id'] )
                         <div class="btn-group" role="group">
                             <a class="btn btn-small btn-info" href="{{ action("StravaController@import",array('id' => $workout['id'])) }}">
-                                <i class="glyphicon glyphicon-import"></i>&nbsp;Import</a>
+                                <i class="glyphicon glyphicon-import"></i>&nbsp;{{ ucfirst(trans('app.import')) }}</a>
                         </div>
                         @else
                         <p>&nbsp;</p>

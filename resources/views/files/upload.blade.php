@@ -2,13 +2,13 @@
 @extends('app')
 
 @section('content')
-<h2>Upload een workout-bestand</h2>
+<h2>{{ trans('jrl.upload_workout_file') }}</h2>
 
 {!! Form::open(array('files'=>'true', 'method'=>'POST', 'url'=>'/parse')) !!}
 <div class="row-fluid">
     <div class="col-lg-12">
         <div class="form-group">
-            {!! Form::label('file', 'Omschrijving:',['class' => 'control-label']) !!}
+            {!! Form::label('file', ucfirst(trans('jrl.description')).':',['class' => 'control-label']) !!}
             {!! Form::file('file') !!}
         </div>
     </div>
@@ -20,13 +20,13 @@
         </div>
     @endif
     <div class="col-lg-12">
-        <p id="success" class="alert alert-info">Kies een .gpx bestand om te uploaden.</p>        
+        <p id="success" class="alert alert-info">{{ trans('jrl.choose_gpx_file') }}.</p>        
     </div>
 </div>
 <div class="row-fluid">
     <div class="col-lg-12">
         <div class="form-group">
-            {!! Form::submit('Upload', ['class'=>'btn btn-primary']) !!}
+            {!! Form::submit(ucfirst(trans('app.upload')), ['class'=>'btn btn-primary']) !!}
         </div>            
     </div>
 </div>

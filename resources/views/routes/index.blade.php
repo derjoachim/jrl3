@@ -2,24 +2,25 @@
 @extends('app')
 
 @section('content')
-<h2>Standaardroutes</h2>
+<h2>{{ ucfirst(trans_choice('jrl.standard_routes',2)) }}</h2>
 @if( !$routes->count() ) 
-<div class="alert alert-info">Geen standaardroutes gedefinieerd. Klik {!! link_to_route('routes.create', 'hier',array(),array()) !!} om een standaardroute vast te leggen.</div>
+<div class="alert alert-info">{!! trans('jrl.no_routes_defined', [ 'url' => URL::route('routes.create') ] ) !!}</div>
 @else
 <div class="row-fluid">
     <table class="table table-condensed table-striped">
         <thead>
             <th></th>
-            <th>Naam</th>
-            <th>Afstand</th>
-            <th>Start</th>
-            <th>Finish</th>
-            <th>Waardering</th>
+            <th>{{ ucfirst(trans('jrl.name')) }}</th>
+            <th>{{ ucfirst(trans('jrl.distance')) }}</th>
+            <th>{{ ucfirst(trans('jrl.start')) }}</th>
+            <th>{{ ucfirst(trans('jrl.finish')) }}</th>
+            <th>{{ ucfirst(trans('jrl.grade')) }}</th>
             <th></th>
         </thead>
         <tfoot>
             <th colspan='6'>&nbsp;</th>
-            <th>{!! link_to_route('routes.create', 'Nieuwe Route',array(),array('class' => 'btn btn-primary')) !!}</th>
+            <th>{!! link_to_route('routes.create', ucfirst(trans('app.new')).' '.ucfirst(trans_choice('jrl.routes',1))
+                ,array(),array('class' => 'btn btn-primary')) !!}</th>
         </tfoot>
         <tbody>
             @foreach( $routes as $route )
@@ -33,8 +34,8 @@
                     <td>
                         <div class="btn-group" role="group">
                             {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
-                            {!! link_to_route('routes.edit','Bewerk', array($route->slug), array('class' => 'btn btn-info')) !!}
-                            {!! Form::submit('Verwijder',array('class' => 'btn btn-danger')) !!}
+                            {!! link_to_route('routes.edit', ucfirst(trans('app.edit')), array($route->slug), array('class' => 'btn btn-info')) !!}
+                            {!! Form::submit(ucfirst(trans('app.delete')),array('class' => 'btn btn-danger')) !!}
                             {!! Form::close() !!}
                         </div>
                     </td>

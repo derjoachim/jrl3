@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Joachims Running Log</title>
+	<title>Joachims Running Log - Third Movement</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
         <script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
@@ -30,26 +30,38 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Laravel</a>
+                <a class="navbar-brand" href="#">Joachims Runnnig Log</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/') }}">Home</a></li>
+                    <li><a href="{{ url('/') }}">{{ ucfirst(trans('app.home')) }}</a></li>
                     @if (!Auth::guest())
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Standaardroutes<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ ucfirst(trans_choice('jrl.standard_routes',2)) }}<span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/routes') }}">Toon alle Routes</a></li>
-                                <li><a href="{{ url('/routes/create') }}">Nieuwe Route</a></li>
+                                <li><a href="{{ url('/routes') }}">
+                                        {{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.routes',2) }}
+                                    </a></li>
+                                <li><a href="{{ url('/routes/create') }}">{{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.routes',1) }}</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Workouts<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ ucfirst(trans_choice('jrl.workouts',2)) }}<span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/workouts') }}">Toon alle Workouts</a></li>
-                                <li><a href="{{ url('/workouts/create') }}">Nieuwe Workout</a></li>
-                                <li><a href="{{ url('upload') }}">Upload Workoutbestand</a></li>
-                                <li><a href="{{ url('/strava/getlatest') }}">Importeer vanuit Strava</a></li>
+                                <li><a href="{{ url('/workouts') }}">
+                                        {{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.workouts',2) }}
+                                    </a></li>
+                                <li><a href="{{ url('/workouts/create') }}">
+                                        {{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.workouts',1) }}
+                                    </a></li>
+                                <li><a href="{{ url('upload') }}">
+                                        {{ ucfirst(trans('app.upload')) }} {{ trans_choice('jrl.workout_files',1)}}
+                                    </a></li>
+                                <li><a href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a></li>
                             </ul>
                         </li>
                     @endif
@@ -57,13 +69,13 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
-                        <li><a href="{{ url('/auth/login') }}">Login</a></li>
-                        <li><a href="{{ url('/auth/register') }}">Register</a></li>
+                        <li><a href="{{ url('/auth/login') }}">{{ ucfirst(trans('app.login')) }}</a></li>
+                        <li><a href="{{ url('/auth/register') }}">{{ ucfirst(trans('app.register')) }}</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+                                <li><a href="{{ url('/auth/logout') }}">{{ trans('app.logout') }}</a></li>
                             </ul>
                         </li>
                     @endif

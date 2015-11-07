@@ -55,71 +55,71 @@
 </script>
 <div class="row">
     <div class="col-lg-3">
-        <h3>Algemene gegevens</h3>
+        <h3>{{ ucfirst(trans('jrl.general_data')) }}</h3>
         <div class="form-group">
-            {!! Form::label('name', 'Naam:',['class' => 'control-label']) !!}
+            {!! Form::label('name', ucfirst(trans('jrl.name')) .':',['class' => 'control-label']) !!}
             {!! Form::text('name',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('date', 'Datum:',['class' => 'control-label']) !!}
+            {!! Form::label('date', ucfirst(trans('app.date')) .':',['class' => 'control-label']) !!}
             {!! Form::input('date','date',$date,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('start_time', 'Tijd:',['class' => 'control-label']) !!}
+            {!! Form::label('start_time', ucfirst(trans('app.time')) .':',['class' => 'control-label']) !!}
             {!! Form::text('start_time',null,['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-lg-3">
-        <h3>Tijd en afstand</h3>
+        <h3>{{ ucfirst(trans('app.time')) }} {{ trans('app.and') }} {{ trans('jrl.distance') }}</h3>
         <div class="form-group">
-            {!! Form::label('route_id', 'Route:',['class' => 'control-label']) !!}
+            {!! Form::label('route_id', ucfirst(trans_choice('jrl.routes',1)).':',['class' => 'control-label']) !!}
             {!! Form::select('route_id',$routes, null, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('distance', 'Afstand:',['class' => 'control-label']) !!}
+            {!! Form::label('distance', ucfirst(trans('jrl.distance')) .':',['class' => 'control-label']) !!}
             {!! Form::text('distance',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('time_in_seconds', 'Eindtijd:',['class' => 'control-label']) !!}
+            {!! Form::label('time_in_seconds', ucfirst(trans('jrl.finish_time')) .':',['class' => 'control-label']) !!}
             {!! Form::text('time_in_seconds',(isset($t) ? $t : null),['class' => 'form-control']) !!}
         </div>
     </div>
     <div class='col-lg-3'>
-        <h3>Weer</h3>
-        <a class="btn btn-warning" id="btn-weather"><i class="icon glyphicon glyphicon-cloud"></i> Fetch</a>
+        <h3>{{ ucfirst(trans('jrl.weather')) }}</h3>
+        <a class="btn btn-warning" id="btn-weather"><i class="icon glyphicon glyphicon-cloud"></i> {{ ucfirst(trans('jrl.fetch')) }}</a>
         <div class="form-group">
-            {!! Form::label('temperature', 'Temperatuur:',['class' => 'control-label']) !!}
+            {!! Form::label('temperature', ucfirst(trans('jrl.temperature')).':',['class' => 'control-label']) !!}
             {!! Form::text('temperature',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('pressure', 'Luchtdruk:',['class' => 'control-label']) !!}
-            {!! Form::text('pressure',null,['class' => 'form-control']) !!}
-        </div>
-        <div class="form-group">
-            {!! Form::label('humidity', 'Vochtigheid:',['class' => 'control-label']) !!}
+            {!! Form::label('humidity', ucfirst(trans('jrl.humidity')).':',['class' => 'control-label']) !!}
             {!! Form::text('humidity',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('wind_speed', 'Windsnelheid:',['class' => 'control-label']) !!}
+            {!! Form::label('wind_speed', ucfirst(trans('jrl.wind_speed')).':',['class' => 'control-label']) !!}
             {!! Form::text('wind_speed',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('wind_direction', 'Windrichting:',['class' => 'control-label']) !!}
+            {!! Form::label('wind_direction', ucfirst(trans('jrl.wind_direction')).':',['class' => 'control-label']) !!}
             {!! Form::text('wind_direction',null,['class' => 'form-control']) !!}
-        </div>        
+        </div>
+        <div class="form-group">
+            {!! Form::label('pressure', ucfirst(trans('jrl.pressure')).':',['class' => 'control-label']) !!}
+            {!! Form::text('pressure',null,['class' => 'form-control']) !!}
+        </div>
     </div>
     <div class="col-lg-3">
-        <h3>Vibe</h3>
+        <h3>{{ ucfirst(trans('jrl.vibe')) }}</h3>
         <div class="form-group">
-            {!! Form::label('finished', 'Voltooid:',['class' => 'control-label']) !!}
+            {!! Form::label('finished', ucfirst(trans('jrl.finished')).':',['class' => 'control-label']) !!}
             {!! Form::checkbox('finished', '1', true) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('mood', 'Stemming:',['class' => 'control-label']) !!}
+            {!! Form::label('mood', ucfirst(trans('jrl.mood')).':',['class' => 'control-label']) !!}
             {!! Form::selectRange('mood', 1, 5, $mood, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('health', 'Gezondheid:',['class' => 'control-label']) !!}
+            {!! Form::label('health', ucfirst(trans('jrl.health')).':',['class' => 'control-label']) !!}
             {!! Form::selectRange('health', 1, 5, $health, ['class' => 'form-control']) !!}
         </div>
     </div>
@@ -127,28 +127,28 @@
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
         <div class="form-group">
-            {!! Form::label('description', 'Omschrijving:',['class' => 'control-label']) !!}
+            {!! Form::label('description', ucfirst(trans('jrl.description')).':',['class' => 'control-label']) !!}
             {!! Form::textarea('description', null, ['class' => 'form-control ckeditor']) !!}
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-3">
-        <h3>Coole maps zaken</h3>
+        <h3>{{ ucfirst(trans('jrl.coordinates')) }}</h3>
         <div class="form-group">
-            {!! Form::label('lon_start', 'Lengtegraad start:',['class' => 'control-label']) !!}
+            {!! Form::label('lon_start', ucfirst(trans('jrl.longitude')).' '.trans('jrl.start').':',['class' => 'control-label']) !!}
             {!! Form::text('lon_start',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('lat_start', 'Breedtegraad start:',['class' => 'control-label']) !!}
+            {!! Form::label('lat_start', ucfirst(trans('jrl.latitude')).' '.trans('jrl.start').':',['class' => 'control-label']) !!}
             {!! Form::text('lat_start',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('lon_finish', 'Lengtegraad finish:',['class' => 'control-label']) !!}
+            {!! Form::label('lon_finish', ucfirst(trans('jrl.longitude')).' '.trans('jrl.finish').':',['class' => 'control-label']) !!}
             {!! Form::text('lon_finish',null,['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('lat_finish', 'Breedtegraad finish:',['class' => 'control-label']) !!}
+            {!! Form::label('lat_finish', ucfirst(trans('jrl.latitude')).' '.trans('jrl.finish').':',['class' => 'control-label']) !!}
             {!! Form::text('lat_finish',null,['class' => 'form-control']) !!}
         </div>
     </div>

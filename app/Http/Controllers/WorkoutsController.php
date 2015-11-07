@@ -41,7 +41,6 @@ class WorkoutsController extends Controller {
      */
     public function index()
     {
-        //$workouts = Workout::latest('date')->paginate(10);
         $workouts = Workout::latest('date')->whereUserId(Auth::user()->id)->paginate(10);
         $routes = Route::getAllInArray();
         
@@ -49,7 +48,7 @@ class WorkoutsController extends Controller {
         // solution
         foreach( $workouts as $workout) {
             $workout->time = $workout->getTime('time_in_seconds');
-            $workout->route = $workout->route_id ? $routes[$workout->route_id] : 'geen';
+            $workout->route = $workout->route_id ? $routes[$workout->route_id] : trans('app.none');
         }
         
         return view('workouts.index', compact('workouts'));
@@ -82,7 +81,7 @@ class WorkoutsController extends Controller {
         $workout = new Workout($input);
         Auth::user()->workouts()->save($workout);
 
-        return Redirect::route('workouts.index')->with('message', 'Nieuwe workout opgeslagen');
+        return Redirect::route('workouts.index')->with('message', trans('jrl.workout_saved'));
     }
 
     /**
@@ -130,7 +129,7 @@ class WorkoutsController extends Controller {
             
             return view('workouts.edit', compact('workout','routes','mood','health','t','date'));
         } else {
-            return view('workouts.index')->with('message', 'U heeft niet de juiste rechten om deze workout te bewerken.');
+            return view('workouts.index')->with('message', trans('workout_not_authorized'));
         }
     }
 
@@ -148,7 +147,7 @@ class WorkoutsController extends Controller {
             $input['finished'] = 0;
         }
         $workout->update($input);
-        return Redirect::route('workouts.show',$workout->slug)->with('message','De workout is bijgewerkt.');
+        return Redirect::route('workouts.show',$workout->slug)->with('message',trans('workout_saved'));
     }
 
     /**
@@ -163,9 +162,9 @@ class WorkoutsController extends Controller {
         if($workout->user_id == $request->user()->id)
         {
             $workout->delete();
-            return Redirect::route('workouts.index')->with('message','De workout is verwijderd');
+            return Redirect::route('workouts.index')->with('message',trans('workout_deleted'));
         } else {
-            return Redirect::route('workouts.index')->with('message','U heeft niet de rechten om deze route te verwijderen');
+            return Redirect::route('workouts.index')->with('message',trans('workout_not_authorized'));
         }
     }
     
