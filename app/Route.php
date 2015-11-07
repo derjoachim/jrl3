@@ -1,5 +1,6 @@
 <?php namespace Jrl3;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
@@ -28,6 +29,7 @@ class Route extends Model implements SluggableInterface {
     
     public static function getAllInArray()
     {
-        return array('' => '--- ' . trans('jrl.no_route') . ' ---') + self::lists('name','id')->all();
+        $myRoutes = self::whereUserId(Auth::user()->id)->lists('name','id');
+        return array('' => '--- ' . trans('jrl.no_route') . ' ---') + $myRoutes->toArray();
     }
 }
