@@ -46,7 +46,7 @@
         <dl>
             <dt>{{ ucfirst(trans('app.date')) }}:</dt>
             <dd>{{ $workout->date->format('d-m-Y') }}</dd>
-            <dt>{{ ucfirst(trans('app.date')) }}:</dt>
+            <dt>{{ ucfirst(trans('app.time')) }}:</dt>
             <dd>{{ $workout->start_time }}</dd>
             @unless ( is_null($route) ) 
                 <dt>{{ ucfirst(trans_choice('jrl.routes',2)) }}:</dt>
