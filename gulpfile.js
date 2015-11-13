@@ -28,6 +28,6 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
-    mix.version(['css/app.css', 'js/all.js']);
+    mix.version(['css/app.css', 'js/all.js', 'fonts/*.*']);
 });
 
