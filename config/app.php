@@ -110,8 +110,9 @@ return [
 
 	'providers' => [
         /*
-        * Cviebrock's sluggable service
-        */
+         * 3rd party Service Providers
+         */
+        'Barryvdh\Debugbar\ServiceProvider',
         'Cviebrock\EloquentSluggable\SluggableServiceProvider',
 
 		/*
@@ -119,7 +120,8 @@ return [
 		 */
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
-		'Illuminate\Bus\BusServiceProvider',
+        'Illuminate\Broadcasting\BroadcastServiceProvider',
+        'Illuminate\Bus\BusServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
 		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
 		'Illuminate\Routing\ControllerServiceProvider',
@@ -148,7 +150,7 @@ return [
 		'Jrl3\Providers\ConfigServiceProvider',
 		'Jrl3\Providers\EventServiceProvider',
 		'Jrl3\Providers\RouteServiceProvider',
-
+        
 	],
 
 	/*
@@ -172,6 +174,7 @@ return [
 		'Cache'     => 'Illuminate\Support\Facades\Cache',
 		'Config'    => 'Illuminate\Support\Facades\Config',
 		'Cookie'    => 'Illuminate\Support\Facades\Cookie',
+        'cURL'      => 'anlutro\cURL\Laravel\cURL',
 		'Crypt'     => 'Illuminate\Support\Facades\Crypt',
 		'DB'        => 'Illuminate\Support\Facades\DB',
 		'Eloquent'  => 'Illuminate\Database\Eloquent\Model',
@@ -181,7 +184,7 @@ return [
 		'Hash'      => 'Illuminate\Support\Facades\Hash',
         'HTML'      => 'Illuminate\Html\HtmlFacade',
 		'Input'     => 'Illuminate\Support\Facades\Input',
-		'Inspiring' => 'Illuminate\Foundation\Inspiring',
+//		'Inspiring' => 'Illuminate\Foundation\Inspiring',
 		'Lang'      => 'Illuminate\Support\Facades\Lang',
 		'Log'       => 'Illuminate\Support\Facades\Log',
 		'Mail'      => 'Illuminate\Support\Facades\Mail',

@@ -11,87 +11,105 @@
 </script>
 @endif
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-9">
         <div class="page-header">
             <h2>
                 {{ $workout->name }}
             </h2>
-            <h3>{{ $workout->distance }} kilometer 
+            <h3>{{ $workout->distance }} {{ trans('jrl.kilometers')}} 
                 @if ( $workout->finished == '1')
                 - {{ $t }}
                 @endif
             </h3>    
         </div>
     </div>
+    <div class="col-lg-3">
+        <div class="btn-group">
+            @unless (is_null($prev))
+            <a href="{{ route('workouts.show', $prev)}}" class="btn btn-default">
+                <i class="icon glyphicon glyphicon-arrow-left"></i>
+                &nbsp;{{ trans('pagination.previous') }}
+            </a>
+            @endunless
+            {!! link_to_route('workouts.edit', ucfirst(trans('app.edit')), array($workout->slug), array('class' => 'btn btn-default')) !!}
+            @unless (is_null($next))
+            <a href="{{ route('workouts.show', $next)}}"  class="btn btn-default">
+                {{ trans('pagination.next') }}&nbsp;
+                <i class="icon glyphicon glyphicon-arrow-right"></i>
+            </a>
+            @endunless
+        </div>
+    </div>
+
     <div class="col-lg-6">
-        <h3>Algemene Gegevens</h3>
+        <h3>{{ ucfirst(trans('jrl.general_data')) }}</h3>
         <dl>
-            <dt>Datum:</dt>
+            <dt>{{ ucfirst(trans('app.date')) }}:</dt>
             <dd>{{ $workout->date->format('d-m-Y') }}</dd>
-            <dt>Tijd:</dt>
+            <dt>{{ ucfirst(trans('app.time')) }}:</dt>
             <dd>{{ $workout->start_time }}</dd>
             @unless ( is_null($route) ) 
-                <dt>Route:</dt>
+                <dt>{{ ucfirst(trans_choice('jrl.routes',2)) }}:</dt>
                 <dd>{{ $route }}</dd>
             @endunless
-            <dt>Finish tijd:</dt>
+            <dt>{{ ucfirst(trans('jrl.finish_time')) }}:</dt>
             <dd>{{ $t }}</dd>
-            <dt>Afstand:</dt>
+            <dt>{{ ucfirst(trans('jrl.distance')) }}:</dt>
             <dd>{{ $workout->distance }}</dd>
         </dl>
     </div>
     <div class="col-lg-3">
-        <h3>Weer</h3>
+        <h3>{{ ucfirst(trans('jrl.weather')) }}</h3>
         <dl>
-            <dt>Temperatuur:</dt>
+            <dt>{{ ucfirst(trans('jrl.temperature')) }}:</dt>
             <dd>{{ $workout->temperature }}</dd>
-            <dt>Luchtdruk:</dt>
-            <dd>{{ $workout->pressure }}</dd>
-            <dt>Vochtigheid:</dt>
+            <dt>{{ ucfirst(trans('jrl.humidity')) }}:</dt>
             <dd>{{ $workout->humidity }}</dd>
-            <dt>Windsnelheid:</dt>
+            <dt>{{ ucfirst(trans('jrl.wind_speed')) }}:</dt>
             <dd>{{ $workout->wind_speed }}</dd>
-            <dt>Windrichting:</dt>
+            <dt>{{ ucfirst(trans('jrl.wind_direction')) }}:</dt>
             <dd>{{ $workout->wind_direction }}</dd>
+            <dt>{{ ucfirst(trans('jrl.pressure')) }}:</dt>
+            <dd>{{ $workout->pressure }}</dd>
         </dl>
     </div>
     <div class="col-lg-3">
-        <h3>Vibe</h3>
+        <h3>{{ ucfirst(trans('jrl.vibe')) }}</h3>
         <dl>
-            <dt>Voltooid:</dt>
+            <dt>{{ ucfirst(trans('jrl.finished')) }}:</dt>
             <dd>@if ($workout->finished == 1)
-            Ja
+            {{ ucfirst(trans('app.yes')) }}
             @else
-            Nee
+            {{ ucfirst(trans('app.no')) }}
             @endif
             </dd>
-            <dt>Stemming:</dt>
+            <dt>{{ ucfirst(trans('jrl.mood')) }}:</dt>
             <dd>{{ $workout->mood }}</dd>
-            <dt>Gezondheid</dt>
+            <dt>{{ ucfirst(trans('jrl.health')) }}</dt>
             <dd>{{ $workout->health }}</dd>
         </dl>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-4">
-        <h3>Beschrijving</h3>
+        <h3>{{ ucfirst(trans('jrl.description')) }}</h3>
         {!! $workout->description !!}
     </div>
     @if ( $workout->lon_start && $workout->lat_start )
         <div class="col-lg-2">
-            <h3>Start</h3>
+            <h3>{{ ucfirst(trans('jrl.start')) }}</h3>
             <dl>
-                <dt>Lengtegraad</dt>
+                <dt>{{ ucfirst(trans('jrl.longitude')) }}</dt>
                 <dd>{{ $workout->lon_start }}</dd>
-                <dt>Breedtegraad</dt>
+                <dt>{{ ucfirst(trans('jrl.latitude')) }}</dt>
                 <dd>{{ $workout->lat_start }}</dd>
             </dl>
             @if ($workout->lon_finish && $workout->lat_finish)
-            <h3>Finish</h3>
+            <h3>{{ ucfirst(trans('jrl.finish')) }}</h3>
             <dl>
-                <dt>Lengtegraad</dt>
+                <dt>{{ ucfirst(trans('jrl.longitude')) }}</dt>
                 <dd>{{ $workout->lon_finish }}</dd>
-                <dt>Breedtegraad</dt>
+                <dt>{{ ucfirst(trans('jrl.latitude')) }}</dt>
                 <dd>{{ $workout->lat_finish }}</dd>
             </dl>
             @endif
@@ -102,10 +120,7 @@
         <input type="hidden" id="lon_finish" value="{{ $workout->lon_finish }}" />
         <div class="col-lg-6" style="height: 300px;" id="map_canvas"></div>
     @else
-        <div class="col-lg-8"><div class="alert alert-info">Geen co&ouml;rdinaten bekend</div></div>
+        <div class="col-lg-8"><div class="alert alert-info">{{ trans('jrl.no_known_coordinates')}}</div></div>
     @endif        
-    <div class="col-lg-12">
-        {!! link_to_route('workouts.edit','Bewerk', array($workout->slug), array('class' => 'btn btn-info')) !!}
-    </div>
 </div>
 @endsection

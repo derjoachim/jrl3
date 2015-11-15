@@ -1,11 +1,10 @@
 <?php namespace Jrl3;
 
-use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class Route extends Model implements SluggableInterface {
+class FitnessService extends Model implements SluggableInterface {
 
     protected $guarded = ['id'];
 
@@ -17,19 +16,13 @@ class Route extends Model implements SluggableInterface {
         'on_update'  => true,
     );
     
-    public function workouts()
-    {
-        return $this->hasMany('Jrl3\Workout');
-    }
-    
     public function users()
     {
-        return $this->belongsTo('Jrl3\User');
+        return $this->hasMany('Jrl3\User','fitness_services_users');
     }
     
-    public static function getAllInArray()
+    public function workouts()
     {
-        $myRoutes = self::whereUserId(Auth::user()->id)->lists('name','id');
-        return array('' => '--- ' . trans('jrl.no_route') . ' ---') + $myRoutes->toArray();
+        return $this->hasMany('Jrl3\Workout','workouts_fitness_services');
     }
 }

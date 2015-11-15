@@ -22,6 +22,13 @@ Route::post('parse','WorkoutsController@parse');
 Route::get('waypoints','WorkoutsController@waypoints');
 Route::get('routes/byid','RoutesController@getById');
 
+Route::get('strava/getlatest','StravaController@latest');
+//Route::get('strava/import','StravaController@import');
+Route::get('strava/import', array('as' => 'strava-import', 'uses' => 'StravaController@import'));
+/*Route::get('strava/import/{id}',function($id) {
+    return 'StravaController@import';
+})->where('id','[0-9]+');
+*/
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
@@ -40,3 +47,5 @@ Route::bind('routes', function($value, $route){
 Route::bind('workouts', function($value, $workout){
     return Jrl3\Workout::whereSlug($value)->first();
 });
+
+//Route::get('strava/import',array('as','import'),function() {});

@@ -1,8 +1,8 @@
 <?php namespace Jrl3\Http\Controllers\Auth;
 
 use Jrl3\Http\Controllers\Controller;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\PasswordBroker;
+//use Illuminate\Contracts\Auth\Guard;
+//use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller {

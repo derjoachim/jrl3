@@ -30,7 +30,7 @@ class RoutesController extends Controller {
      */
     public function index()
     {
-        $routes = Route::all();
+        $routes = Route::whereUserId(Auth::user()->id)->get();
         return view('routes.index', compact('routes'));
     }
 
@@ -59,7 +59,7 @@ class RoutesController extends Controller {
         $route = new Route($input);
         Auth::user()->routes()->save($route);
  
-        return Redirect::route('routes.index')->with('message', 'Nieuwe route opgeslagen');
+        return Redirect::route('routes.index')->with('message', trans('jrl.route_saved'));
     }
 
     /**
@@ -85,7 +85,7 @@ class RoutesController extends Controller {
         {
             return view('routes.edit', compact('route'));
         } else {
-            return Redirect::route('routes.index')->with('message','U heeft niet de rechten om deze route te bewerken');
+            return Redirect::route('routes.index')->with('message',trans('app.route_not_authorized'));
         }
     }
 
@@ -103,7 +103,7 @@ class RoutesController extends Controller {
         $input = array_except(Input::all(), '_method');
         $route->update($input);
 
-        return Redirect::route('routes.show',$route->slug)->with('message','De route is opgeslagen');
+        return Redirect::route('routes.show',$route->slug)->with('message',trans('jrl.route_saved'));
     }
 
     /**
@@ -118,9 +118,9 @@ class RoutesController extends Controller {
         if($route->user_id == $request->user()->id)
         {
             $route->delete();
-            return Redirect::route('routes.index')->with('message','De route is verwijderd');
+            return Redirect::route('routes.index')->with('message',trans('jrl.route_deleted'));
         } else {
-            return Redirect::route('routes.index')->with('message','U heeft niet de rechten om deze route te verwijderen');
+            return Redirect::route('routes.index')->with('message',trans('app.route_not_authorized'));
         }
     }
     
@@ -133,7 +133,7 @@ class RoutesController extends Controller {
     {
         $id = $request->input('id');
         if(is_numeric($id)) {
-            return Route::find($id);//->waypoints;
+            return Route::find($id);
         } else {
             // @TODO: Foutafhandeling
         }
