@@ -4,5 +4,8 @@
     "gulp": "^3.8.8",
     "gulp-jshint": "^1.12.0",
     "laravel-elixir": "*"
+  },
+  "dependencies": {
+    "material-design-lite": "^1.0.6"
   }
 }
