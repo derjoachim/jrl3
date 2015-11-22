@@ -2,48 +2,66 @@
 @extends('app')
 
 @section('content')
-<h2>{{ ucfirst(trans_choice('jrl.standard_routes',2)) }}</h2>
-@if( !$routes->count() ) 
-<div class="alert alert-info">{!! trans('jrl.no_routes_defined', [ 'url' => URL::route('routes.create') ] ) !!}</div>
-@else
-<div class="row-fluid">
-    <table class="table table-condensed table-striped">
-        <thead>
-            <th></th>
-            <th>{{ ucfirst(trans('jrl.name')) }}</th>
-            <th>{{ ucfirst(trans('jrl.distance')) }}</th>
-            <th>{{ ucfirst(trans('jrl.start')) }}</th>
-            <th>{{ ucfirst(trans('jrl.finish')) }}</th>
-            <th>{{ ucfirst(trans('jrl.grade')) }}</th>
-            <th></th>
-        </thead>
-        <tfoot>
-            <th colspan='6'>&nbsp;</th>
-            <th>{!! link_to_route('routes.create', ucfirst(trans('app.new')).' '.ucfirst(trans_choice('jrl.routes',1))
-                ,array(),array('class' => 'btn btn-primary')) !!}</th>
-        </tfoot>
-        <tbody>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--10-col">
+        <h2>{{ ucfirst(trans_choice('jrl.standard_routes',2)) }}</h2>
+    </div>
+    <div class="mdl-cell mdl-cell--10-col">
+        <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
+            @if( !$routes->count() ) 
+            <div class="alert alert-info">{!! trans('jrl.no_routes_defined', [ 'url' => URL::route('routes.create') ] ) !!}</div>
+            @else
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+              <thead>
+                <tr>
+                    <th></th>
+                    <th class="mdl-data-table__cell--non-numeric">{{ ucfirst(trans('jrl.name')) }}</th>
+                    <th class="mdl-data-table__cell--non-numeric">{{ ucfirst(trans('jrl.distance')) }}</th>
+                    <th>{{ ucfirst(trans('jrl.grade')) }}</th>
+                    <th>{{ ucfirst(trans('app.delete')) }}</th>
+                    <th>{{ ucfirst(trans('app.edit')) }}</th>
+                </thead>
+                <tfoot>
+                    <th colspan='5'>&nbsp;</th>
+                    <th><a href="{{ URL::route('routes.create')}}" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
+                            <i class="material-icons">add</i>
+                        </a></th>
+                </tfoot>
+            <tbody>
             @foreach( $routes as $route )
                 <tr>
                     <td/>
-                    <td><a href="{{ route('routes.show', $route->slug)}}">{{ $route->name }}</a></td>
-                    <td>{{ $route->distance }}</td>
-                    <td>{{ $route->lon_start }} - {{ $route->lat_start }}</td>
-                    <td>{{ $route->lon_finish }} - {{ $route->lat_finish }}</td>
-                    <td>{{ $route->rating }} / 5</td>
+                    <td class="mdl-data-table__cell--non-numeric"><a href="{{ route('routes.show', $route->slug)}}">{{ $route->name }}</a></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ $route->distance }} km</td>
                     <td>
-                        <div class="btn-group" role="group">
-                            {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
-                            {!! link_to_route('routes.edit', ucfirst(trans('app.edit')), array($route->slug), array('class' => 'btn btn-info')) !!}
-                            {!! Form::submit(ucfirst(trans('app.delete')),array('class' => 'btn btn-danger')) !!}
-                            {!! Form::close() !!}
-                        </div>
+                        @for ($i=1; $i<=5; $i++)
+                        <i class="material-icons" style="font-size: 1em;">
+                            @if ($i > $route->rating) 
+                                star_border
+                            @else
+                                star
+                            @endif
+                        </i>                        
+                        @endfor
+                    </td>
+                    <td>
+                        {!! Form::open(array('method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
+                        <button class="mdl-button mdl-js-button mdl-button--icon" type="submit">
+                            <i class="material-icons">remove</i>
+                        </button>
+                        {!! Form::close() !!}
+                    </td>
+                    <td>
+                        <a href="{{ URL::route('routes.edit', array($route->slug))}}" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                            <i class="material-icons">edit</i>
+                        </a>
                     </td>
                 </tr>
             @endforeach
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        @endif
+        </div>
+    </div>
 </div>
-@endif
-
 @endsection

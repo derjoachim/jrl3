@@ -1,135 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Joachims Running Log - Third Movement</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Joachims Running Log - Third Movement</title>
 
-	<link href="{{ asset('/css/material.css') }}" rel="stylesheet">
-        <script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <link href="{{ asset('/css/material.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('/css/jrl.css') }}">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script type="text/javascript" src="{{ asset('/js/material.js') }}"></script>
-	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
-</head>
-<body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
-      <span class="mdl-layout-title">JRL3 - Third movement</span>
-      <!-- Add spacer, to align navigation to the right -->
-      <div class="mdl-layout-spacer"></div>
-      <!-- Navigation. We hide it in small screens. -->
-      <nav class="mdl-navigation mdl-layout--large-screen-only">
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-      </nav>
-    </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Title</span>
-    <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-    </nav>
-  </div>
-  <main class="mdl-layout__content">
-    <div class="page-content"><!-- Your content goes here --></div>
-  </main>
-</div>
-    <!--
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Joachims Runnnig Log</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/') }}">{{ ucfirst(trans('app.home')) }}</a></li>
+        <script type="text/javascript" src="{{ asset('/js/all.js') }}"></script>
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+    <body>
+        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+            <header class="mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+                <div class="mdl-layout-icon"></div>
+                <div class="mdl-layout__header-row">
+                    <!-- Title -->
+                    <span class="mdl-layout-title">JRL3 - Third movement</span>
+                    <!-- Add spacer, to align navigation to the right -->
+                    <div class="mdl-layout-spacer"></div>
+                    <!-- Navigation. We hide it in small screens. -->
+                    <nav class="mdl-navigation mdl-layout--large-screen-only">
+                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="hdrbtn">
+                            <i class="material-icons">add</i>
+                        </button>
+                        <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+                            <li class="mdl-menu__item"><a href="{{ url('/routes/create') }}">
+                                    {{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.routes',1) }}</a></li>
+                            <li class="mdl-menu__item"><a href="{{ url('/workouts/create') }}">
+                                    {{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.workouts',1) }}</li>
+                            <li class="mdl-menu__item"><a href="{{ url('upload') }}">
+                                    {{ ucfirst(trans('app.upload')) }} {{ trans_choice('jrl.workout_files',1)}}</a></li>
+                            <li class="mdl-menu__item"><a href="{{ url('/strava/getlatest') }}">
+                                    {{ ucfirst(trans('app.import_from')) }} Strava</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+            <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+                <header class="demo-drawer-header nomdl-layout__header ">
+                    <img class="demo-avatar" style="background-color:teal;"/>
+                    <div class="demo-avatar-dropdown">
+                        @if (!Auth::guest())
+                        <span>{{ ucfirst(Auth::user()->name) }}</span>
+                        @else
+                        <span>{{ ucfirst(trans('app.login')) }}</span>
+                        @endif
+                    <div class="mdl-layout-spacer"></div>
+                    <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                        <i class="material-icons" role="presentation">arrow_drop_down</i>
+                        <span class="visuallyhidden">Accounts</span>
+                    </button>
+                    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                        @if (Auth::guest())
+                        <li class="mdl-menu__item" tabindex="-1"  style="transition-delay: 0.012s;">
+                            <a href="{{ url('/auth/login') }}">{{ ucfirst(trans('app.login')) }}</a>
+                        </li>
+                        <li class="mdl-menu__item" tabindex="-1" style="transition-delay: 0.084s;">
+                            <a href="{{ url('/auth/register') }}">{{ ucfirst(trans('app.register')) }}</a>
+                        </li>
+                        @else
+                        <li class="mdl-menu__item" tabindex="-1" style="transition-delay: 0.012s;">
+                            <i class="material-icons">account circle</i><a href="{{ url('/auth/logout') }}">{{ ucfirst(trans('app.logout')) }}</a>
+                        </li>
+                        @endif
+                    </ul>
+                </header>
+                <nav class="demo-navigation mdl-navigation  mdl-color--blue-grey-800">
+                    <a class="mdl-navigation__link" href="{{ url('/') }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>{{ ucfirst(trans('app.home')) }}</a>
                     @if (!Auth::guest())
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ ucfirst(trans_choice('jrl.standard_routes',2)) }}<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/routes') }}">
-                                        {{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.routes',2) }}
-                                    </a></li>
-                                <li><a href="{{ url('/routes/create') }}">{{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.routes',1) }}</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ ucfirst(trans_choice('jrl.workouts',2)) }}<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/workouts') }}">
-                                        {{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.workouts',2) }}
-                                    </a></li>
-                                <li><a href="{{ url('/workouts/create') }}">
-                                        {{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.workouts',1) }}
-                                    </a></li>
-                                <li><a href="{{ url('upload') }}">
-                                        {{ ucfirst(trans('app.upload')) }} {{ trans_choice('jrl.workout_files',1)}}
-                                    </a></li>
-                                <li><a href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a></li>
-                            </ul>
-                        </li>
+                    <a class="mdl-navigation__link" href="{{ url('/routes') }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">map</i>{{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.routes',2) }}</a>
+                    <a class="mdl-navigation__link" href="{{ url('/workouts') }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">directions_run</i>{{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.workouts',2) }}</a>
+                    <div class="mdl-layout-spacer"></div>
                     @endif
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/auth/login') }}">{{ ucfirst(trans('app.login')) }}</a></li>
-                        <li><a href="{{ url('/auth/register') }}">{{ ucfirst(trans('app.register')) }}</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/auth/logout') }}">{{ trans('app.logout') }}</a></li>
-                            </ul>
-                        </li>
-                    @endif
-                </ul>
+                </nav>
             </div>
+            <main class="mdl-layout__content mdl-color--grey-100">
+                <div class="page-content">
+                    @if (Session::has('message'))
+                    <div class="flash alert-info">
+                        <p>{{ Session::get('message') }}</p>
+                    </div>
+                    @endif
+                    @if ($errors->any())
+                    <div class='flash alert-danger'>
+                        @foreach ( $errors->all() as $error )
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
+                    @yield('content')
+                </div>
+            </main>
         </div>
-    </nav>
-    <div class="container-fluid">
-        @if (Session::has('message'))
-            <div class="flash alert-info">
-                <p>{{ Session::get('message') }}</p>
-            </div>
-        @endif
-        @if ($errors->any())
-            <div class='flash alert-danger'>
-                @foreach ( $errors->all() as $error )
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-        @yield('content')
-    </div>
-        < ! -- Scripts - - >
-        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        -->
+        <script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
     </body>
 </html>
