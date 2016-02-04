@@ -1,17 +1,18 @@
 <script type="text/javascript" defer>
     $(document).ready(function() {
-	AddGMToHead();
-	$("#lon_start").on("change", function(event) {
-        drawMap(new Array(),'map_canvas');
-	});
-	$("#lat_start").on("change", function(event) {
-        drawMap(new Array(),'map_canvas');
-	});
-	if(!($('#lat_start').val()) || !($('#lon_start').val())) {
-        getcoords();
- 	}
-	setTimeout(function() {drawMap(new Array(),'map_canvas');},700);
+    	AddGMToHead();
+        $("#lon_start").on("change", function(event) {
+            drawMap(new Array(),'map_canvas');
+        });
+        $("#lat_start").on("change", function(event) {
+            drawMap(new Array(),'map_canvas');
+        });
+        if(!($('#lat_start').val()) || !($('#lon_start').val())) {
+            getcoords();
+        }
+    	setTimeout(function() {drawMap(new Array(), 'map_canvas');},700);
     });
+
 </script>
 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-cell mdl-cell--12-col">
@@ -31,9 +32,7 @@
     <div class="mdl-cell mdl-cell--6-col">
         <div class="mdl-textfield--floating-label">{{ ucfirst(trans('jrl.grade')) }}:</div>
         <div class="mdl-textfield mdl-js-textfield">
-            <!--{ ! ! Form::label('rating', ucfirst(trans('jrl.grade')).':',['class' => 'mdl-textfield__label']) ! ! }-->
-            <input class="mdl-slider mdl-js-slider" type="range" id="rating" min="1" max="5" value="{{ $rating }}" tabindex="0">
-            <!--{ ! ! Form::selectRange('rating', 1, 5, $rating,['class' => 'mdl-slider mdl-js-slider']) ! ! }-->
+            <input class="mdl-slider mdl-js-slider" type="range" id="rating" name="rating" min="1" max="5" value="{{ $rating }}" tabindex="0">
         </div>
     </div>
 </section>
@@ -49,5 +48,9 @@
 </section>
 
 <section>
-            {!! Form::submit(ucfirst($submit_text), ['class'=>'btn btn-primary']) !!}
+    {!! Form::hidden('lon_start', null, ['id'=>'lon_start']) !!}
+    {!! Form::hidden('lat_start', null, ['id'=>'lat_start']) !!}
+    {!! Form::hidden('lon_finish', null, ['id'=>'lon_finish']) !!}
+    {!! Form::hidden('lat_finish', null, ['id'=>'lat_finish']) !!}
+    {!! Form::submit(ucfirst($submit_text), ['class'=>'btn btn-primary']) !!}
 </section>

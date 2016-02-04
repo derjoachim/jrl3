@@ -6,11 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Joachims Running Log - Third Movement</title>
 
-        <link href="{{ asset('/css/material.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('/css/jrl.css') }}">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script type="text/javascript" src="{{ asset('/js/material.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/all.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jrl.js') }}"></script>
+        <!--<script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>-->
+
+        <link href="{{ asset('/css/material.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('/css/jrl.css') }}">
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -98,6 +101,5 @@
                 </div>
             </main>
         </div>
-        <script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
     </body>
 </html>
