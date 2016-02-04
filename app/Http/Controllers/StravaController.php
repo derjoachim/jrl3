@@ -50,8 +50,6 @@ class StravaController extends Controller {
 
         $body = json_decode($activity->body);
         $arrPolylinePoints = $this->fs->decodePolylineToArray($body->map->polyline);
-        $first = $arrPolylinePoints[0];
-        $last = array_pop($arrPolylinePoints);
         
         $ts = Carbon::parse($body->start_date,'UTC');
         $ts->setTimezone(Config::get('app.timezone'));
@@ -64,13 +62,17 @@ class StravaController extends Controller {
             'distance' => round(($body->distance / 1000) ,2),
             'start_time' => $ts->format('H:i:s'),
             'time_in_seconds' => $body->moving_time,
-            'lat_start' => $first[0], 
-            'lon_start' => $first[1],
-            'lat_finish' => $last[0],
-            'lon_finish' => $last[1],
             'description' => $body->description,
             'created_at' => Carbon::now(),
         );
+        if( count($arrPolylinePoints) > 0) {
+            $first = $arrPolylinePoints[0];
+            $last = array_pop($arrPolylinePoints);
+            $arrFld['lat_start'] = $first[0];
+            $arrFld['lon_start'] = $first[1];
+            $arrFld['lat_finish'] = $last[0];
+            $arrFld['lon_finish'] = $last[1];
+        }
         
         $workout_id = DB::table('workouts')->insertGetId($arrFld);
 
@@ -83,7 +85,9 @@ class StravaController extends Controller {
                 'lat' => $wp[0]
             );
         }
-        DB::table('waypoints')->insert($arrWps);
+        if(count($arrWps) > 0) {
+            DB::table('waypoints')->insert($arrWps);
+        }
      
         // mark this workout as 'imported' from Strava.
         $arSrv = array(
