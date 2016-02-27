@@ -41,10 +41,10 @@
             <i class="material-icons">more_vert</i>
         </button>
         <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn1">
-            <li class="mdl-menu__item"><a href="{{ URL::route('routes.create')}}">{{ ucfirst(trans('app.edit')) }}</a></li>
+            <li class="mdl-menu__item"><a href="{{ URL::route('routes.edit', array($route->slug))}}">{{ ucfirst(trans('app.edit')) }}</a></li>
             <li class="mdl-menu__item"><a href="#" onclick="$('#delete-form').submit();">
                         {!! Form::open(array('id' => 'delete-form', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
-                        <button class="hidden" type="submit" id="btn-delete">Delete</button>
+                        <button class="hidden" type="submit" id="btn-delete">{{ ucfirst(trans('app.delete')) }}</button>
                         {!! Form::close() !!}
                         {{ ucfirst(trans('app.delete')) }}</a></li>
         </ul>
@@ -57,6 +57,5 @@
         </div>
     </section>
     </div>
-   <!--{ ! ! link_to_route('routes.edit',ucfirst(trans('app.edit')), array($route->slug), array('class' => 'btn btn-info')) ! ! }-->
 </div>
 @endsection

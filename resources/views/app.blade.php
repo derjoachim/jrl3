@@ -8,7 +8,7 @@
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script type="text/javascript" src="{{ asset('/js/material.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/jrl.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/all.js') }}"></script>
         <!--<script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>-->
 
         <link href="{{ asset('/css/material.css') }}" rel="stylesheet">

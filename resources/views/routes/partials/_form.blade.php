@@ -1,19 +1,3 @@
-<script type="text/javascript" defer>
-    $(document).ready(function() {
-    	AddGMToHead();
-        $("#lon_start").on("change", function(event) {
-            drawMap(new Array(),'map_canvas');
-        });
-        $("#lat_start").on("change", function(event) {
-            drawMap(new Array(),'map_canvas');
-        });
-        if(!($('#lat_start').val()) || !($('#lon_start').val())) {
-            getcoords();
-        }
-    	setTimeout(function() {drawMap(new Array(), 'map_canvas');},700);
-    });
-
-</script>
 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-cell mdl-cell--12-col">
         <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
@@ -40,17 +24,35 @@
 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
 
-        <div class="form-group">
-            {!! Form::label('description', ucfirst(trans('jrl.description')).':',['class' => 'control-label']) !!}
-            {!! Form::textarea('description', null, ['class' => 'form-control ckeditor']) !!}
+        <div class="mdl-textfield mdl-js-textfield full-width">
+            {!! Form::textarea('description', null, ['class' => 'mdl-textfield__input ckeditor full-width', 
+            'type'=>"text", 'rows'=> 8, 'id' => 'description']) !!}
+            {!! Form::label('description', ucfirst(trans('jrl.description')).':',['class' => 'mdl-textfield__label']) !!}
         </div>
     </div>
-</section>
-
-<section>
+        <!--<div id="map_canvas" style='min-height: 200px;background-color: #00bfa5;min-width: 300px;'></div>-->
     {!! Form::hidden('lon_start', null, ['id'=>'lon_start']) !!}
     {!! Form::hidden('lat_start', null, ['id'=>'lat_start']) !!}
     {!! Form::hidden('lon_finish', null, ['id'=>'lon_finish']) !!}
     {!! Form::hidden('lat_finish', null, ['id'=>'lat_finish']) !!}
-    {!! Form::submit(ucfirst($submit_text), ['class'=>'btn btn-primary']) !!}
 </section>
+
+{!! Form::submit(ucfirst($submit_text), ['class'=>'mdl-button mdl-js-button mdl-button--raised 
+    mdl-js-ripple-effect mdl-button--colored', 'id' => 'savebtn' ]) !!}
+<script type="text/javascript">
+    $(document).ready(function() {
+        if(!($('#lat_start').val()) || !($('#lon_start').val())) {
+            getcoords();
+        }
+    	AddGMToHead();
+        $("#lon_start").on("change", function(event) {
+            drawMap(new Array(),'map_canvas');
+        });
+        $("#lat_start").on("change", function(event) {
+            drawMap(new Array(),'map_canvas');
+        });
+        
+    	setTimeout(function() {drawMap(new Array(), 'map_canvas');},700);
+    });
+
+</script>

@@ -14,7 +14,8 @@ function getcoords(prefix)
             var lon = position.coords.longitude;
             $('#'+prefix+'lat_start').val(lat);
             $('#'+prefix+'lon_start').val(lon);
-            if(sessionStorage && (sessionStorage.getItem("lon_start")!=lon || sessionStorage.getItem("lat_start")!=lat))
+            if(sessionStorage && (sessionStorage.getItem("lon_start") !== lon || 
+                    sessionStorage.getItem("lat_start") !== lat))
             { 
                 // Trigger a refresh by setting the current timestamp to Jan 1, 1970
                 sessionStorage.setItem("timestamp","0");
@@ -38,9 +39,9 @@ function AddGMToHead()
     if(typeof(google) === "undefined") { 
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyAqDEqlfOFkyVxhHtU0kjuOWaXLwBwDQGY&sensor=true&callback=drawMap";
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAqDEqlfOFkyVxhHtU0kjuOWaXLwBwDQGY&sensor=true&callback=drawMap";
         document.body.appendChild(script);
-//        console.log('successfully added GM API');
+        console.log('successfully added GM API');
     }
 }
 /*
@@ -49,7 +50,7 @@ function AddGMToHead()
  */
 function fillStartMarker() 
 {
-    if($("#lat_start").val() && $("#lon_start").val()) {
+    if($("#lat_start").val() !== '' && $("#lon_start").val() !== '') {
         return new Array($("#lat_start").val(),$("#lon_start").val(),'green','Start');
     }
     return new Array();
@@ -60,7 +61,8 @@ function fillStartMarker()
  */
 function fillStopMarker()
 {
-    if($("#lat_finish").val() && $("#lon_finish").val()) {
+    if($("#lat_finish").val() !== '' && $("#lon_finish").val() !== '') {
+        alert('woef');
         return new Array($("#lat_finish").val(),$("#lon_finish").val(),'red','Finish');
     }
     return new Array();
