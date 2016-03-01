@@ -3,19 +3,19 @@
 
 @section('content')
 <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--10-col">
+    <div class="mdl-cell mdl-cell--12-col">
         <h2>{{ ucfirst(trans_choice('jrl.standard_routes',2)) }}</h2>
     </div>
-    <div class="mdl-cell mdl-cell--10-col">
-        <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
+    <div class="mdl-cell mdl-cell--12-col">
+        <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
             @if( !$routes->count() ) 
             <div class="alert alert-info">{!! trans('jrl.no_routes_defined', [ 'url' => URL::route('routes.create') ] ) !!}</div>
             @else
-            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp full-width">
               <thead>
                 <tr>
                     <th></th>
-                    <th class="mdl-data-table__cell--non-numeric">{{ ucfirst(trans('jrl.name')) }}</th>
+                    <th class="mdl-data-table__cell--non-numeric full-width">{{ ucfirst(trans('jrl.name')) }}</th>
                     <th class="mdl-data-table__cell--non-numeric">{{ ucfirst(trans('jrl.distance')) }}</th>
                     <th>{{ ucfirst(trans('jrl.grade')) }}</th>
                     <th>{{ ucfirst(trans('app.delete')) }}</th>
@@ -32,7 +32,7 @@
                 <tr>
                     <td/>
                     <td class="mdl-data-table__cell--non-numeric"><a href="{{ route('routes.show', $route->slug)}}">{{ $route->name }}</a></td>
-                    <td class="mdl-data-table__cell--non-numeric">{{ $route->distance }} km</td>
+                    <td noclass="mdl-data-table__cell--non-numeric">{{ $route->distance }} km</td>
                     <td>
                         @for ($i=1; $i<=5; $i++)
                         <i class="material-icons" style="font-size: 1em;">

@@ -41,7 +41,7 @@ class WorkoutsController extends Controller {
      */
     public function index()
     {
-        $workouts = Workout::latest('date')->whereUserId(Auth::user()->id)->paginate(10);
+        $workouts = Workout::latest('date')->whereUserId(Auth::user()->id)->paginate(9);
         $routes = Route::getAllInArray();
         
         // @TODO: This is a quick 'n dirty solution. There probably a better

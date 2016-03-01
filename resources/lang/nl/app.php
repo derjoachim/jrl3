@@ -22,4 +22,5 @@ return [
     'none' => 'geen',
     'here' => 'hier',
     'and' => 'en',
+    'readmore' => 'Lees meer',
 ];

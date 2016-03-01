@@ -25,7 +25,7 @@
     <div class="mdl-card mdl-cell mdl-cell--12-col">
 
         <div class="mdl-textfield mdl-js-textfield full-width">
-            {!! Form::textarea('description', null, ['class' => 'mdl-textfield__input ckeditor full-width', 
+            {!! Form::textarea('description', null, ['class' => 'mdl-textfield__input mdl-textfield--full-width ckeditor full-width', 
             'type'=>"text", 'rows'=> 8, 'id' => 'description']) !!}
             {!! Form::label('description', ucfirst(trans('jrl.description')).':',['class' => 'mdl-textfield__label']) !!}
         </div>

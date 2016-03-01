@@ -2,45 +2,36 @@
 @extends('app')
 
 @section('content')
-<h2>{{ ucfirst(trans_choice('jrl.workouts',2)) }}</h2>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+        <h2>{{ ucfirst(trans_choice('jrl.workouts',2)) }}</h2>
+    </div>
+
 @if( !$workouts->count() ) 
-<div class="alert alert-info">{!! trans('jrl.no_workouts_defined', [ 'url' => URL::route('workouts.create') ] ) !!}</div>
+        <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
+            <div class="alert alert-info">{!! trans('jrl.no_workouts_defined', [ 'url' => URL::route('workouts.create') ] ) !!}</div>
+        </div>
 @else
-<div class="row-fluid">
-    <table class="table table-condensed table-striped">
-        <thead>
-            <th>{{ ucfirst(trans('app.date')) }}</th>
-            <th>{{ ucfirst(trans('jrl.name')) }}</th>
-            <th>{{ ucfirst(trans_choice('jrl.routes',2)) }}</th>
-            <th>{{ ucfirst(trans('jrl.distance')) }}</th>
-            <th>{{ ucfirst(trans('jrl.finish_time')) }}</th>
-            <th></th>
-        </thead>
-        <tfoot>
-            <th colspan='5'>&nbsp;</th>
-            <th>{!! link_to_route('workouts.create', ucfirst(trans('app.new')).' '.trans_choice('jrl.workouts',1)
-                ,array(),array('class' => 'btn btn-primary')) !!}</th>
-        </tfoot>
-        <tbody>
-            @foreach( $workouts as $workout )
-                <tr>
-                    <td>{{ date('d-m-Y', strtotime($workout->date)) }}
-                    <td><a href="{{ route('workouts.show', $workout->slug)}}">{{ $workout->name }}</a></td>
-                    <td>{{ $workout->route }}</td>
-                    <td>{{ $workout->distance }} </td>
-                    <td>{{ $workout->time }}</td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
-                            {!! link_to_route('workouts.edit',ucfirst(trans('app.edit')), array($workout->slug), array('class' => 'btn btn-info')) !!}
-                            {!! Form::submit(ucfirst(trans('app.delete')),array('class' => 'btn btn-danger')) !!}
-                            {!! Form::close() !!}
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    @foreach( $workouts as $workout )
+    <div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-grid mdl-grid--no-spacing">
+        <div class="mdl-card mdl-shadow--8dp">
+            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300" style="height: 180px;">
+                <h2 class="mdl-card__title-text">{{ $workout->name }}</h2>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                <h3 class="mdl-card__subtitle-text">{{ $workout->route }}</h3>
+
+                {{ date('d-m-Y', strtotime($workout->date)) }} - {{ $workout->distance }} km - {{ $workout->time }}
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a href="{{ route('workouts.show', $workout->slug)}}" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                    {{ trans('app.readmore') }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @endforeach
 </div>
 {!! $workouts->render() !!}
 @endif
