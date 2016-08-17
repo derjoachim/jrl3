@@ -1,8 +1,8 @@
-<?php namespace Jrl3\Http\Controllers\Auth;
+<?php namespace App\Http\Controllers\Auth;
 
-use Jrl3\User;
+use App\User;
 use Validator;
-use Jrl3\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller {

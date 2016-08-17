@@ -1,5 +1,5 @@
-<?php namespace Jrl3;
-use Jrl3\Workout;
+<?php namespace App;
+use App\Workout;
 use Illuminate\Database\Eloquent\Model;
 
 class waypoint extends Model {
@@ -7,7 +7,7 @@ class waypoint extends Model {
 	//
     public function workout() 
     {
-        return $this->belongsTo('Jrl3\Workout','workout_id');
+        return $this->belongsTo('App\Workout','workout_id');
     }
     
     public function ScopegetByWorkoutId($id)

@@ -41,11 +41,11 @@ Route::resource('routes', 'RoutesController');
 Route::resource('workouts', 'WorkoutsController');
 
 Route::bind('routes', function($value, $route){
-    return Jrl3\Route::whereSlug($value)->first();
+    return App\Route::whereSlug($value)->first();
 });
 
 Route::bind('workouts', function($value, $workout){
-    return Jrl3\Workout::whereSlug($value)->first();
+    return App\Workout::whereSlug($value)->first();
 });
 
 //Route::get('strava/import',array('as','import'),function() {});

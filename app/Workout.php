@@ -1,24 +1,27 @@
-<?php namespace Jrl3;
+<?php namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class Workout extends Model implements SluggableInterface {
+
+class Workout extends Model {
 
     protected $guarded = ['id'];
     
     protected $dates = ['date'];
     
-    use SluggableTrait;
+    use Sluggable;
 
-    protected $sluggable = array(
-        'build_from' => 'entry',
-        'save_to'    => 'slug',
-        'on_update'  => true,
-    );
-
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => true,
+            ]
+        ];
+    }
     public function getEntryAttribute() 
     {
         $dt = Carbon::parse($this->attributes['date']);
@@ -52,22 +55,22 @@ class Workout extends Model implements SluggableInterface {
     
     public function route()
     {
-        return $this->belongsTo('Jrl3\Route','route_id');
+        return $this->belongsTo('App\Route','route_id');
     }
 
     public function users()
     {
-        return $this->belongsTo('Jrl3\User');
+        return $this->belongsTo('App\User');
     }
     
     public function waypoints()
     {
-        return $this->hasMany('Jrl3\Waypoint');
+        return $this->hasMany('App\Waypoint');
     }
     
     public function workouts_fitness_services()
     {
-        return $this->hasOne('Jrl3\FitnessService','workouts_fitness_services');
+        return $this->hasOne('App\FitnessService','workouts_fitness_services');
     }
     
     private function _time_to_seconds($time)

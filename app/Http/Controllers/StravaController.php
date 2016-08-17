@@ -1,16 +1,16 @@
-<?php namespace Jrl3\Http\Controllers;
+<?php namespace App\Http\Controllers;
 use Auth;
 use Config;
 use Carbon\Carbon;
 use DB;
 use Input;
-use Jrl3\Http\Requests;
-use Jrl3\Http\Controllers\Controller;
-use Jrl3\Repositories\StravaServiceRepository;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Repositories\StravaServiceRepository;
 use Illuminate\Http\Request;
-//use Jrl3\FitnessService;
-use Jrl3\Route;
-use Jrl3\Workout;
+//use App\FitnessService;
+use App\Route;
+use App\Workout;
 
 class StravaController extends Controller {
     
@@ -24,7 +24,7 @@ class StravaController extends Controller {
     public function latest()
     {
         $latest_strava_workouts = $this->fs->latest();
-        $body = json_decode($latest_strava_workouts->body);
+        $body = json_decode($latest_strava_workouts);
         $workouts = array();
         $tz = Config::get('app.timezone');
 
@@ -48,7 +48,7 @@ class StravaController extends Controller {
         $id = Input::get('id');
         $activity = $this->fs->import($id);
 
-        $body = json_decode($activity->body);
+        $body = json_decode($activity);
         $arrPolylinePoints = $this->fs->decodePolylineToArray($body->map->polyline);
         
         $ts = Carbon::parse($body->start_date,'UTC');

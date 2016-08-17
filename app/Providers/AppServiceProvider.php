@@ -1,4 +1,4 @@
-<?php namespace Jrl3\Providers;
+<?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider {
 	{
 		$this->app->bind(
 			'Illuminate\Contracts\Auth\Registrar',
-			'Jrl3\Services\Registrar'
+			'App\Services\Registrar'
 		);
 	}
 
