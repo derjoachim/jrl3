@@ -1,4 +1,4 @@
-<?php namespace Jrl3;
+<?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
@@ -18,11 +18,11 @@ class FitnessService extends Model implements SluggableInterface {
     
     public function users()
     {
-        return $this->hasMany('Jrl3\User','fitness_services_users');
+        return $this->hasMany('App\User','fitness_services_users');
     }
     
     public function workouts()
     {
-        return $this->hasMany('Jrl3\Workout','workouts_fitness_services');
+        return $this->hasMany('App\Workout','workouts_fitness_services');
     }
 }

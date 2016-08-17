@@ -1,8 +1,8 @@
-<?php namespace Jrl3\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
-use Jrl3\Route;
-use Jrl3\Http\Requests;
-use Jrl3\Http\Controllers\Controller;
+use App\Route;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use Input;
 use Redirect;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class RoutesController extends Controller {
     /**
      * Store a newly created resource in storage.
      * 
-     * @param \Jrl3\Route $route
+     * @param \App\Route $route
      * @param \Illuminate\Http\Request $request
      *
      * @return Response
@@ -92,7 +92,7 @@ class RoutesController extends Controller {
     /**
      * Update the specified resource in storage.
      * 
-     * @param \Jrl3\Route $route
+     * @param \App\Route $route
      * @param \Illuminate\Http\Request $request
      * 
      * @return Response

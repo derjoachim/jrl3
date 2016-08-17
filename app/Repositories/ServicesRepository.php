@@ -1,8 +1,8 @@
-<?php namespace Jrl3\Repositories;
+<?php namespace App\Repositories;
 
 use Auth;
 use DB;
-use Jrl3\Repositories\Contracts\FitnessServicesInterface;
+use App\Repositories\Contracts\FitnessServicesInterface;
 
 abstract class ServicesRepository implements FitnessServicesInterface
 {

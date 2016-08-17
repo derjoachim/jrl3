@@ -1,6 +1,6 @@
-<?php namespace Jrl3\Services;
+<?php namespace App\Services;
 
-use Jrl3\User;
+use App\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 

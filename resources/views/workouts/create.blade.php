@@ -4,7 +4,7 @@
 @section('content')
     <h2>{{ ucfirst(trans('app.create_new')) }} {{ trans_choice('jrl.workouts',1) }}</h2>
     
-    {!! Form::model(new Jrl3\Workout, ['route' => 'workouts.store']) !!}
+    {!! Form::model(new App\Workout, ['route' => 'workouts.store']) !!}
     @include('workouts/partials/_form', [
         'submit_text' => ucfirst(trans('app.create')),
         'routes' => $routes, 

@@ -1,4 +1,4 @@
-<?php namespace Jrl3;
+<?php namespace App;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -33,16 +33,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     
     public function routes() 
     {
-        return $this->hasMany('Jrl3\Route');
+        return $this->hasMany('App\Route');
     }
     
     public function workouts()
     {
-        return $this->hasMany('Jrl3\Workout');
+        return $this->hasMany('App\Workout');
     }
     
     public function fitness_services()
     {
-        return $this->hasMany('Jrl3\FitnessService','fitness_services_users');
+        return $this->hasMany('App\FitnessService','fitness_services_users');
     }
 }

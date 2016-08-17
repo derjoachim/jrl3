@@ -1,4 +1,4 @@
-<?php namespace Jrl3\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use Auth;
 

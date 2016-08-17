@@ -1,4 +1,4 @@
-<?php namespace Jrl3\Repositories\Contracts;
+<?php namespace App\Repositories\Contracts;
 
 interface FitnessServicesInterface
 {

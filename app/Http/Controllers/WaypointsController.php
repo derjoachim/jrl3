@@ -1,9 +1,9 @@
-<?php namespace Jrl3\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use Input;
-use Jrl3\Waypoint;
-use Jrl3\Http\Requests;
-use Jrl3\Http\Controllers\Controller;
+use App\Waypoint;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 

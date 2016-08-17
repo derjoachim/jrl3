@@ -1,4 +1,4 @@
-<?php namespace Jrl3\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use Auth;
 use Carbon\Carbon;
@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 use Input;
-use Jrl3\Workout;
-use Jrl3\Route;
-use Jrl3\Waypoint;
-use Jrl3\Http\Requests;
-use Jrl3\Http\Controllers\Controller;
+use App\Workout;
+use App\Route;
+use App\Waypoint;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use Redirect;
 use Validator;
 
@@ -69,7 +69,7 @@ class WorkoutsController extends Controller {
     /**
      * Store a newly created resource in storage.
      * 
-     * @param \Jrl3\Workout $workout
+     * @param \App\Workout $workout
      * @param \Illuminate\Http\Request $request
      *
      * @return Response
