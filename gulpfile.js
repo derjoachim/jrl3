@@ -23,7 +23,7 @@ elixir(function(mix) {
 
 elixir(function(mix) {
     mix.scripts([
-        'jrl.js'
+        'all.js'
     ]);
 });
 

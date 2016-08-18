@@ -6,7 +6,7 @@
 @if( !$workouts->count() ) 
 <div class="alert alert-info">{!! trans('jrl.no_workouts_defined', [ 'url' => URL::route('workouts.create') ] ) !!}</div>
 @else
-<div class="row-fluid">
+<!--<div class="row-fluid">-->
     <table class="table table-condensed table-striped">
         <thead>
             <th>{{ ucfirst(trans('app.date')) }}</th>
@@ -41,7 +41,7 @@
             @endforeach
         </tbody>
     </table>
-</div>
+<!--</div>-->
 {!! $workouts->render() !!}
 @endif
 
