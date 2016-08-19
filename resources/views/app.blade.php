@@ -21,7 +21,7 @@
 	<![endif]-->
 </head>
 <body>
-    <nav class="navbar nooonavbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -33,40 +33,6 @@
                 <a class="navbar-brand" href="#">Joachims Runnnig Log</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/') }}">{{ ucfirst(trans('app.home')) }}</a></li>
-                    @if (!Auth::guest())
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ ucfirst(trans_choice('jrl.standard_routes',2)) }}<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/routes') }}">
-                                        {{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.routes',2) }}
-                                    </a></li>
-                                <li><a href="{{ url('/routes/create') }}">{{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.routes',1) }}</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ ucfirst(trans_choice('jrl.workouts',2)) }}<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/workouts') }}">
-                                        {{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.workouts',2) }}
-                                    </a></li>
-                                <li><a href="{{ url('/workouts/create') }}">
-                                        {{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.workouts',1) }}
-                                    </a></li>
-                                <li><a href="{{ url('upload') }}">
-                                        {{ ucfirst(trans('app.upload')) }} {{ trans_choice('jrl.workout_files',1)}}
-                                    </a></li>
-                                <li><a href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a></li>
-                            </ul>
-                        </li>
-                    @endif
-                </ul>
-
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
                         <li><a href="{{ url('/auth/login') }}">{{ ucfirst(trans('app.login')) }}</a></li>
@@ -86,24 +52,30 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
-              <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
-              </ul>
-              <!--<ul class="nav nav-sidebar">
-                <li><a href="">Nav item</a></li>
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-                <li><a href="">More navigation</a></li>
-              </ul>
-              <ul class="nav nav-sidebar">
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-              </ul>-->
+                <ul class="nav nav-sidebar">
+                    <li><a href="{{ url('/') }}">{{ ucfirst(trans('app.home')) }}</a></li>
+                </ul>
+                @if (!Auth::guest())
+                <ul class="nav nav-sidebar" role="menu">
+                    <li class="sidebar-title">{{ ucfirst(trans_choice('jrl.standard_routes',2)) }}</li>
+                    <li><a href="{{ url('/routes') }}">{{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.routes',2) }}</a></li>
+                    <li><a href="{{ url('/routes/create') }}">{{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.routes',1) }}</a></li>
+                </ul>
+                <div class="divider">&nbsp;</div>
+                <ul class="nav nav-sidebar" role="menu">
+                    <li class="sidebar-title">{{ ucfirst(trans_choice('jrl.workouts',2)) }}</li>
+                    <li><a href="{{ url('/workouts') }}">
+                        {{ ucfirst(trans('app.show_all')) }} {{ trans_choice('jrl.workouts',2) }}
+                    </a></li>
+                    <li><a href="{{ url('/workouts/create') }}">
+                        {{ ucfirst(trans('app.new')) }} {{ trans_choice('jrl.workouts',1) }}
+                    </a></li>
+                    <li><a href="{{ url('upload') }}">
+                        {{ ucfirst(trans('app.upload')) }} {{ trans_choice('jrl.workout_files',1)}}
+                    </a></li>
+                    <li><a href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a></li>
+                </ul>
+                @endif
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             @if (Session::has('message'))
@@ -123,6 +95,6 @@
         </div>
     </div>
         <!-- Scripts -->
-        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     </body>
 </html>

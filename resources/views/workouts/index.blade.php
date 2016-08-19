@@ -19,7 +19,7 @@
         <tfoot>
             <th colspan='5'>&nbsp;</th>
             <th>{!! link_to_route('workouts.create', ucfirst(trans('app.new')).' '.trans_choice('jrl.workouts',1)
-                ,array(),array('class' => 'btn btn-primary')) !!}</th>
+                ,array(),array('class' => 'btn btn-default')) !!}</th>
         </tfoot>
         <tbody>
             @foreach( $workouts as $workout )
@@ -32,8 +32,8 @@
                     <td>
                         <div class="btn-group" role="group">
                             {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
-                            {!! link_to_route('workouts.edit',ucfirst(trans('app.edit')), array($workout->slug), array('class' => 'btn btn-info')) !!}
-                            {!! Form::submit(ucfirst(trans('app.delete')),array('class' => 'btn btn-danger')) !!}
+                            {!! link_to_route('workouts.edit',ucfirst(trans('app.edit')), array($workout->slug), array('class' => 'btn btn-default')) !!}
+                            {!! Form::submit(ucfirst(trans('app.delete')),array('class' => 'btn btn-default')) !!}
                             {!! Form::close() !!}
                         </div>
                     </td>
