@@ -48,4 +48,5 @@ return [
     'no_known_coordinates' => 'Geen co&ouml;rdinaten bekend.',
     'most_recent' => 'meest recente',
     'no_workouts_found' => 'Er zijn geen workouts gevonden',
+    'show_map' => 'toon kaart',
 ];

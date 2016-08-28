@@ -30,7 +30,11 @@
                     <td>{{ $route->distance }}</td>
                     <td>{{ $route->lon_start }} - {{ $route->lat_start }}</td>
                     <td>{{ $route->lon_finish }} - {{ $route->lat_finish }}</td>
-                    <td>{{ $route->rating }} / 5</td>
+                    <td>
+                        @for ( $iR =1; $iR <= 5; $iR++ )
+                            <i class="glyphicon {{ $iR <= $route->rating ? 'glyphicon-heart' : 'glyphicon-heart-empty'}}"></i>
+                        @endfor
+                    </td>
                     <td>
                         <div class="pull-right">
                             {!! Form::open(array('id' => 'form-delete-' . $route->id, 'class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
