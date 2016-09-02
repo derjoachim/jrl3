@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var elixir = require('laravel-elixir');
 var jshint = require("gulp-jshint");
-require('laravel-elixir-js-uglify');
 
 /*
  |--------------------------------------------------------------------------
@@ -28,10 +27,6 @@ elixir(function(mix) {
         'jrl.js'
     ], 'public/js/all.js');
 });
-
-elixir(function(mix) {
-    mix.uglify('**/*.js', 'public/js', 'public/js');
-})
 
 elixir(function(mix) {
     mix.version(['css/app.css', 'js/all.js', 'fonts/*.*']);
