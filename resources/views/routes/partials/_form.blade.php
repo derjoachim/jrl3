@@ -7,9 +7,7 @@
     </div>
 </div>
 <div class="row"> 
-
-
-    <div class="col-lg-3">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('name', ucfirst(trans('jrl.name')).':',['class' => 'control-label']) !!}
             {!! Form::text('name',null,['class' => 'form-control']) !!}
@@ -23,7 +21,7 @@
             {!! Form::selectRange('rating', 1, 5, $rating,['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class="col-lg-9">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('description', ucfirst(trans('jrl.description')).':',['class' => 'control-label']) !!}
             {!! Form::textarea('description', null, ['class' => 'form-control ckeditor']) !!}
@@ -31,7 +29,7 @@
     </div>
 
 
-    <div class="col-lg-3">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('lon_start', ucfirst(trans('jrl.longitude')).' '.trans('jrl.start').':',['class' => 'control-label']) !!}
             {!! Form::text('lon_start',null,['class' => 'form-control']) !!}
@@ -41,7 +39,7 @@
             {!! Form::text('lat_start',null,['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('lon_finish', ucfirst(trans('jrl.longitude')).' '.trans('jrl.finish').':',['class' => 'control-label']) !!}
             {!! Form::text('lon_finish',null,['class' => 'form-control']) !!}

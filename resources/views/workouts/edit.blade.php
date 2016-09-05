@@ -2,9 +2,14 @@
 @extends('app')
 
 @section('content')
-    <h2>{{ ucfirst(trans_choice('jrl.workouts',1)) }} {{ trans('app.edit') }} - {{ $workout->name }}</h2>
-
+<div class="row">
     {!! Form::model($workout, ['method' => 'PATCH', 'route' => ['workouts.update', $workout->slug]]) !!}
-    @include('workouts/partials/_form', ['submit_text' => ucfirst(trans('app.save'))])
+    <div class="col-lg-9">
+        <div class="page-header">
+            <h2>{{ $workout->name }} <small>{{ trans('app.edit') }}</small></h2>
+        </div>
+    </div>
+    @include('workouts/partials/_form');
     {!! Form::close() !!}
+</div>
 @endsection

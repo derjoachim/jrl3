@@ -2,9 +2,14 @@
 @extends('app')
 
 @section('content')
-    <h2>{{ ucfirst(trans('app.create_new')) }} {{ trans_choice('jrl.workouts',1) }}</h2>
-    
+<div class="row">
     {!! Form::model(new App\Workout, ['route' => 'workouts.store']) !!}
+
+    <div class="col-lg-9">
+        <div class="page-header">
+            <h2>{{ ucfirst(trans('app.create_new')) }} {{ trans_choice('jrl.workouts',1) }}</h2>
+        </div>
+    </div>
     @include('workouts/partials/_form', [
         'submit_text' => ucfirst(trans('app.create')),
         'routes' => $routes, 
@@ -13,4 +18,5 @@
         'health' => 3 
         ])
     {!! Form::close() !!}
+</div>
 @endsection
