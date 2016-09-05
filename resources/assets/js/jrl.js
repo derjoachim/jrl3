@@ -38,9 +38,9 @@ function AddGMToHead()
     if(typeof(google) === "undefined") { 
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyAqDEqlfOFkyVxhHtU0kjuOWaXLwBwDQGY&sensor=true&callback=drawMap";
+        script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyAqDEqlfOFkyVxhHtU0kjuOWaXLwBwDQGY&callback=drawMap";
         document.body.appendChild(script);
-        console.log('successfully added GM API');
+//        console.log('successfully added GM API');
     }
 }
 /*

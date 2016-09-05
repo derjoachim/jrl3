@@ -1,18 +1,20 @@
     <div class="col-lg-3">
         <div class="btn-group" role="group" >
-            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-save"></i> 
+            <button type="submit" class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-save"></i> 
                 {{ ucfirst(trans('app.save')) }}
             </button>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-9">
         <h3>{{ ucfirst(trans('jrl.general_data')) }}</h3>
         <div class="form-group">
             {!! Form::label('name', ucfirst(trans('jrl.name')) .':',['class' => 'control-label']) !!}
-            {!! Form::text('name',null,['class' => 'form-control']) !!}
+            {!! Form::text('name',null,['class' => 'form-control input-lg']) !!}
         </div>
+    </div>
+    <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('date', ucfirst(trans('app.date')) .':',['class' => 'control-label']) !!}
             {!! Form::input('date','date',$date,['class' => 'form-control']) !!}
@@ -22,7 +24,9 @@
             {!! Form::text('start_time',null,['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class="col-lg-12">
+</div>
+<div class="row">
+    <div class="col-lg-6">
         <h3>{{ ucfirst(trans('app.time')) }} {{ trans('app.and') }} {{ trans('jrl.distance') }}</h3>
         <div class="form-group">
             {!! Form::label('route_id', ucfirst(trans_choice('jrl.routes',1)).':',['class' => 'control-label']) !!}
@@ -37,7 +41,9 @@
             {!! Form::text('time_in_seconds',(isset($t) ? $t : null),['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class='col-lg-12'>
+</div>
+<div class="row">
+    <div class='col-lg-6'>
         <h3>{{ ucfirst(trans('jrl.weather')) }}</h3>
         <a class="btn btn-warning" id="btn-weather"><i class="icon glyphicon glyphicon-cloud"></i> {{ ucfirst(trans('jrl.fetch')) }}</a>
         <div class="form-group">
@@ -61,7 +67,9 @@
             {!! Form::text('pressure',null,['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class="col-lg-12">
+</div>
+<div class="row">
+    <div class="col-lg-6">
         <h3>{{ ucfirst(trans('jrl.vibe')) }}</h3>
         <div class="form-group">
             {!! Form::label('finished', ucfirst(trans('jrl.finished')).':',['class' => 'control-label']) !!}
@@ -76,19 +84,25 @@
             {!! Form::selectRange('health', 1, 5, $health, ['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class="col-lg-12">
+</div>
+<div class="row">
+    <div class="col-lg-9">
         <div class="form-group">
             {!! Form::label('description', ucfirst(trans('jrl.description')).':',['class' => 'control-label']) !!}
-            {!! Form::textarea('description', null, ['class' => 'form-control ckeditor']) !!}
+            {!! Form::textarea('description', null, ['class' => 'form-control ckeditor', 'rows' => '5']) !!}
         </div>
     </div>
-    <div class="col-lg-12">
+</div>
+<div class="row">
+    <div class="col-lg-6">
         <h3>{{ ucfirst(trans('jrl.coordinates')) }}</h3>
     </div>
-    
+</div>
+<div class="row">
     <div class="col-lg-6" id="map_canvas" style="min-height: 400px;"></div>
-
-    <div class="col-lg-12">
+</div>
+<div class="row">
+    <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('lon_start', ucfirst(trans('jrl.longitude')).' '.trans('jrl.start').':',['class' => 'control-label']) !!}
             {!! Form::text('lon_start',null,['class' => 'form-control']) !!}
@@ -106,6 +120,7 @@
             {!! Form::text('lat_finish',null,['class' => 'form-control']) !!}
         </div>
     </div>
+</div>
 <script type="text/javascript">
     /*
      * @TODO: Retrieve data from Strava

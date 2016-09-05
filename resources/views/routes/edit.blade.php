@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::model($route, ['method' => 'PATCH', 'route' => ['routes.update', $route->slug]]) !!}
+    {!! Form::model($route, ['method' => 'PATCH', 'route' => ['routes.update', $route->slug], 'class'=>'form-horizontal']) !!}
     
     <div class="col-lg-9">
         <div class="page-header">

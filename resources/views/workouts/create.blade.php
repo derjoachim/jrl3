@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::model(new App\Workout, ['route' => 'workouts.store']) !!}
+    {!! Form::model(new App\Workout, ['route' => 'workouts.store', 'class'=>'form-horizontal']) !!}
 
     <div class="col-lg-9">
         <div class="page-header">
