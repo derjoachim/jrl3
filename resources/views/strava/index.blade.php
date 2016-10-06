@@ -13,7 +13,7 @@
             <th>{{ ucfirst(trans('jrl.name')) }}</th>
             <th>{{ ucfirst(trans('jrl.distance')) }}</th>
             <th>{{ ucfirst(trans('jrl.finish_time')) }}</th>
-            <th></th>
+            <th><div class="pull-right">{{ ucfirst(trans('app.import')) }}?</div></th>
         </thead>
         <tfoot>
             <th colspan='5'>&nbsp;</th>
@@ -27,9 +27,10 @@
                     <td>{{ $workout['time'] }}</td>
                     <td>
                         @if ( !$workout['workout_id'] )
-                        <div class="btn-group" role="group">
-                            <a class="btn btn-small btn-info" href="{{ action("StravaController@import",array('id' => $workout['id'])) }}">
-                                <i class="glyphicon glyphicon-import"></i>&nbsp;{{ ucfirst(trans('app.import')) }}</a>
+                        <div class="pull-right">
+                            <a href="{{ action("StravaController@import",array('id' => $workout['id'])) }}">
+                                <i class="glyphicon glyphicon-import"></i>
+                            </a>
                         </div>
                         @else
                         <p>&nbsp;</p>

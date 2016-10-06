@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var elixir = require('laravel-elixir');
 var jshint = require("gulp-jshint");
+
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -12,7 +13,7 @@ var jshint = require("gulp-jshint");
  |
  */
 gulp.task("lint", function() {
-    gulp.src("./resources/assets/*.js")
+    gulp.src("./resources/assets/js/*.js")
         .pipe(jshint())
         .pipe(jshint.reporter("default"));
 });
@@ -24,7 +25,7 @@ elixir(function(mix) {
 elixir(function(mix) {
     mix.scripts([
         'jrl.js'
-    ]);
+    ], 'public/js/all.js');
 });
 
 elixir(function(mix) {
