@@ -23,7 +23,9 @@ class WorkoutsController extends Controller {
     protected $rules = [
         'date' => ['required','date'],
         'name' => ['required','min:3'],
-        'description' => ['required','min:10']
+        'description' => ['required','min:10'],
+        'avg_hr' => ['numeric', 'digits:3'],
+        'max_hr' => ['numeric', 'digits:3'],
     ];
 
     /**

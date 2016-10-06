@@ -63,6 +63,8 @@ class StravaController extends Controller {
             'start_time' => $ts->format('H:i:s'),
             'time_in_seconds' => $body->moving_time,
             'description' => $body->description,
+            'avg_hr' => $body->average_heartrate,
+            'max_hr' => $body->max_heartrate,
             'created_at' => Carbon::now(),
         );
         if( count($arrPolylinePoints) > 0) {

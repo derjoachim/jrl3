@@ -83,6 +83,14 @@
             {!! Form::label('health', ucfirst(trans('jrl.health')).':',['class' => 'control-label']) !!}
             {!! Form::selectRange('health', 1, 5, $health, ['class' => 'form-control']) !!}
         </div>
+        <div class="form-group">
+            {!! Form::label('avg_hr', ucfirst(trans('jrl.avg_hr')).':',['class' => 'control-label']) !!}
+            {!! Form::text('avg_hr',null,['class' => 'form-control']) !!}
+        </div>
+        <div class="form-group">
+            {!! Form::label('max_hr', ucfirst(trans('jrl.max_hr')).':',['class' => 'control-label']) !!}
+            {!! Form::text('max_hr',null,['class' => 'form-control']) !!}
+        </div>
     </div>
 </div>
 <div class="row">

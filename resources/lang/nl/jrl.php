@@ -49,4 +49,6 @@ return [
     'most_recent' => 'meest recente',
     'no_workouts_found' => 'Er zijn geen workouts gevonden',
     'show_map' => 'toon kaart',
+    'avg_hr' => 'gemiddelde hartslag',
+    'max_hr' => 'maximale hartslag',
 ];
