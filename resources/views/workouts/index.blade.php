@@ -6,7 +6,6 @@
 @if( !$workouts->count() ) 
 <div class="alert alert-info">{!! trans('jrl.no_workouts_defined', [ 'url' => URL::route('workouts.create') ] ) !!}</div>
 @else
-<div class="row-fluid">
     <table class="table table-condensed table-striped">
         <thead>
             <th>{{ ucfirst(trans('app.date')) }}</th>
@@ -19,7 +18,7 @@
         <tfoot>
             <th colspan='5'>&nbsp;</th>
             <th>{!! link_to_route('workouts.create', ucfirst(trans('app.new')).' '.trans_choice('jrl.workouts',1)
-                ,array(),array('class' => 'btn btn-primary')) !!}</th>
+                ,array(),array('class' => 'btn btn-default')) !!}</th>
         </tfoot>
         <tbody>
             @foreach( $workouts as $workout )
@@ -30,10 +29,10 @@
                     <td>{{ $workout->distance }} </td>
                     <td>{{ $workout->time }}</td>
                     <td>
-                        <div class="btn-group" role="group">
-                            {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
-                            {!! link_to_route('workouts.edit',ucfirst(trans('app.edit')), array($workout->slug), array('class' => 'btn btn-info')) !!}
-                            {!! Form::submit(ucfirst(trans('app.delete')),array('class' => 'btn btn-danger')) !!}
+                        <div class="pull-right">
+                        {!! Form::open(array('id' => 'form-delete-'.$workout->id, 'class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
+                            <a href="{{ route('workouts.edit', ['slug' => $workout->slug]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                            <a href="#" onclick="dothedeletethingy({{ $workout->id }});"><i class="glyphicon glyphicon-trash"></i></a>
                             {!! Form::close() !!}
                         </div>
                     </td>
@@ -41,8 +40,14 @@
             @endforeach
         </tbody>
     </table>
-</div>
 {!! $workouts->render() !!}
 @endif
-
+<script type="text/javascript">
+    // @TODO: Put this in a nice modal
+    function dothedeletethingy(id) {
+        if(confirm('Als een workout wordt verwijderd, kan deze niet meer opgehaald worden. Weet u zeker dat u deze workout wilt verwijderen?')) {
+            $("#form-delete-"+id).submit();
+        }
+    }
+</script>
 @endsection

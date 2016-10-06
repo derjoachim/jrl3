@@ -20,7 +20,7 @@
         <tfoot>
             <th colspan='6'>&nbsp;</th>
             <th>{!! link_to_route('routes.create', ucfirst(trans('app.new')).' '.ucfirst(trans_choice('jrl.routes',1))
-                ,array(),array('class' => 'btn btn-primary')) !!}</th>
+                ,array(),array('class' => 'btn btn-default')) !!}</th>
         </tfoot>
         <tbody>
             @foreach( $routes as $route )
@@ -30,12 +30,16 @@
                     <td>{{ $route->distance }}</td>
                     <td>{{ $route->lon_start }} - {{ $route->lat_start }}</td>
                     <td>{{ $route->lon_finish }} - {{ $route->lat_finish }}</td>
-                    <td>{{ $route->rating }} / 5</td>
                     <td>
-                        <div class="btn-group" role="group">
-                            {!! Form::open(array('class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
-                            {!! link_to_route('routes.edit', ucfirst(trans('app.edit')), array($route->slug), array('class' => 'btn btn-info')) !!}
-                            {!! Form::submit(ucfirst(trans('app.delete')),array('class' => 'btn btn-danger')) !!}
+                        @for ( $iR =1; $iR <= 5; $iR++ )
+                            <i class="glyphicon {{ $iR <= $route->rating ? 'glyphicon-heart' : 'glyphicon-heart-empty'}}"></i>
+                        @endfor
+                    </td>
+                    <td>
+                        <div class="pull-right">
+                            {!! Form::open(array('id' => 'form-delete-' . $route->id, 'class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
+                            <a href="{{ route('routes.edit', ['slug' => $route->slug]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                            <a href="#" onclick="dothedeletethingy({{ $route->id }});"><i class="glyphicon glyphicon-trash"></i></a>
                             {!! Form::close() !!}
                         </div>
                     </td>
@@ -45,5 +49,13 @@
     </table>
 </div>
 @endif
+<script type="text/javascript">
+    // @TODO: Put this in a nice modal
+    function dothedeletethingy(id) {
+        if(confirm('Als een standaardroute wordt verwijderd, kan deze niet meer opgehaald worden. Weet u zeker dat u deze route wilt verwijderen?')) {
+            $("#form-delete-"+id).submit();
+        }
+    }
+</script>
 
 @endsection

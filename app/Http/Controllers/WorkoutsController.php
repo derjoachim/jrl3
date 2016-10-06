@@ -274,7 +274,7 @@ class WorkoutsController extends Controller {
         }
         DB::table('waypoints')->insert($arrWps);
             
-        $workout = DB::table('workouts')->where('id', '=', $workout_id)->first();
+        $workout = Workout::find($workout_id);
         // Dirty hack. Please refactor if needed
         return Redirect::to('workouts/'.$workout->slug.'/edit');
 	}

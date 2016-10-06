@@ -2,9 +2,15 @@
 @extends('app')
 
 @section('content')
-    <h2>{{ ucfirst(trans_choice('jrl.routes',1)) }} {{ trans('app.edit') }} - {{ $route->name }}</h2>
+<div class="row">
+    {!! Form::model($route, ['method' => 'PATCH', 'route' => ['routes.update', $route->slug], 'class'=>'form-horizontal']) !!}
     
-    {!! Form::model($route, ['method' => 'PATCH', 'route' => ['routes.update', $route->slug]]) !!}
-    @include('routes/partials/_form', ['submit_text' => ucfirst(trans('app.save')),'rating' => $route->rating])
+    <div class="col-lg-9">
+        <div class="page-header">
+            <h2>{{ $route->name }} - <small>{{ ucfirst(trans('app.edit')) }}</small></h2>
+        </div>
+    </div>
+    @include('routes/partials/_form', ['rating' => $route->rating])
     {!! Form::close() !!}
+</div>
 @endsection
