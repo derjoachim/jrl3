@@ -1,18 +1,10 @@
 <?php namespace App\Http\Controllers;
 
+use Auth;
+use App\Workout;
+use App\Repositories\RoutesRepository;
+
 class HomeController extends Controller {
-
-	/*
-	|--------------------------------------------------------------------------
-	| Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders your application's "dashboard" for users that
-	| are authenticated. Of course, you are free to change or remove the
-	| controller as you wish. It is just here to get your app started!
-	|
-	*/
-
 	/**
 	 * Create a new controller instance.
 	 *
@@ -30,7 +22,13 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+        $oRouteRepo = new RoutesRepository();
+        $Data = [];
+        $Data['favorite_routes'] = $oRouteRepo->favorites();
+        $Data['latest_workouts'] = Workout::latest('date')
+            ->whereUserId(Auth::user()->id)
+            ->take(5)->get();
+		return view('home', $Data);
 	}
 
 }

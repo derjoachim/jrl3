@@ -21,7 +21,7 @@ public function sluggable()
 
     public function workouts()
     {
-        return $this->hasMany('App\Workout');
+        return $this->hasMany('App\Workout', 'route_id');
     }
     
     public function users()
