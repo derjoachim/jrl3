@@ -13,8 +13,8 @@ class ForecastController extends Controller {
      * @TODO: Refactor into Repository class.
      */
     public function fetch(Request $request) {
-        $url = 'https://api.forecast.io/forecast/'.
-            env('FORECAST_IO_API_KEY').'/'.$request->input('lat').','.$request->input('lon').
+        $url = 'https://api.darksky.net/forecast/'.
+            env('DARKSKY_NET_API_KEY').'/'.$request->input('lat').','.$request->input('lon').
             ','.$request->input('date').'T'.$request->input('time').
             '?units=si&exclude=hourly,daily';
         return file_get_contents($url);
