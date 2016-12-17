@@ -10,7 +10,7 @@ class ForecastController extends Controller {
      * Fetches weather data based on workout form request
      * @param Request $request
      * @return json
-     * @TODO: Refactor into Repository class.
+     * @TODO: Refactor into Guzzle
      */
     public function fetch(Request $request) {
         $url = 'https://api.darksky.net/forecast/'.
