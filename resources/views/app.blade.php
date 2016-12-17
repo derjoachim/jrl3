@@ -94,7 +94,27 @@
             @yield('content')
         </div>
     </div>
-        <!-- Scripts -->
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <footer>
+        <nav class="navbar navbar-collapse">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://strava.com/" target="_blank" class="navbar-link">
+                                <img alt="Powered by Strava" src="{{ asset('/img/api_logo_pwrdBy_strava_stack_light.png') }}" style="height:40px"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-link" href="https://darksky.net/poweredby" target="_blank">
+                                <img src="{{ asset('/img/poweredby.png') }}" style="height:40px"/>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </footer>
+    <!-- Scripts -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     </body>
 </html>

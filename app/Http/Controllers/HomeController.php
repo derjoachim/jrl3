@@ -1,18 +1,12 @@
 <?php namespace App\Http\Controllers;
 
+use Auth;
+use App\Route;
+use App\Workout;
+use App\Repositories\RoutesRepository;
+use App\Repositories\WorkoutsRepository;
+
 class HomeController extends Controller {
-
-	/*
-	|--------------------------------------------------------------------------
-	| Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders your application's "dashboard" for users that
-	| are authenticated. Of course, you are free to change or remove the
-	| controller as you wish. It is just here to get your app started!
-	|
-	*/
-
 	/**
 	 * Create a new controller instance.
 	 *
@@ -30,7 +24,27 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+        $oRoutesRepo = new RoutesRepository();
+        $oWorkoutsRepo = new WorkoutsRepository();
+        $arTotals = [
+            'by_year' => $oWorkoutsRepo->getByPeriod('year'),
+            'by_month' => $oWorkoutsRepo->getByPeriod('month'),
+            'by_week' => $oWorkoutsRepo->getByPeriod('week'),
+        ];
+        $Data = [];
+        $Data['cumulative_workouts'] = $oWorkoutsRepo->calcNumWorkouts($arTotals);
+        $Data['cumulative_distance'] = $oWorkoutsRepo->calcDistance($arTotals);
+        $Data['grand_totals'] = [
+            'num_workouts' => $oWorkoutsRepo->totalWorkouts(),
+            'total_distance' => $oWorkoutsRepo->totalDistance(),
+            'num_routes' => Route::whereUserId(Auth::user()->id)->count()
+        ];
+
+        $Data['favorite_routes'] = $oRoutesRepo->favorites();
+        $Data['latest_workouts'] = Workout::latest('date')
+            ->whereUserId(Auth::user()->id)
+            ->take(5)->get();
+		return view('home', $Data);
 	}
 
 }

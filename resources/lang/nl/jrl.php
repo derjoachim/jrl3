@@ -51,4 +51,7 @@ return [
     'show_map' => 'toon kaart',
     'avg_hr' => 'gemiddelde hartslag',
     'max_hr' => 'maximale hartslag',
+    'favorite_routes' => 'favoriete routes',
+    'latest_workouts' => 'laatste workouts',
+    'quantity' => 'aantal',
 ];
