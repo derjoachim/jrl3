@@ -4,14 +4,36 @@
 <div class="page-header">
     <h1>{{ ucfirst(trans('app.home')) }}&nbsp;<small>{{ trans('jrl.welcome_to_jrl') }}</small></h1>
 </div>
-<!--<div class="row">
-    <div class="col-sm-4 col-md-4">TODO Number of workouts</div>
-    <div class="col-sm-4 col-md-4">TODO Number of kilometers</div>
-    <div class="col-sm-4 col-md-4">TODO Number of blah</div>
-</div>-->
+<div class="row">
+    <div class="col-sm-4 col-md-4">
+        <h4>Aantal workouts</h4>
+        <ul class="list-unstyled">
+            <li>Afgelopen week: <span class="badge">{{ $cumulative_workouts['by_week'] }}</span></li>
+            <li>Afgelopen maand: <span class="badge">{{ $cumulative_workouts['by_month'] }}</span></li>
+            <li>Afgelopen jaar: <span class="badge">{{ $cumulative_workouts['by_year'] }}</span></li>
+        </ul>
+    </div>
+    <div class="col-sm-4 col-md-4">
+        <h4>Aantal kilometers</h4>
+        <ul class="list-unstyled">
+            <li>Afgelopen week: <span class="badge">{{ $cumulative_distance['by_week'] }}</span></li>
+            <li>Afgelopen maand: <span class="badge">{{ $cumulative_distance['by_month'] }}</span></li>
+            <li>Afgelopen jaar: <span class="badge">{{ $cumulative_distance['by_year'] }}</span></li>
+        </ul>
+    </div>
+    <div class="col-sm-4 col-md-4">
+        <h4>Totalen</h4>
+        <ul class="list-unstyled">
+            <li>Totale workouts: <span class="badge">{{ $grand_totals['num_workouts'] }}</span></li>
+            <li>Totale afstand: <span class="badge">{{ $grand_totals['total_distance'] }}</span></li>
+            <li>Aantal standaardroutes: <span class="badge">{{ $grand_totals['num_routes'] }}</span></li>
+        </ul>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-6 col-md-6">
-        <h3>{{ucfirst(trans('jrl.latest_workouts'))}}</h3>
+        <h4>{{ucfirst(trans('jrl.latest_workouts'))}}</h4>
         <table class="table table-responsive table-condensed table-striped">
             <thead>
                 <tr>
@@ -36,7 +58,7 @@
         </table>
     </div>
     <div class="col-sm-6 col-md-6">
-        <h3>{{ucfirst(trans('jrl.favorite_routes'))}}</h3>
+        <h4>{{ucfirst(trans('jrl.favorite_routes'))}}</h4>
         <table class="table table-responsive table-condensed table-striped">
             <thead>
                 <tr>
@@ -59,15 +81,5 @@
         </table>        
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-3 col-md-3"><a href="https://strava.com/" target="_blank">
-        <img src="{{ asset('/img/api_logo_pwrdBy_strava_stack_light.png') }}" style="width:160px"/>
-    </a></div>
-    <div class="col-sm-3 col-md-3"><a href="https://darksky.net/poweredby" target="_blank">
-        <img src="{{ asset('/img/poweredby.png') }}" style="width:160px"/>
-    </a></div>
-    <div class="col-sm-3 col-md-3">&nbsp;</div>
-    <div class="col-sm-3 col-md-3">&nbsp;</div>
-</div>
-<div></div>
+<div>&nbsp;</div>
 @endsection
