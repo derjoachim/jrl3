@@ -6,20 +6,17 @@ use Config;
 use DB;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use Input;
 use App\Workout;
 use App\Route;
-use App\Waypoint;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Redirect;
 use Validator;
 
 class WorkoutsController extends Controller {
-
+    private $user;
     protected $rules = [
         'date' => ['required','date'],
         'name' => ['required','min:3'],
@@ -33,6 +30,7 @@ class WorkoutsController extends Controller {
      */
     public function __construct()
     {
+        $this->user = Auth::user();
         $this->middleware('auth');
     }
 
@@ -43,17 +41,26 @@ class WorkoutsController extends Controller {
      */
     public function index()
     {
-        $workouts = Workout::latest('date')->whereUserId(Auth::user()->id)->paginate(10);
+        $perPage = 10;
+        $Data = [];
+
+        $oWorkouts = $this->user->workouts->sortByDesc('date');
+        $paginator = new LengthAwarePaginator($oWorkouts, $oWorkouts->count(), $perPage);
+        $queryString = request()->getQueryString() ? preg_replace('/&*page=[0-9]+/','',request()->getQueryString()) : '';
+        $paginator->setPath(LengthAwarePaginator::resolveCurrentPath() . $queryString);
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $workouts = $oWorkouts->slice((($currentPage - 1) * $perPage), $perPage);
+
         $routes = Route::getAllInArray();
         
-        // @TODO: This is a quick 'n dirty solution. There probably a better
-        // solution
+        // @TODO: This is a quick 'n dirty solution. There probably a better way
         foreach( $workouts as $workout) {
             $workout->time = $workout->getTime('time_in_seconds');
             $workout->route = $workout->route_id ? $routes[$workout->route_id] : trans('app.none');
         }
-        
-        return view('workouts.index', compact('workouts'));
+        $Data['workouts'] = $workouts;
+        $Data['paginator'] = $paginator;
+        return view('workouts.index', $Data);
     }
 
     /**

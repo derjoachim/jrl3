@@ -40,7 +40,7 @@
             @endforeach
         </tbody>
     </table>
-{!! $workouts->render() !!}
+{!! $paginator->render() !!}
 @endif
 <script type="text/javascript">
     // @TODO: Put this in a nice modal
