@@ -68,11 +68,12 @@ class WorkoutsController extends Controller {
      *
      * @return Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $routes = Route::getAllInArray();
-        $date = date("Y-m-d");
-        return view('workouts.create',compact('routes','date'));
+        $Data = [];
+        $Data['routes'] = Route::getAllInArray();
+        $Data['date'] = date("Y-m-d");
+        return view('workouts.create', $Data);
     }
 
     /**

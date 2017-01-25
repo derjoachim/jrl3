@@ -23,12 +23,10 @@ Route::get('waypoints','WorkoutsController@waypoints');
 Route::get('routes/byid','RoutesController@getById');
 
 Route::get('strava/getlatest','StravaController@latest');
-//Route::get('strava/import','StravaController@import');
+
+Route::get('export', 'ExportController@index');
+Route::post('export/export', 'ExportController@export');
 Route::get('strava/import', array('as' => 'strava-import', 'uses' => 'StravaController@import'));
-/*Route::get('strava/import/{id}',function($id) {
-    return 'StravaController@import';
-})->where('id','[0-9]+');
-*/
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
