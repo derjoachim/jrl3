@@ -4,13 +4,13 @@ use Config;
 use Carbon\Carbon;
 use DB;
 use Input;
-use App\Http\Requests;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\StravaServiceRepository;
-use Illuminate\Http\Request;
-//use App\FitnessService;
-use App\Route;
-use App\Workout;
+//use Illuminate\Http\Request;
+//use App\Models\FitnessService;
+use App\Models\Route;
+use App\Models\Workout;
 
 class StravaController extends Controller {
     

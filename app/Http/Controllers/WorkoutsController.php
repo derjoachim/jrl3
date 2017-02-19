@@ -6,14 +6,14 @@ use Config;
 use DB;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
+//use Illuminate\Support\Facades\Storage;
+//use Illuminate\Support\Facades\File;
 
 use Input;
-use App\Workout;
-use App\Route;
-use App\Waypoint;
-use App\Http\Requests;
+use App\Models\Workout;
+use App\Models\Route;
+//use App\Models\Waypoint;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Redirect;
 use Validator;
@@ -71,7 +71,7 @@ class WorkoutsController extends Controller {
     /**
      * Store a newly created resource in storage.
      * 
-     * @param \App\Workout $workout
+     * @param \App\Models\Workout $workout
      * @param \Illuminate\Http\Request $request
      *
      * @return Response

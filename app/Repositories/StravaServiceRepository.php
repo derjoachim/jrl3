@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 
 use DB;
-use App\FitnessService;
+use App\Models\FitnessService;
 use App\Repositories\ServicesRepository;
 
 class StravaServiceRepository extends ServicesRepository
