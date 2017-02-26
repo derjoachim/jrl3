@@ -187,9 +187,9 @@ class WorkoutsController extends Controller {
      * @param void
      * @return Redirect
      */
-    public function parse()
+    public function parse(Request $request)
 	{
-        $file = Input::file('file');
+        $file = $request->get('file');
         $arrVal = array('file' => $file);
         $validator = Validator::make($arrVal,[
             'file' => ['required','mimes:xml,gpx']
