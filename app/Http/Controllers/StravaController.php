@@ -1,16 +1,14 @@
 <?php namespace App\Http\Controllers;
-use Auth;
 use Config;
 use Carbon\Carbon;
 use DB;
 use Input;
-//use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\StravaServiceRepository;
-//use Illuminate\Http\Request;
-//use App\Models\FitnessService;
 use App\Models\Route;
 use App\Models\Workout;
+use Illuminate\Http\Request;
+
 
 class StravaController extends Controller {
     
@@ -21,7 +19,7 @@ class StravaController extends Controller {
         $this->fs = $stravaRepository;
     }
     
-    public function latest()
+    public function latest(Request $request)
     {
         $latest_strava_workouts = $this->fs->latest();
         $body = json_decode($latest_strava_workouts);
@@ -43,9 +41,9 @@ class StravaController extends Controller {
         return view('strava.index',compact('workouts'));
     }
     
-    public function import()
+    public function import(Request $request)
     {
-        $id = Input::get('id');
+        $id = $request->get('id');
         $activity = $this->fs->import($id);
 
         $body = json_decode($activity);
@@ -53,12 +51,11 @@ class StravaController extends Controller {
         
         $ts = Carbon::parse($body->start_date,'UTC');
         $ts->setTimezone(Config::get('app.timezone'));
-        
         $arrFld = array(
             'name' => $body->name,
             'date' => $ts->format('Y-m-d'),
             'slug' => $ts->format('Y-m-d').'-'.'strava-import', 
-            'user_id' => Auth::user()->id,
+            'user_id' => $request->user()->id,
             'distance' => round(($body->distance / 1000) ,2),
             'start_time' => $ts->format('H:i:s'),
             'time_in_seconds' => $body->moving_time,
@@ -66,6 +63,7 @@ class StravaController extends Controller {
             'avg_hr' => $body->average_heartrate,
             'max_hr' => $body->max_heartrate,
             'created_at' => Carbon::now(),
+            'updated_at'=> Carbon::now()
         );
         if( count($arrPolylinePoints) > 0) {
             $first = $arrPolylinePoints[0];
@@ -77,7 +75,6 @@ class StravaController extends Controller {
         }
         
         $workout_id = DB::table('workouts')->insertGetId($arrFld);
-
         // Parse polyline into coordinates, create waypoint records.
         $arrWps = array();
         foreach ( $arrPolylinePoints as $wp ) {
@@ -101,12 +98,14 @@ class StravaController extends Controller {
         DB::table('workouts_fitness_services')->insert($arSrv);
         
         // Redirect to the edit screen
+        $Data = array();
         $workout = Workout::find($workout_id);
-        $routes = array('' => '--- Geen route ---') + Route::lists('name','id')->all();
-        $t = $workout->getTime();
-        $date = $workout->date->format('Y-m-d');
-        $mood = 3;
-        $health = 3;
-        return view('workouts.edit', compact('workout','routes','mood','health','t','date'));
+        $Data['workout'] = $workout;
+        $Data['routes'] = array('' => '--- Geen route ---') + Route::pluck('name','id')->all();
+        $Data['t'] = $workout->getTime();
+        $Data['date'] = $workout->date->format('Y-m-d');
+        $Data['mood'] = 3;
+        $Data['health'] = 3;
+        return view('workouts.edit', $Data);
     }
 }

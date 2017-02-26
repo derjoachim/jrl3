@@ -3,7 +3,6 @@
 use GuzzleHttp\Client;
 
 use DB;
-use App\Models\FitnessService;
 use App\Repositories\ServicesRepository;
 
 class StravaServiceRepository extends ServicesRepository
@@ -34,14 +33,6 @@ class StravaServiceRepository extends ServicesRepository
         } else {
             // @TODO!
         }
-
-//        return cURL::newRequest('get','https://www.strava.com/api/'.
-//            '/activities/'.$id)
-//            ->setHeader('Authorization: ','Bearer '.$this->getKey())
-//            ->setHeader('content-type', 'application/json')
-//            ->setHeader('Accept', 'json')
-//            ->setOptions([CURLOPT_VERBOSE => true])
-//            ->send();
     }
     
     
@@ -64,7 +55,7 @@ class StravaServiceRepository extends ServicesRepository
     
     private function _getClient()
     {
-        return new \GuzzleHttp\Client(
+        return new Client(
             ['base_uri' => 'https://www.strava.com/',
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->getKey(),

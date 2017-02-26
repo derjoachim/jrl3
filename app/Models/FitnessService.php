@@ -1,20 +1,20 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class FitnessService extends Model implements SluggableInterface {
-
+class FitnessService extends Model {
+    use Sluggable;
     protected $guarded = ['id'];
 
-    use SluggableTrait;
-
-    protected $sluggable = array(
-        'build_from' => 'name',
-        'save_to'    => 'slug',
-        'on_update'  => true,
-    );
+    public function sluggable()
+    {
+        return array(
+            'build_from' => 'name',
+            'save_to'    => 'slug',
+            'on_update'  => true,
+        );
+    }
     
     public function users()
     {

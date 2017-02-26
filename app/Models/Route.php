@@ -36,7 +36,7 @@ class Route extends Model {
         
     public static function getAllInArray()
     {
-        $myRoutes = self::whereUserId(Auth::user()->id)->lists('name','id');
+        $myRoutes = self::whereUserId(Auth::user()->id)->pluck('name','id');
         return array('' => '--- ' . trans('jrl.no_route') . ' ---') + $myRoutes->toArray();
     }
 }
