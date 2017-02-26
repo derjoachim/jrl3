@@ -1,20 +1,13 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Workout;
+use App\Models\Route;
 use Auth;
 use Carbon\Carbon;
 use Config; 
 use DB;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
-
-use Input;
-use App\Workout;
-use App\Route;
-use App\Waypoint;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Redirect;
 use Validator;
 
@@ -41,7 +34,7 @@ class WorkoutsController extends Controller {
      *
      * @return view
      */
-    public function index()
+    public function index(Request $request)
     {
         $workouts = Workout::latest('date')->whereUserId(Auth::user()->id)->paginate(10);
         $routes = Route::getAllInArray();
@@ -63,25 +56,27 @@ class WorkoutsController extends Controller {
      */
     public function create(Request $request)
     {
-        $routes = Route::getAllInArray();
-        $date = date("Y-m-d");
-        return view('workouts.create',compact('routes','date'));
+        $data = array();
+        $data['routes'] = Route::getAllInArray();
+        $data['date'] = date("Y-m-d");
+        return view('workouts.create',$data);
     }
 
     /**
      * Store a newly created resource in storage.
      * 
-     * @param \App\Workout $workout
+     * @param \App\Models\Workout $workout
      * @param \Illuminate\Http\Request $request
      *
      * @return Response
      */
-    public function store(Workout $workout, Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, $this->rules);
-        $input = Input::all();
+        $input = $request->all();
+        $input['user_id'] = $request->user()->id; //hackish, pls refactor
         $workout = new Workout($input);
-        Auth::user()->workouts()->save($workout);
+        $workout->save();
 
         return Redirect::route('workouts.index')->with('message', trans('jrl.workout_saved'));
     }
@@ -94,22 +89,28 @@ class WorkoutsController extends Controller {
      */
     public function show(Workout $workout)
     {
-        $t = $workout->getTime();
-        $id = $workout->id;
-        $route = null;
+        $Data = array(
+            'workout' => $workout,
+            'id' => $workout->id,
+            't' => $workout->getTime(),
+            'route' => null,
+            'next' => null,
+            'prev' => null
+        );
+
         if($workout->route_id > 0) {
-            $route = Route::find($workout->route_id)->name;
+            $Data['route'] = Route::find($workout->route_id)->name;
         }
         
-        $prev = Workout::where('id','<',$id)->whereUserId(Auth::user()->id)->max('id');
+        $prev = Workout::where('id','<',$workout->id)->whereUserId(Auth::user()->id)->max('id');
         if ( ! is_null($prev)) {
-            $prev = Workout::find($prev)->slug;
+            $Data['prev'] = Workout::find($prev)->slug;
         }
-        $next = Workout::where('id','>',$id)->whereUserId(Auth::user()->id)->min('id');
+        $next = Workout::where('id','>',$workout->id)->whereUserId(Auth::user()->id)->min('id');
         if ( ! is_null($next)) {
-            $next = Workout::find($next)->slug;
+            $Data['next'] = Workout::find($next)->slug;
         }
-        return view('workouts.show', compact('workout','t','route','id','next','prev'));
+        return view('workouts.show', $Data);
     }
 
     /**
@@ -122,14 +123,16 @@ class WorkoutsController extends Controller {
      */
     public function edit(Workout $workout, Request $request)
     {
+        $Data = array();
         if($workout->user_id == $request->user()->id) {
-            $routes = Route::getAllInArray();
-            $mood = $workout->mood;
-            $health = $workout->health;
-            $t = $workout->getTime();
-            $date = $workout->date->format('Y-m-d');
+            $Data['workout'] = $workout;
+            $Data['routes'] = Route::getAllInArray();
+            $Data['mood'] = $workout->mood;
+            $Data['health'] = $workout->health;
+            $Data['t'] = $workout->getTime();
+            $Data['date'] = $workout->date->format('Y-m-d');
             
-            return view('workouts.edit', compact('workout','routes','mood','health','t','date'));
+            return view('workouts.edit', $Data);
         } else {
             return view('workouts.index')->with('message', trans('jrl.workout_not_authorized'));
         }
@@ -144,7 +147,7 @@ class WorkoutsController extends Controller {
     public function update(Workout $workout, Request $request)
     {
         $this->validate($request, $this->rules);
-        $input = array_except(Input::all(), '_method');
+        $input = array_except($request->all(), '_method');
         if(!array_key_exists('finished', $input)) {
             $input['finished'] = 0;
         }
@@ -184,9 +187,9 @@ class WorkoutsController extends Controller {
      * @param void
      * @return Redirect
      */
-    public function parse()
+    public function parse(Request $request)
 	{
-        $file = Input::file('file');
+        $file = $request->get('file');
         $arrVal = array('file' => $file);
         $validator = Validator::make($arrVal,[
             'file' => ['required','mimes:xml,gpx']

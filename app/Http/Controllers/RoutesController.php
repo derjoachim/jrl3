@@ -1,12 +1,12 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Route;
-use App\Http\Requests;
+namespace App\Http\Controllers;
+
+use App\Models\Route;
 use App\Http\Controllers\Controller;
-use Input;
-use Redirect;
 use Illuminate\Http\Request;
 use Auth;
+use Redirect;
 
 class RoutesController extends Controller {
 
@@ -15,22 +15,22 @@ class RoutesController extends Controller {
      * 
      */
     protected $rules = [
-        'name'          => ['required','min:3'],
-        'description'   => ['required','min:10']
+        'name' => ['required', 'min:3'],
+        'description' => ['required', 'min:10']
     ];
-    
-    public function __construct()
-    {
+
+    public function __construct() {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index(Request $request) {
         $routes = Route::whereUserId(Auth::user()->id)->get();
+//        $routes = $request->user()->routes; // TODO: This should work, yet doesn't. Why?
         return view('routes.index', compact('routes'));
     }
 
@@ -39,26 +39,26 @@ class RoutesController extends Controller {
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         return view('routes.create');
     }
 
     /**
      * Store a newly created resource in storage.
      * 
-     * @param \App\Route $route
+     * @param \App\Models\Route $route
      * @param \Illuminate\Http\Request $request
      *
      * @return Response
      */
-    public function store(Route $route, Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, $this->rules);
-        $input = Input::all();
+        $input = $request->all();
         $route = new Route($input);
-        Auth::user()->routes()->save($route);
- 
+        $route->user_id = Auth::id();
+        $route->save();
+//        $request->user()->routes->save($route); // @TODO: this should work. Why not now?
+
         return Redirect::route('routes.index')->with('message', trans('jrl.route_saved'));
     }
 
@@ -68,9 +68,8 @@ class RoutesController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function show(Route $route)
-    {
-       return view('routes.show',compact('route'));
+    public function show(Route $route) {
+        return view('routes.show', compact('route'));
     }
 
     /**
@@ -79,31 +78,28 @@ class RoutesController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function edit(Route $route, Request $request)
-    {
-        if($route->user_id == $request->user()->id)
-        {
+    public function edit(Route $route, Request $request) {
+        if ($route->user_id == $request->user()->id) {
             return view('routes.edit', compact('route'));
         } else {
-            return Redirect::route('routes.index')->with('message',trans('app.route_not_authorized'));
+            return Redirect::route('routes.index')->with('message', trans('app.route_not_authorized'));
         }
     }
 
     /**
      * Update the specified resource in storage.
      * 
-     * @param \App\Route $route
+     * @param \App\Models\Route $route
      * @param \Illuminate\Http\Request $request
      * 
      * @return Response
      */
-    public function update(Route $route, Request $request)
-    {
+    public function update(Route $route, Request $request) {
         $this->validate($request, $this->rules);
-        $input = array_except(Input::all(), '_method');
+        $input = array_except($request->all(), '_method');
         $route->update($input);
 
-        return Redirect::route('routes.show',$route->slug)->with('message',trans('jrl.route_saved'));
+        return Redirect::route('routes.show', $route->slug)->with('message', trans('jrl.route_saved'));
     }
 
     /**
@@ -113,31 +109,27 @@ class RoutesController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function destroy(Route $route, Request $request)
-    {
-        if($route->user_id == $request->user()->id)
-        {
+    public function destroy(Route $route, Request $request) {
+        if ($route->user_id == $request->user()->id) {
             $route->delete();
-            return Redirect::route('routes.index')->with('message',trans('jrl.route_deleted'));
+            return Redirect::route('routes.index')->with('message', trans('jrl.route_deleted'));
         } else {
-            return Redirect::route('routes.index')->with('message',trans('app.route_not_authorized'));
+            return Redirect::route('routes.index')->with('message', trans('app.route_not_authorized'));
         }
     }
-    
+
     /**
      * Retrieve route data as JSON
      * @param int $id
      * @return jsonresponse
      */
-    public function getById(Request $request)
-    {
+    public function getById(Request $request) {
         $id = $request->input('id');
-        if(is_numeric($id)) {
+        if (is_numeric($id)) {
             return Route::find($id);
         } else {
             // @TODO: Foutafhandeling
         }
     }
-
 
 }

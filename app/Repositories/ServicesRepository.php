@@ -1,8 +1,10 @@
 <?php namespace App\Repositories;
 
-use Auth;
-use DB;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contracts\FitnessServicesInterface;
+use DB;
+use App\Models\FitnessService;
+use Session;
 
 abstract class ServicesRepository implements FitnessServicesInterface
 {
@@ -11,14 +13,16 @@ abstract class ServicesRepository implements FitnessServicesInterface
     public $api_key;
     public $service_user_id;
 
-    public function __construct($name)
+    public function __construct( $name )
     {
-        $srv = DB::table('fitness_services')->where('slug',$name)->first();
+        $user_id = Auth::id();//    Session::get('UserId');
+//        dd($user_id);
+        $srv = FitnessService::whereSlug($name)->first();
         $this->service_id = $srv->id;
         $this->service_name = $name;
         $this->api_key = $srv->api_key;
         $this->service_user_id = DB::table('fitness_services_users')
-            ->where('user_id',Auth::user()->id)
+            ->where('user_id', $user_id )
             ->where('fitness_service_id',$this->service_id)
             ->pluck('service_user_id');
     }

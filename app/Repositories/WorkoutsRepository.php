@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Workout;
+use App\Models\Workout;
 use Auth;
 use Carbon\Carbon;
 

@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 
 use Illuminate\Http\Request;
 
@@ -10,13 +10,52 @@ class ForecastController extends Controller {
      * Fetches weather data based on workout form request
      * @param Request $request
      * @return json
-     * @TODO: Refactor into Guzzle
+     * 
+     * @TODO: Refactor into a more generic class, based on the ServicesRepository
      */
-    public function fetch(Request $request) {
-        $url = 'https://api.darksky.net/forecast/'.
-            env('DARKSKY_NET_API_KEY').'/'.$request->input('lat').','.$request->input('lon').
-            ','.$request->input('date').'T'.$request->input('time').
+    public function fetch(Request $request)
+    {
+        $client = $this->_getClient();
+        $url = 'forecast/' . $this->_getKey() . '/' . 
+            $request->input('lat') . ',' .$request->input('lon') .
+            ',' . $request->input('date') . 'T' . $request->input('time') . ':00'.
             '?units=si&exclude=hourly,daily';
-        return file_get_contents($url);
+        $res = $client->request('GET', $url);
+        if($res->getStatusCode() == 200) {
+            return $res->getBody()->getContents();
+        } else {
+            // TODO: error handling
+        }      
+    }
+    
+    
+    /**
+     * Fire up a Guzzle client.
+     * 
+     * @return a Guzzle Client Object
+     */
+    protected function _getClient()
+    {
+        return new Client(['base_uri' => 'https://api.darksky.net/',
+                'headers' => [
+                    'content-type' => 'application/json',
+                    'Accept' => 'json',
+                ],
+                
+                'connect_timeout' => 10,
+                'timeout' => 10
+            ]);
+    }
+
+    /**
+     * Get the proper application key
+     * 
+     * In this case, it is merely the developer key used from the environment file
+     * 
+     * @return type
+     */
+    public function _getKey()
+    {
+        return env('DARKSKY_NET_API_KEY');
     }
 }

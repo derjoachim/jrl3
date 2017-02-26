@@ -1,28 +1,32 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Auth;
-use App\Route;
-use App\Workout;
+namespace App\Http\Controllers;
+
+//use Illuminate\Http\Request;
 use App\Repositories\RoutesRepository;
 use App\Repositories\WorkoutsRepository;
+use App\Models\Route;
+use App\Models\Workout;
+use Auth;
 
-class HomeController extends Controller {
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
+class HomeController extends Controller
+{
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
-	 */
-	public function index()
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
 	{
         $oRoutesRepo = new RoutesRepository();
         $oWorkoutsRepo = new WorkoutsRepository();
@@ -46,5 +50,4 @@ class HomeController extends Controller {
             ->take(5)->get();
 		return view('home', $Data);
 	}
-
 }

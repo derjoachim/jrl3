@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Input;
-use App\Waypoint;
+use App\Models\Waypoint;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
