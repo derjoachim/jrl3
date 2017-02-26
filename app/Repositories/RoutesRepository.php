@@ -1,6 +1,6 @@
 <?php namespace App\Repositories;
 
-use App\Route;
+use App\Models\Route;
 use Auth;
 use DB;
 

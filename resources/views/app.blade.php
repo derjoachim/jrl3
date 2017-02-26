@@ -38,12 +38,15 @@
                         <li><a href="{{ url('/auth/login') }}">{{ ucfirst(trans('app.login')) }}</a></li>
                         <li><a href="{{ url('/auth/register') }}">{{ ucfirst(trans('app.register')) }}</a></li>
                     @else
+                    {!! Form::open(['method'=>'POST', 'url'=>'/logout', 'id' => 'logout_form']) !!}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+                            
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/auth/logout') }}">{{ trans('app.logout') }}</a></li>
+                                <li><a href="#" title='{{trans('app.logout')}}' onclick="$('#logout_form').submit();">{{ trans('app.logout') }}</a></li>
                             </ul>
                         </li>
+                        {!! Form::close() !!}
                     @endif
                 </ul>
             </div>

@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::model(new App\Route, ['route' => 'routes.store', 'class'=>'form-horizontal']) !!}
+    {!! Form::model(new App\Models\Route, ['route' => 'routes.store', 'class'=>'form-horizontal']) !!}
     <div class="col-lg-9">
         <div class="page-header">
             <h2>{{ ucfirst(trans('app.create_new')) }} {{ trans_choice('jrl.routes',1) }}</h2>
