@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Config;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 
 use Illuminate\Http\Request;
@@ -15,11 +17,14 @@ class ForecastController extends Controller {
      */
     public function fetch(Request $request)
     {
+        $strTime = $request->input('date') . 'T' . $request->input('time');
+        $oTs = new Carbon($strTime, Config::get('app.timezone'));
+        
         $client = $this->_getClient();
         $url = 'forecast/' . $this->_getKey() . '/' . 
             $request->input('lat') . ',' .$request->input('lon') .
-            ',' . $request->input('date') . 'T' . $request->input('time') . ':00'.
-            '?units=si&exclude=hourly,daily';
+            ',' . $oTs->getTimestamp() .
+            '?units=auto&exclude=hourly,daily';
         $res = $client->request('GET', $url);
         if($res->getStatusCode() == 200) {
             return $res->getBody()->getContents();
