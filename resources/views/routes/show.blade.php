@@ -30,6 +30,12 @@
     <div class="col-lg-8">
         {!! $route->description !!}
     </div>
+    <div class="col-lg-4">
+        @unless ( is_null($pr))
+            <h4>{{ ucfirst(trans('jrl.current_pr')) }}</h4>
+            <h3>{{ $pr }}</h3>
+        @endif
+    </div>
     @if ( $route->lon_start && $route->lat_start )
         <input type="hidden" id="lat_start" value="{{ $route->lat_start }}" />
         <input type="hidden" id="lon_start" value="{{ $route->lon_start }}" />

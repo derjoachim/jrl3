@@ -39,4 +39,21 @@ class Route extends Model {
         $myRoutes = self::whereUserId(Auth::user()->id)->pluck('name','id');
         return array('' => '--- ' . trans('jrl.no_route') . ' ---') + $myRoutes->toArray();
     }
+    
+    public function getPR()
+    {
+        $strPR = null;
+        $oWorkout = Workout::whereUserId(Auth::id())->whereRouteId($this->id)
+            ->orderBy('time_in_seconds')->first();
+        if(!empty($oWorkout)) {
+            $strPR = $oWorkout->getTime();
+        }
+        return $strPR;
+    }
+    
+    
+    public function getLatestWorkouts($iNumRecords = 5)
+    {
+        return array();
+    }
 }

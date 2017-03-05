@@ -54,4 +54,5 @@ return [
     'favorite_routes' => 'favoriete routes',
     'latest_workouts' => 'laatste workouts',
     'quantity' => 'aantal',
+    'current_pr' => 'huidige PR',
 ];
