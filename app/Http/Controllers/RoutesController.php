@@ -69,7 +69,11 @@ class RoutesController extends Controller {
      * @return Response
      */
     public function show(Route $route) {
-        return view('routes.show', compact('route'));
+        $Data = array();
+        $Data['route'] = $route;
+        $Data['pr'] = $route->getPR();
+        $Data['latest_workouts'] = $route->getLatestWorkouts();
+        return view('routes.show', $Data);
     }
 
     /**
