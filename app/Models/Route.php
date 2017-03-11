@@ -54,6 +54,6 @@ class Route extends Model {
     
     public function getLatestWorkouts($iNumRecords = 5)
     {
-        return array();
+        return $this->workouts()->latest('date')->take($iNumRecords)->get();
     }
 }

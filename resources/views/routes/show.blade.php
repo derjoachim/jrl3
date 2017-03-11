@@ -27,14 +27,37 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-8">
-        {!! $route->description !!}
+    <div class="col-lg-6">
+        <h4></h4>
+        <dl>
+            @unless ( is_null($pr))
+            <dt>{{ ucfirst(trans('jrl.current_pr')) }}:</dt>
+            <dd>{{ $pr }}</dd>
+            @endunless
+            <dt>{{ ucfirst(trans('jrl.description')) }}:</dt>
+            <dd>{!! $route->description !!}</dd>
+        </dl>
     </div>
-    <div class="col-lg-4">
-        @unless ( is_null($pr))
-            <h4>{{ ucfirst(trans('jrl.current_pr')) }}</h4>
-            <h3>{{ $pr }}</h3>
-        @endif
+    <div class="col-lg-6">
+        <h4>{{ ucfirst(trans('jrl.latest_workouts')) }}</h4>
+            <table class="table table-responsive table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>{{ ucfirst(trans('app.date')) }}</th>
+                    <th>{{ ucfirst(trans('jrl.name')) }}</th>
+                    <th>{{ ucfirst(trans('jrl.finish_time')) }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($latest_workouts as $workout)
+                <tr>
+                    <td>{{ date('d-m-Y', strtotime($workout->date)) }}
+                    <td><a href="{{ route('workouts.show', $workout->slug)}}">{{ $workout->name }}</a></td>
+                    <td>{{ $workout->getTime() }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     @if ( $route->lon_start && $route->lat_start )
         <input type="hidden" id="lat_start" value="{{ $route->lat_start }}" />
@@ -63,7 +86,6 @@ $(document).ready(function(){
 });
 
 $('#myModal').on('show.bs.modal', function (e) {
-    // do something...
     setTimeout(function() {drawMap(new Array(), 'map_canvas');},700);
 });    
 </script>
