@@ -43,9 +43,12 @@ class WorkoutsController extends Controller {
         // solution
         foreach( $workouts as $workout) {
             $workout->time = $workout->getTime('time_in_seconds');
-            $workout->route = $workout->route_id ? $routes[$workout->route_id] : trans('app.none');
+            $workout->route = trans('app.none');
+            $route_id = $workout->route_id;
+            if($route_id > 0 && array_key_exists($route_id, $routes)) {
+                $workout->route = $routes[$route_id];
+            }
         }
-        
         return view('workouts.index', compact('workouts'));
     }
 
