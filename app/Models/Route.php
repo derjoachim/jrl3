@@ -44,6 +44,7 @@ class Route extends Model {
     {
         $strPR = null;
         $oWorkout = Workout::whereUserId(Auth::id())->whereRouteId($this->id)
+            ->where('time_in_seconds','>',0)
             ->orderBy('time_in_seconds')->first();
         if(!empty($oWorkout)) {
             $strPR = $oWorkout->getTime();
