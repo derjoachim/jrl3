@@ -74,9 +74,14 @@ class Workout extends Model {
         return $this->hasMany('App\Models\Waypoint');
     }
     
-    public function workouts_fitness_services()
+    public function fitness_services() // Rename?
     {
         return $this->hasOne('App\Models\FitnessService','workouts_fitness_services');
+    }
+    
+    public function workouts_fitness_services()
+    {
+        return $this->hasOne('App\Models\WorkoutsFitnessServices');
     }
     
     private function _time_to_seconds($time)

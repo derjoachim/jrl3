@@ -168,7 +168,7 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-        
+        Barryvdh\Snappy\ServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -237,6 +237,8 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

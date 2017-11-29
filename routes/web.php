@@ -14,11 +14,15 @@ Route::get('routes/byid','RoutesController@getById');
 Route::get('strava/getlatest','StravaController@latest');
 Route::get('strava/import', array('as' => 'strava-import', 'uses' => 'StravaController@import'));
 
-Route::model('routes','Route');
-Route::model('workouts','Workout');
+//Route::model('routes','Route');
+//Route::model('workouts','Workout');
+//Route::model('logs', 'Log');
 
 Route::resource('routes', 'RoutesController');
 Route::resource('workouts', 'WorkoutsController');
+
+Route::resource('logs', 'LogsController');
+Route::get('logs/{id}/download/', array('uses' => 'LogsController@download'));
 
 Route::bind('routes', function($value, App\Models\Route $route){
     return App\Models\Route::where('slug', $value)->first();
@@ -27,3 +31,7 @@ Route::bind('routes', function($value, App\Models\Route $route){
 Route::bind('workouts', function($value, App\Models\Workout $workout){
     return App\Models\Workout::where('slug', $value)->first();
 });
+
+//Route::bind('logs', function($value, App\Models\Log $log) {
+//    return App\Models\Log::find($value);
+//});
