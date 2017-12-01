@@ -46,10 +46,10 @@ class LogListener
         $Data['workouts'] = $workouts; 
         $Data['routes'] = $routes;
         $Data['user'] = User::find($iUserId);
-        
         $html = view('logs.pdf.logfile', $Data);
         PDF::loadHTML($html)->setOption('toc', true)
                 ->setPaper('a4')
+                ->setOption('footer-center', '[page] / [topage]')
                 ->save(storage_path() . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $oLog->path, true);
     }
 }
