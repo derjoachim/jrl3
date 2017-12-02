@@ -55,4 +55,10 @@ return [
     'latest_workouts' => 'laatste workouts',
     'quantity' => 'aantal',
     'current_pr' => 'huidige PR',
+    'logs' => 'logboek|logboeken',
+    'no_logs_defined' => 'U heeft nog geen downloadbare logboeken beschikbaar.',
+    'start_date' => 'begindatum',
+    'end_date' => 'einddatum',
+    'log_saved' => 'Uw logboek is opgeslagen!',
+    'log_deleted' => 'Uw logboek is verwijderd!',
 ];

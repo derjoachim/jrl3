@@ -78,6 +78,11 @@
                     </a></li>
                     <li><a href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a></li>
                 </ul>
+                <div class="divider">&nbsp;</div>
+                <ul class="nav nav-sidebar" role="menu">
+                    <li class="sidebar-title">{{ucfirst(trans_choice('jrl.logs',2)) }}</li>
+                    <li><a href="{{url('logs')}}">{{ucfirst(trans_choice('jrl.logs',2)) }}</a></li>
+                </ul>
                 @endif
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
