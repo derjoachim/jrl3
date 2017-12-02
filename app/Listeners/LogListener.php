@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use PDF;
-use Storage;
 
 class LogListener
 {
@@ -50,6 +49,6 @@ class LogListener
         PDF::loadHTML($html)->setOption('toc', true)
                 ->setPaper('a4')
                 ->setOption('footer-center', '[page] / [topage]')
-                ->save(storage_path() . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $oLog->path, true);
+                ->save($oLog->getFullPath(), true);
     }
 }

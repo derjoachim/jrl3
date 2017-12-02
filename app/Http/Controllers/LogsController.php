@@ -6,8 +6,7 @@ use App;
 use App\Events\LogSaved;
 use Auth;
 use App\Models\Log as LogModel;
-use App\Models\Route;
-use App\Models\Workout;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -26,22 +25,14 @@ class LogsController extends Controller
     
     public function index()
     {
-        $logs = LogModel::whereUserId(Auth::id())->get();
+        $logs = User::find(Auth::id())->logs;
         return view('logs.index', compact('logs'));
     }
     
     
     public function show($id)
     {
-        dd($id);
-        $Data = [];
-        $log = LogModel::whereUserId(Auth::id())->whereId($id)->get();
-        if(empty($log)) {
-            // Not found, 404 or anything?
-        }
-        $Data['log'] = $log;
-        $Data['routes'] = Auth::user()->routes;
-        return view('logs.show', $Data);
+        // nope
     }
     
     
@@ -96,6 +87,6 @@ class LogsController extends Controller
     
     public function download($id)
     {
-        ;
+        return response()->download(Logmodel::find($id)->getFullPath());
     }
 }

@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\LogSaved' => [
             'App\Listeners\LogListener',
         ],
+        'App\Events\LogDeleting' => [
+            'App\Listeners\LogDeleteListener',
+        ],
     ];
 
     /**
