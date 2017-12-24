@@ -15,6 +15,10 @@ class UpdateLogsTableAddPathTimestamps extends Migration
     {
         Schema::table('logs', function($table){
             $table->string('path')->nullable();
+//            $table->timestamps();
+        });
+
+        Schema::table('logs', function($table) {
             $table->timestamps();
         });
     }
@@ -28,6 +32,9 @@ class UpdateLogsTableAddPathTimestamps extends Migration
     {
         Schema::table('logs', function($table) {
             $table->dropColumn('path');
+        });
+
+        Schema::table('logs', function($table) {
             $table->dropTimestamps();
         });
     }

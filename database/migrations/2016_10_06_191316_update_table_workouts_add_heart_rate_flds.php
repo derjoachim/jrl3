@@ -27,8 +27,10 @@ class UpdateTableWorkoutsAddHeartRateFlds extends Migration
     public function down()
     {
         Schema::table('workouts', function($table){
-           $table->dropColumn('avg_hr');
-           $table->dropColumn('max_hr');
+            if ('sqlite' !== env('DB_CONNECTION')) {
+                $table->dropColumn('avg_hr');
+                $table->dropColumn('max_hr');
+            }
         });
     }
 }

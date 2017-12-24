@@ -12,12 +12,14 @@ class UpdateWeatherDataWorkouts extends Migration {
 	 */
 	public function up()
 	{
-        Schema::table('workouts', function($table){
-           $table->smallInteger('pressure')->nullable()->change(); 
-           $table->smallInteger('humidity')->nullable()->after('pressure'); 
-           $table->smallInteger('temperature')->nullable()->change(); 
-           $table->smallInteger('wind_speed')->nullable()->change(); 
-        });
+	    if('sqlite' != env('DB_CONNECTION')) {
+            Schema::table('workouts', function($table){
+                $table->smallInteger('pressure')->nullable()->change();
+                $table->smallInteger('humidity')->nullable()->after('pressure');
+                $table->smallInteger('temperature')->nullable()->change();
+                $table->smallInteger('wind_speed')->nullable()->change();
+            });
+        }
 	}
 
 	/**
@@ -27,12 +29,15 @@ class UpdateWeatherDataWorkouts extends Migration {
 	 */
 	public function down()
 	{
-        Schema::table('workouts', function($table){
-            $table->tinyInteger('pressure')->unsigned()->nullable();
-            $table->tinyInteger('temperature')->unsigned()->nullable();
-            $table->tinyInteger('wind_speed')->unsigned()->nullable();
-            $table->dropColumn('humidity');
-        });        
-	}
+	    if('sqlite' != env('DB_CONNECTION')) {
+            Schema::table('workouts', function($table){
+                $table->tinyInteger('pressure')->unsigned()->nullable();
+                $table->tinyInteger('temperature')->unsigned()->nullable();
+                $table->tinyInteger('wind_speed')->unsigned()->nullable();
+                $table->dropColumn('humidity');
+            });
+        
+        }
+  	}
 
 }

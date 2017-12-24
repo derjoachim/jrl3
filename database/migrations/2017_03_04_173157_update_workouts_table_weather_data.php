@@ -25,7 +25,7 @@ class UpdateWorkoutsTableWeatherData extends Migration
     public function down()
     {
         Schema::table('workouts', function($table){
-            $table->char('wind_direction',2)->change();
+            $table->string('wind_direction',2)->change();
         });
     }
 }
