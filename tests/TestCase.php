@@ -3,25 +3,25 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-//    use RefreshDatabase;
+    use RefreshDatabase;
 
     public function setUp()
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        $users = factory(\App\Models\User::class,3)->create();
+        $service = factory(\App\Models\FitnessService::class)
+            ->create(['name' => 'Strava', 'slug' => 'strava']);
     }
 
 
     public function tearDown()
     {
-        echo 'Teardown' . PHP_EOL;
-        Artisan::call('migrate:reset');
+        parent::tearDown();
     }
 }
