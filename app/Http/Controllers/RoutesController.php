@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Models\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
+use Lang;
 
 class RoutesController extends Controller {
 
@@ -69,6 +71,9 @@ class RoutesController extends Controller {
      * @return Response
      */
     public function show(Route $route) {
+        if($route->user_id !=  Auth::id()) {
+            return Redirect::route('routes.index')->withMessage( Lang::get('jrl.route_not_authorized'));
+        }
         $Data = array();
         $Data['route'] = $route;
         $Data['pr'] = $route->getPR();
@@ -118,7 +123,7 @@ class RoutesController extends Controller {
             $route->delete();
             return Redirect::route('routes.index')->with('message', trans('jrl.route_deleted'));
         } else {
-            return Redirect::route('routes.index')->with('message', trans('app.route_not_authorized'));
+            return Redirect::route('routes.index')->with('message', trans('jrl.route_not_authorized'));
         }
     }
 

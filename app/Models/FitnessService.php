@@ -3,26 +3,29 @@
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class FitnessService extends Model {
+class FitnessService extends Model
+{
     use Sluggable;
     protected $guarded = ['id'];
-
+    public $timestamps = false;
+    
     public function sluggable()
     {
-        return array(
-            'build_from' => 'name',
-            'save_to'    => 'slug',
-            'on_update'  => true,
-        );
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => true,
+            ]
+        ];
     }
     
     public function users()
     {
-        return $this->hasMany('App\Models\User','fitness_services_users');
+        return $this->hasMany('App\Models\User', 'fitness_services_users');
     }
     
     public function workouts()
     {
-        return $this->hasMany('App\Models\Workout','workouts_fitness_services');
+        return $this->hasMany('App\Models\Workout', 'workouts_fitness_services');
     }
 }

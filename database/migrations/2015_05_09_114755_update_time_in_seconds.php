@@ -12,10 +12,12 @@ class UpdateTimeInSeconds extends Migration {
 	 */
 	public function up()
 	{
-        Schema::table('workouts', function($table){
-           $table->smallInteger('time_in_seconds')->default(0)->change(); 
-        });
-	}
+	    if('sqlite' != env('DB_CONNECTION')) {
+            Schema::table('workouts', function($table){
+                $table->smallInteger('time_in_seconds')->default(0)->change();
+            });
+        }
+  	}
 
 	/**
 	 * Reverse the migrations.
@@ -24,9 +26,12 @@ class UpdateTimeInSeconds extends Migration {
 	 */
 	public function down()
 	{
-        Schema::table('workouts', function($table){
-           $table->tinyInteger('time_in_seconds')->default(0)->change(); 
-        });
-	}
+	    if('sqlite' != env('DB_CONNECTION')) {
+            Schema::table('workouts', function($table){
+                $table->tinyInteger('time_in_seconds')->default(0)->change();
+            });
+	        
+        }
+  	}
 
 }

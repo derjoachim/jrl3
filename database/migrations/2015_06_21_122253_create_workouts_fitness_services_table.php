@@ -31,7 +31,9 @@ class CreateWorkoutsFitnessServicesTable extends Migration
 	 */
 	public function down()
 	{
-        Schema::dropForeign('workout_id');
+        Schema::table('workouts_fitness_services', function (Blueprint $table) {
+            $table->dropForeign(['workout_id']);
+        });
 		Schema::drop('workouts_fitness_services');
 	}
 }

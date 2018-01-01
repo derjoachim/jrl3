@@ -25,7 +25,7 @@ class WaypointTimestampNullable extends Migration
     public function down()
     {
         Schema::table('waypoints', function($table) {
-            $table->dateTimeNz('timestamp')->change();
+            $table->dateTimeTz('timestamp')->change();
         });
     }
 }

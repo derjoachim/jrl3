@@ -31,7 +31,9 @@ class CreateLogsTable extends Migration
 	 */
 	public function down()
 	{
-        Schema::dropForeign('user_id');
+        Schema::table('logs', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
 		Schema::drop('logs');
 	}
 }
