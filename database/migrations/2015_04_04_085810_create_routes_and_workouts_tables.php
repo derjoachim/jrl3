@@ -56,21 +56,20 @@ class CreateRoutesAndWorkoutsTables extends Migration {
             if('sqlite' == env('DB_CONNECTION')) {
                 $table->smallInteger('pressure')->unsigned()->nullable();
                 $table->smallInteger('temperature')->unsigned()->nullable();
+                $table->smallInteger('humidity')->unsigned()->nullable();
                 $table->smallInteger('wind_speed')->unsigned()->nullable();
                 $table->smallInteger('mood')->default(3);
                 $table->smallInteger('health')->default(3);
             } else {
                 $table->tinyInteger('pressure')->unsigned()->nullable();
                 $table->tinyInteger('temperature')->unsigned()->nullable();
+                $table->tinyInteger('humidity')->unsigned()->nullable();
                 $table->tinyInteger('wind_speed')->unsigned()->nullable();
                 $table->tinyInteger('mood')->default(3);
                 $table->tinyInteger('health')->default(3);
             }
             $table->string('wind_direction',4)->default('');
             $table->timestamps();
-            // @TODO: Find a better solution for this. A foreign key on a nullable
-            // field does not appear to work.
-            //$table->foreign('route_id')->references('id')->on('routes')->onDelete('SET NULL')->nullable();
         });
 	}
 

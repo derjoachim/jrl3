@@ -47,8 +47,7 @@ class RouteControllerTest extends TestCase
         $response->assertStatus(302)
             ->assertSessionHas('message', Lang::get('jrl.route_saved'))
             ->assertHeader('Location', url('/routes'));
-        $Routes = Route::whereUserId(1)->get();
-        $this->assertCount(1, $Routes);
+        $this->assertCount(1, $user->routes);
     }
     
     /**

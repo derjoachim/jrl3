@@ -2,29 +2,28 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Workout::class, function (Faker $faker) {
+$factory->define(App\Models\Workout::class, function (Faker $faker) {
     return [
-        'name' => $faker->text(),
+        'name' => $faker->text(200),
         'user_id' => $faker->numberBetween(1, 3),
-        //'route_id'
-        'slug' => $faker->slug,
-        'date' => $faker->date,
-        'time' => $faker->time,
+        'date' => $faker->date(),
+        'start_time' => $faker->time(),
         'time_in_seconds' => $faker->randomNumber(4),
         'finished' => $faker->boolean,
         'description' => $faker->paragraph(),
-        'lon_start' => $faker->longitude,
-        'lat_start' => $faker->latitude,
-        'lon_finish' => $faker->longitude,
-        'lat_finish' => $faker->latitude,
+        'lon_start' => $faker->optional()->longitude,
+        'lat_start' => $faker->optional()->latitude,
+        'lon_finish' => $faker->optional()->longitude,
+        'lat_finish' => $faker->optional()->latitude,
         'distance' => $faker->randomFloat(2, 0),
-        'pressure' => $faker->numberBetween(990, 1025),
-        'humidity' => $faker->numberBetween(30, 100),
-        'wind_speed' => $faker->numberBetween(0, 120),
-        'wind_direction' => $faker->text(3),
+        'pressure' => $faker->optional()->numberBetween(990, 1025),
+        'humidity' => $faker->optional()-> numberBetween(30, 100),
+        'temperature' => $faker->optional()->numberBetween(30, 100),
+        'wind_speed' => $faker->optional()->numberBetween(0, 120),
+        'wind_direction' => $faker->optional()->randomElement(['N','E','S','W','NE', 'SE', 'SW','NW']),
         'mood' => $faker->numberBetween(1, 5),
         'health' => $faker->numberBetween(1, 5),
-        'avg_hr' => $faker->numberBetween(60, 190),
-        'max_hr' => $faker->numberBetween(60, 190),
+        'avg_hr' => $faker->optional()->numberBetween(60, 170),
+        'max_hr' => $faker->optional()->numberBetween(140, 190),
     ];
 });
