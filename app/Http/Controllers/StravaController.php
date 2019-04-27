@@ -4,16 +4,13 @@ use Config;
 use Carbon\Carbon;
 use DB;
 use Input;
-use App\Http\Controllers\Controller;
 use App\Repositories\StravaServiceRepository;
-use App\Models\Route;
-use App\Models\Workout;
+use App\Models\{Route, Workout};
 use Illuminate\Http\Request;
 
 
-class StravaController extends Controller
+final class StravaController extends Controller
 {
-    
     private $fs;
     
     public function __construct(StravaServiceRepository $stravaRepository)

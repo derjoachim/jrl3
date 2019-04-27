@@ -15,8 +15,7 @@ abstract class ServicesRepository implements FitnessServicesInterface
 
     public function __construct( $name )
     {
-        $user_id = Auth::id();//    Session::get('UserId');
-//        dd($user_id);
+        $user_id = Auth::id();
         $srv = FitnessService::whereSlug($name)->first();
         $this->service_id = $srv->id;
         $this->service_name = $name;
