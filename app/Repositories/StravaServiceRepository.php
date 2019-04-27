@@ -16,19 +16,20 @@ class StravaServiceRepository extends ServicesRepository
     {
         $client = $this->_getClient();
         $res = $client->request('GET', '/api/v3/athlete/activities', ['query' => ['per_page' => 10]]);
-        if($res->getStatusCode() == 200) {
+        if ($res->getStatusCode() == 200) {
             return $res->getBody()->getContents();
         } else {
             // @TODO!
             return false;
         }
     }
-
-
-    public function import($id) {
+    
+    
+    public function import($id)
+    {
         $client = $this->_getClient();
-        $res = $client->request('GET', '/api/v3/activities/' . $id );
-        if($res->getStatusCode() == 200) {
+        $res = $client->request('GET', '/api/v3/activities/' . $id);
+        if ($res->getStatusCode() == 200) {
             return $res->getBody()->getContents();
         } else {
             // @TODO!
@@ -41,12 +42,12 @@ class StravaServiceRepository extends ServicesRepository
         return $this->api_key;
     }
     
-    public function getWorkoutId($id) 
+    public function getWorkoutId($id)
     {
         $wfs = DB::table('workouts_fitness_services')
-            ->where('fitness_service_id','=',$this->service_id)
-            ->where('fitness_service_remote_identifier','=',$id)->first();
-        if( $wfs ) {
+            ->where('fitness_service_id', '=', $this->service_id)
+            ->where('fitness_service_remote_identifier', '=', $id)->first();
+        if ($wfs) {
             return $wfs->workout_id;
         }
         return null;

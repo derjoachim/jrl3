@@ -1,4 +1,5 @@
 <?php namespace App\Http\Controllers;
+
 use Config;
 use Carbon\Carbon;
 use DB;
@@ -10,11 +11,12 @@ use App\Models\Workout;
 use Illuminate\Http\Request;
 
 
-class StravaController extends Controller {
+class StravaController extends Controller
+{
     
     private $fs;
     
-    public function __construct(StravaServiceRepository $stravaRepository) 
+    public function __construct(StravaServiceRepository $stravaRepository)
     {
         $this->fs = $stravaRepository;
     }
@@ -25,11 +27,11 @@ class StravaController extends Controller {
         $body = json_decode($latest_strava_workouts);
         $workouts = array();
         $tz = Config::get('app.timezone');
-
-        foreach($body as $w) {
+        
+        foreach ($body as $w) {
             $arrW = array();
             $arrW['id'] = $w->id;
-            $ts = Carbon::parse($w->start_date,'UTC');
+            $ts = Carbon::parse($w->start_date, 'UTC');
             $ts->setTimezone($tz);
             $arrW['date'] = $ts->format('d-m-Y');
             $arrW['name'] = $w->name;
@@ -38,34 +40,34 @@ class StravaController extends Controller {
             $arrW['workout_id'] = $this->fs->getWorkoutid($w->id);
             $workouts[] = $arrW;
         }
-        return view('strava.index',compact('workouts'));
+        return view('strava.index', compact('workouts'));
     }
     
     public function import(Request $request)
     {
         $id = $request->get('id');
         $activity = $this->fs->import($id);
-
+        
         $body = json_decode($activity);
         $arrPolylinePoints = $this->fs->decodePolylineToArray($body->map->polyline);
         
-        $ts = Carbon::parse($body->start_date,'UTC');
+        $ts = Carbon::parse($body->start_date, 'UTC');
         $ts->setTimezone(Config::get('app.timezone'));
         $arrFld = array(
             'name' => $body->name,
             'date' => $ts->format('Y-m-d'),
-            'slug' => $ts->format('Y-m-d').'-'.'strava-import', 
+            'slug' => $ts->format('Y-m-d') . '-' . 'strava-import',
             'user_id' => $request->user()->id,
-            'distance' => round(($body->distance / 1000) ,2),
+            'distance' => round(($body->distance / 1000), 2),
             'start_time' => $ts->format('H:i:s'),
             'time_in_seconds' => $body->moving_time,
             'description' => $body->description,
             'avg_hr' => $body->average_heartrate,
             'max_hr' => $body->max_heartrate,
             'created_at' => Carbon::now(),
-            'updated_at'=> Carbon::now()
+            'updated_at' => Carbon::now()
         );
-        if( count($arrPolylinePoints) > 0) {
+        if (count($arrPolylinePoints) > 0) {
             $first = $arrPolylinePoints[0];
             $last = array_pop($arrPolylinePoints);
             $arrFld['lat_start'] = $first[0];
@@ -77,17 +79,17 @@ class StravaController extends Controller {
         $workout_id = DB::table('workouts')->insertGetId($arrFld);
         // Parse polyline into coordinates, create waypoint records.
         $arrWps = array();
-        foreach ( $arrPolylinePoints as $wp ) {
+        foreach ($arrPolylinePoints as $wp) {
             $arrWps[] = array(
                 'workout_id' => $workout_id,
                 'lon' => $wp[1],
                 'lat' => $wp[0]
             );
         }
-        if(count($arrWps) > 0) {
+        if (count($arrWps) > 0) {
             DB::table('waypoints')->insert($arrWps);
         }
-     
+        
         // mark this workout as 'imported' from Strava.
         $arSrv = array(
             'workout_id' => $workout_id,
@@ -101,7 +103,7 @@ class StravaController extends Controller {
         $Data = array();
         $workout = Workout::find($workout_id);
         $Data['workout'] = $workout;
-        $Data['routes'] = array('' => '--- Geen route ---') + Route::pluck('name','id')->all();
+        $Data['routes'] = array('' => '--- Geen route ---') + Route::pluck('name', 'id')->all();
         $Data['t'] = $workout->getTime();
         $Data['date'] = $workout->date->format('Y-m-d');
         $Data['mood'] = 3;

@@ -59,7 +59,7 @@ class ForecastController extends Controller {
      * 
      * @return type
      */
-    public function _getKey()
+    protected function _getKey()
     {
         return env('DARKSKY_NET_API_KEY');
     }
