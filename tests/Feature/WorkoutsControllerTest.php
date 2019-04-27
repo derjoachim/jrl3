@@ -18,7 +18,7 @@ class WorkoutsControllerTest extends TestCase
      * Mini-seeder to 'fake' a form submit.
      *
      * @param Carbon $ts
-     * @param array $params
+     * @param array  $params
      * @return array
      */
     private function _getSampleWorkout(Carbon $ts, array $params = [])
@@ -41,7 +41,7 @@ class WorkoutsControllerTest extends TestCase
         return $arWrk;
     }
     
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         factory(Route::class, 3)->create(['user_id' => 1]);
@@ -86,7 +86,7 @@ class WorkoutsControllerTest extends TestCase
         $response = $this->actingAs($oUser)->put('workouts/' . $oWorkout->slug,
             $this->_getSampleWorkout(Carbon::now(), ['route_id' => 1, 'name' => 'An updated workout']));
         $oWorkout = $oWorkout->find($oWorkout->id);
-        $response ->assertStatus(302)
+        $response->assertStatus(302)
             ->assertSessionHas('message', Lang::get('jrl.workout_saved'))
             ->assertSee($oWorkout->slug);
         $this->actingAs($oUser)->get('workouts/' . $oWorkout->slug)
@@ -122,7 +122,7 @@ class WorkoutsControllerTest extends TestCase
             ->assertSessionHas('message', Lang::get('jrl.workout_deleted'));
     }
     
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }
