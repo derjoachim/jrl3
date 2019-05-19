@@ -9,8 +9,8 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use RefreshDatabase;
-
-    public function setUp()
+    
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }
