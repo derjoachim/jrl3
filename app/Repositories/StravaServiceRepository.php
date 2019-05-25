@@ -105,16 +105,16 @@ print_r($athlete);
     private function _getClient()
     {
         return new Client(
-//            ['base_uri' => 'https://www.strava.com/',
-//                'headers' => [
-//                    'Authorization' => 'Bearer ' . $this->getKey(),
-//                    'content-type' => 'application/json',
-//                    'Accept' => 'json',
-//                ],
-//
-//                'connect_timeout' => 10,
-//                'timeout' => 10
-//            ]
+            ['base_uri' => 'https://www.strava.com/',
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->getKey(),
+                    'content-type' => 'application/json',
+                    'Accept' => 'json',
+                ],
+
+                'connect_timeout' => 10,
+                'timeout' => 10
+            ]
         );
     }
 }
