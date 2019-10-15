@@ -4,14 +4,13 @@ use Config;
 use Carbon\Carbon;
 use DB;
 use Input;
-use App\Http\Controllers\Controller;
+use Strava;
 use App\Repositories\StravaServiceRepository;
-use App\Models\Route;
-use App\Models\Workout;
+use App\Models\{Route,Workout};
 use Illuminate\Http\Request;
 
 
-class StravaController extends Controller
+final class StravaController extends Controller
 {
     
     private $fs;
@@ -21,14 +20,30 @@ class StravaController extends Controller
         $this->fs = $stravaRepository;
     }
     
+    /**
+     * Authentigate with Strava
+     *
+     * @return mixed
+     */
+    public function doAuthenticate()
+    {
+        return $this->fs->authenticate();
+    }
+    
+    /**
+     * Get the latest Strava workouts
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function latest(Request $request)
     {
         $latest_strava_workouts = $this->fs->latest();
-        $body = json_decode($latest_strava_workouts);
         $workouts = array();
         $tz = Config::get('app.timezone');
         
-        foreach ($body as $w) {
+        foreach ($latest_strava_workouts as $w) {
             $arrW = array();
             $arrW['id'] = $w->id;
             $ts = Carbon::parse($w->start_date, 'UTC');
@@ -43,20 +58,25 @@ class StravaController extends Controller
         return view('strava.index', compact('workouts'));
     }
     
+    
+    /**
+     * Import a given Strava workout into JRL
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function import(Request $request)
     {
         $id = $request->get('id');
-        $activity = $this->fs->import($id);
+        $body = $this->fs->import($id);
         
-        $body = json_decode($activity);
         $arrPolylinePoints = $this->fs->decodePolylineToArray($body->map->polyline);
-        
         $ts = Carbon::parse($body->start_date, 'UTC');
         $ts->setTimezone(Config::get('app.timezone'));
         $arrFld = array(
             'name' => $body->name,
             'date' => $ts->format('Y-m-d'),
-            'slug' => $ts->format('Y-m-d') . '-' . 'strava-import',
+            'slug' => $ts->format('Y-m-d').'-'.'strava-import',
             'user_id' => $request->user()->id,
             'distance' => round(($body->distance / 1000), 2),
             'start_time' => $ts->format('H:i:s'),

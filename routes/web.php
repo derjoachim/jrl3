@@ -11,6 +11,7 @@ Route::post('parse','WorkoutsController@parse');
 Route::get('waypoints','WorkoutsController@waypoints');
 Route::get('routes/byid','RoutesController@getById');
 
+Route::get('strava/auth', 'StravaController@doAuthenticate');
 Route::get('strava/getlatest','StravaController@latest');
 Route::get('strava/import', array('as' => 'strava-import', 'uses' => 'StravaController@import'));
 

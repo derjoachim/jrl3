@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Repositories\RoutesRepository;
 use App\Repositories\WorkoutsRepository;
 use App\Models\Route;
 use App\Models\Workout;
 use Auth;
+use App\Repositories\StravaServiceRepository;
 
-class HomeController extends Controller
+final class HomeController extends Controller
 {
+    
+    private $repo;
+    
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(StravaServiceRepository $oRepo)
     {
+        $this->repo = $oRepo;
         $this->middleware('auth');
     }
 
@@ -26,8 +31,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('code')) {
+            $this->repo->getToken($request);
+        }
         $oRoutesRepo = new RoutesRepository();
         $oWorkoutsRepo = new WorkoutsRepository();
         $arTotals = [

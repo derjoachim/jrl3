@@ -16,3 +16,4 @@ error_log
 Homestead.json
 Homestead.yaml
 .env
+.phpunit.result.cache
