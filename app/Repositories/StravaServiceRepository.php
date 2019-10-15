@@ -1,55 +1,87 @@
 <?php namespace App\Repositories;
 
-use GuzzleHttp\Client as Guzzle;
-use Config;
 use DB;
-use Strava\API\{OAuth, Exception, Client};
-use Strava\API\Service\REST;
+use Illuminate\Http\Request;
+use Strava;
+use App\Models\FitnessService;
+use Cache;
+use Carbon\Carbon;
 
 final class StravaServiceRepository extends ServicesRepository
 {
-    
-    private $token = null;
-    
     public function __construct($name = 'strava')
     {
         parent::__construct($name);
-        $this->_getToken();
     }
     
+    
+    /**
+     * Authenticate Strava user
+     *
+     * @return mixed
+     */
+    public function authenticate()
+    {
+        return Strava::authenticate();
+    }
+    
+    
+    /**
+     * Get an oauth token from Strava
+     *
+     * @param  Request  $request
+     */
+    public function getToken(Request $request)
+    {
+        $code = $request->code;
+        $token = Strava::token($code);
+        $oSrv = Cache::remember('fitness_service_'.$this->service_id, 120, function() use($token) {
+            FitnessService::where('id', $this->service_id)->update([
+                'access_token' => $token->access_token,
+                'refresh_token' => $token->refresh_token,
+                'expires_at' => $token->expires_at
+            ]);
+            return FitnessService::find($this->service_id);
+        });
+    }
+    
+    
+    private function _refreshToken()
+    {
+        $oSrv = Cache::remember('fitness_service_'.$this->service_id, 120, function() {
+            return FitnessService::find($this->service_id);
+        });
+        if($oSrv->expires_at < Carbon::now()->timestamp) {
+            $token = Strava::refreshToken($oSrv->refresh_token);
+            Cache::forget('fitness_service_'.$this->service_id);
+            $oSrv->update(['access_token' => $token->access_token, 'refresh_token' => $token->refresh_token, 'expires_at' => $token->expires_at]);
+        }
+        return $oSrv->access_token;
+    }
+    
+    /**
+     * Get the latest Strava workouts
+     *
+     * @return bool|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function latest()
     {
-        /*
-         * // REST adapter (We use `Guzzle` in this project)
-$adapter = new \GuzzleHttp\Client(['base_uri' => 'https://www.strava.com/api/v3']);
-// Service to use (Service\Stub is also available for test purposes)
-$service = new Service\REST('RECEIVED-TOKEN', $adapter);
-
-// Receive the athlete!
-$client = new Client($service);
-$athlete = $client->getAthlete();
-print_r($athlete);
-         */
-        $client = $this->_getClient();
-        $res = $client->request('GET', '/api/v3/athlete/activities', ['query' => ['per_page' => 10]]);
-        if ($res->getStatusCode() == 200) {
-            return $res->getBody()->getContents();
-        } else {
-            // @TODO!
-            return false;
-        }
+        $token = $this->_refreshToken();
+        return Strava::activities($token);
     }
     
     
-    public function import($id)
+    /**
+     * Try to import a Strava workout by ID
+     *
+     * @param  int  $id
+     * @return mixed
+     */
+    public function import(int $id)
     {
-        $client = $this->_getClient();
-        $res = $client->request('GET', '/api/v3/activities/' . $id);
-        if ($res->getStatusCode() == 200) {
-            return $res->getBody()->getContents();
-        } else {
-            // @TODO!
-        }
+        $token = $this->_refreshToken();
+        return Strava::activity($token, $id);
     }
     
     
@@ -58,7 +90,14 @@ print_r($athlete);
         return $this->api_key;
     }
     
-    public function getWorkoutId($id)
+    
+    /**
+     * Try to match a strava workout to a JRL workout
+     *
+     * @param  int  $id
+     * @return int|null
+     */
+    public function getWorkoutId(int $id)
     {
         $wfs = DB::table('workouts_fitness_services')
             ->where('fitness_service_id', '=', $this->service_id)
@@ -67,54 +106,5 @@ print_r($athlete);
             return $wfs->workout_id;
         }
         return null;
-    }
-    
-    
-    private function _getToken()
-    {
-        try {
-            $options = [
-                'clientId'     => env('STRAVA_CLIENT_ID'),
-                'clientSecret' => env('STRAVA_CLIENT_SECRET'),
-                'redirectUri'  => env('APP_URL')
-            ];
-            $oauth = new OAuth($options);
-        
-            if (!isset($_GET['code'])) {
-                // eek! Todo!
-                print '<a href="'.$oauth->getAuthorizationUrl([
-                        // Uncomment required scopes.
-                        'scope' => [
-                            'public',
-                            // 'write',
-                            // 'view_private',
-                        ]
-                    ]).'">Connect</a>';
-            } else {
-                $token = $oauth->getAccessToken('authorization_code', [
-                    'code' => $_GET['code']
-                ]);
-                $this->token = $token->getToken();
-//                print $token->getToken();
-            }
-        } catch(Exception $e) {
-            Log::warning( $e->getMessage());
-        }
-    }
-    
-    private function _getClient()
-    {
-        return new Client(
-            ['base_uri' => 'https://www.strava.com/',
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->getKey(),
-                    'content-type' => 'application/json',
-                    'Accept' => 'json',
-                ],
-
-                'connect_timeout' => 10,
-                'timeout' => 10
-            ]
-        );
     }
 }

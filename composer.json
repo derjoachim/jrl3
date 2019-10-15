@@ -6,15 +6,15 @@
     "type": "project",
     "require": {
         "barryvdh/laravel-snappy": "^0.4.0",
-        "basvandorst/stravaphp": "^1.2",
+        "codetoad/strava": "^1.0",
         "cviebrock/eloquent-sluggable": "^4.3",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "~6.0",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "laravel/framework": "^5.7",
+        "laravel/framework": "^5.8",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.7"
+        "laravelcollective/html": "^5.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
