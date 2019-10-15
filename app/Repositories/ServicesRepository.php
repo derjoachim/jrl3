@@ -15,8 +15,7 @@ abstract class ServicesRepository implements FitnessServicesInterface
 
     public function __construct( $name )
     {
-        $user_id = Auth::id();//    Session::get('UserId');
-//        dd($user_id);
+        $user_id = Auth::id();
         $srv = FitnessService::whereSlug($name)->first();
         $this->service_id = $srv->id;
         $this->service_name = $name;
@@ -31,9 +30,9 @@ abstract class ServicesRepository implements FitnessServicesInterface
     
     abstract function getKey();
     
-    abstract function import($id);
+    abstract function import(int $id);
     
-    abstract function getWorkoutId($id);
+    abstract function getWorkoutId(int $id);
     
     /**
      * Source: http://unitstep.net/blog/2008/08/02/decoding-google-maps-encoded-polylines-using-php/

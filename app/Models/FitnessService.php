@@ -7,6 +7,7 @@ class FitnessService extends Model
 {
     use Sluggable;
     protected $guarded = ['id'];
+    protected $fillable = ['refresh_token', 'access_token', 'expires_at'];
     public $timestamps = false;
     
     public function sluggable()
