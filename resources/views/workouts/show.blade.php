@@ -96,36 +96,18 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <h3>{{ ucfirst(trans('jrl.description')) }}</h3>
         {!! $workout->description !!}
     </div>
     @if ( $workout->lon_start && $workout->lat_start )
-        <div class="col-lg-2">
-            <h3>{{ ucfirst(trans('jrl.start')) }}</h3>
-            <dl>
-                <dt>{{ ucfirst(trans('jrl.longitude')) }}</dt>
-                <dd>{{ $workout->lon_start }}</dd>
-                <dt>{{ ucfirst(trans('jrl.latitude')) }}</dt>
-                <dd>{{ $workout->lat_start }}</dd>
-            </dl>
-            @if ($workout->lon_finish && $workout->lat_finish)
-            <h3>{{ ucfirst(trans('jrl.finish')) }}</h3>
-            <dl>
-                <dt>{{ ucfirst(trans('jrl.longitude')) }}</dt>
-                <dd>{{ $workout->lon_finish }}</dd>
-                <dt>{{ ucfirst(trans('jrl.latitude')) }}</dt>
-                <dd>{{ $workout->lat_finish }}</dd>
-            </dl>
-            @endif
-        </div>
         <input type="hidden" id="lat_start" value="{{ $workout->lat_start }}" />
         <input type="hidden" id="lon_start" value="{{ $workout->lon_start }}" />
         <input type="hidden" id="lat_finish" value="{{ $workout->lat_finish }}" />
         <input type="hidden" id="lon_finish" value="{{ $workout->lon_finish }}" />
         <div class="col-lg-6" style="height: 300px;" id="map_canvas"></div>
     @else
-        <div class="col-lg-8"><div class="alert alert-info">{{ trans('jrl.no_known_coordinates')}}</div></div>
+        <div class="col-lg-6"><div class="alert alert-info">{{ trans('jrl.no_known_coordinates')}}</div></div>
     @endif        
 </div>
 @endsection

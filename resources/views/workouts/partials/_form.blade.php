@@ -103,31 +103,16 @@
 </div>
 <div class="row">
     <div class="col-lg-6">
-        <h3>{{ ucfirst(trans('jrl.coordinates')) }}</h3>
+        <h3>{!! ucfirst(trans('jrl.coordinates')) !!}</h3>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-6" id="map_canvas" style="min-height: 400px;"></div>
-</div>
-<div class="row">
-    <div class="col-lg-6">
-        <div class="form-group">
-            {!! Form::label('lon_start', ucfirst(trans('jrl.longitude')).' '.trans('jrl.start').':',['class' => 'control-label']) !!}
-            {!! Form::text('lon_start',null,['class' => 'form-control']) !!}
-        </div>
-        <div class="form-group">
-            {!! Form::label('lat_start', ucfirst(trans('jrl.latitude')).' '.trans('jrl.start').':',['class' => 'control-label']) !!}
-            {!! Form::text('lat_start',null,['class' => 'form-control']) !!}
-        </div>
-        <div class="form-group">
-            {!! Form::label('lon_finish', ucfirst(trans('jrl.longitude')).' '.trans('jrl.finish').':',['class' => 'control-label']) !!}
-            {!! Form::text('lon_finish',null,['class' => 'form-control']) !!}
-        </div>
-        <div class="form-group">
-            {!! Form::label('lat_finish', ucfirst(trans('jrl.latitude')).' '.trans('jrl.finish').':',['class' => 'control-label']) !!}
-            {!! Form::text('lat_finish',null,['class' => 'form-control']) !!}
-        </div>
-    </div>
+    {!! Form::hidden('lon_start',null,['id' => 'lon_start']) !!}
+    {!! Form::hidden('lat_start',null,['id' => 'lat_start']) !!}
+    {!! Form::hidden('lon_finish',null,['id' => 'lon_finish']) !!}
+    {!! Form::hidden('lat_finish',null,['id' => 'lat_finish']) !!}
+
 </div>
 <script type="text/javascript">
     /*
