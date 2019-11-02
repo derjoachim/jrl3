@@ -107,7 +107,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6" id="map_canvas" style="min-height: 400px;"></div>
+    <div class="col-lg-6" id="map_canvas_lg"></div>
     {!! Form::hidden('lon_start',null,['id' => 'lon_start']) !!}
     {!! Form::hidden('lat_start',null,['id' => 'lat_start']) !!}
     {!! Form::hidden('lon_finish',null,['id' => 'lon_finish']) !!}
@@ -115,12 +115,8 @@
 
 </div>
 <script type="text/javascript">
-    /*
-     * @TODO: Retrieve data from Strava
-     */
     $(document).ready(function() {
-        AddGMToHead();
-        var arrWps = new Array();     
+        var arrWps = new Array();
         
         $("#lon_start","#lat_start").on("change", function(event) {
             drawMap(new Array(),'map_canvas');

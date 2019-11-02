@@ -33,7 +33,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6" id="map_canvas" style="min-height: 400px;">
+    <div class="col-lg-6" id="map_canvas">
     </div>
 </div>
 <div class="row">
@@ -61,7 +61,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-	AddGMToHead();
+
 	$("#lon_start").on("change", function(event) {
         drawMap(new Array(),'map_canvas');
 	});

@@ -73,7 +73,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <div id="map_canvas" style="height: 550px;"></div>
+          <div id="map_canvas_lg"></div>
         </div>
     </div>
   </div>
@@ -86,7 +86,7 @@ $(document).ready(function(){
 });
 
 $('#myModal').on('show.bs.modal', function (e) {
-    setTimeout(function() {drawMap(new Array(), 'map_canvas');},700);
+    setTimeout(function() {drawMap(new Array(), 'map_canvas_lg');},700);
 });    
 </script>
 @endif

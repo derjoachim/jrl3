@@ -4,10 +4,11 @@ use App\Http\Controllers\Controller;
 use Config;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Log;
 
 use Illuminate\Http\Request;
 
-class ForecastController extends Controller {
+final class ForecastController extends Controller {
     /**
      * Fetches weather data based on workout form request
      * @param Request $request
@@ -29,7 +30,7 @@ class ForecastController extends Controller {
         if($res->getStatusCode() == 200) {
             return $res->getBody()->getContents();
         } else {
-            // TODO: error handling
+            Log::error($res->getStatusCode(). ' - ' . $res->getMessage());
         }      
     }
     
