@@ -3,6 +3,7 @@
 use Config;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Log;
 
 use Illuminate\Http\Request;
 
