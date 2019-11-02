@@ -1,13 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use Config;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Log;
-
+use Illuminate\Support\Facades\{Log,Config};
 use Illuminate\Http\Request;
 
-class ForecastController extends Controller {
+final class ForecastController extends Controller {
     /**
      * Fetches weather data based on workout form request
      * @param Request $request
