@@ -1,11 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Config;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Log;
-
+use Illuminate\Support\Facades\{Log,Config};
 use Illuminate\Http\Request;
 
 final class ForecastController extends Controller {
@@ -30,8 +27,8 @@ final class ForecastController extends Controller {
         if($res->getStatusCode() == 200) {
             return $res->getBody()->getContents();
         } else {
-            Log::error($res->getStatusCode(). ' - ' . $res->getMessage());
-        }      
+            Log::alert("Unexpected response from forecast.io:" . $res->getStatusCode() . ' '. $res->getReasonPhrase());
+        }
     }
     
     

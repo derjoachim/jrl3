@@ -9,12 +9,11 @@
 	<title>Joachims Running Log - Third Movement</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&subset=latin-ext" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('/css/leaflet.css')}}">
-	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
-    <script src="/js/manifest.js"></script>
-    <script src="/js/vendor.js"></script>
-    <script src="/js/app.js"></script></head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ mix('js/all.js') }}"></script>
+</head>
 <body>
     <nav class="navbar navbar-fixed-top">
         <div class="container-fluid">
