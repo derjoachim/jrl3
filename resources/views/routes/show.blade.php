@@ -81,13 +81,13 @@
 @if ( $route->lon_start && $route->lat_start)
 
 <script type="text/javascript">
-$(document).ready(function(){
-    AddGMToHead();
+$('#myModal').on('show.bs.modal', function (e) {
+    // ?
 });
 
-$('#myModal').on('show.bs.modal', function (e) {
-    setTimeout(function() {drawMap(new Array(), 'map_canvas_lg');},700);
-});    
+$(document).ready(function() {
+    renderEmptyMap("map_canvas_lg", "lon_start", "lat_start");
+});
 </script>
 @endif
 

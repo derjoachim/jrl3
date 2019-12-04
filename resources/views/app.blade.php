@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&subset=latin-ext" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('/css/leaflet.css')}}">
 	<link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    <script type="text/javascript" src="{{ asset('js/leaflet.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="{{ mix('js/all.js') }}"></script>

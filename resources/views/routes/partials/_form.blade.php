@@ -61,16 +61,16 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+	    $("#lon_start").on("change", function(event) {
+            // draw Map(new Array(),'map_canvas');
+	    });
+	    $("#lat_start").on("change", function(event) {
+            // draw Map(new Array(),'map_canvas');
+	    });
+	    if(!($('#lat_start').val()) || !($('#lon_start').val())) {
+            getcoords();
+     	}
+        renderEmptyMap("map_canvas", "lon_start", "lat_start");
 
-	$("#lon_start").on("change", function(event) {
-        drawMap(new Array(),'map_canvas');
-	});
-	$("#lat_start").on("change", function(event) {
-        drawMap(new Array(),'map_canvas');
-	});
-	if(!($('#lat_start').val()) || !($('#lon_start').val())) {
-        getcoords();
- 	}
-	setTimeout(function() {drawMap(new Array(),'map_canvas');},700);
     });
 </script>

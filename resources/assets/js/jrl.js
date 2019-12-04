@@ -26,31 +26,12 @@ function getcoords(prefix) {
     }
 }
 
-/*
- * Fills the data for the green start marker
- * @returns {Boolean}
- */
-function fillStartMarker() {
-    if ($("#lat_start").val() && $("#lon_start").val()) {
-        return new Array($("#lat_start").val(), $("#lon_start").val(), 'green', 'Start');
-    }
-    return new Array();
-}
-
-/*
- * Fills the data for the red stop marker
- * @returns {undefined}
- */
-function fillStopMarker() {
-    if ($("#lat_finish").val() && $("#lon_finish").val()) {
-        return new Array($("#lat_finish").val(), $("#lon_finish").val(), 'red', 'Finish');
-    }
-    return new Array();
-}
-
 
 /**
  * Render a full map based on a workout
+ *
+ * Get a (workout) id, render a polyline based on the waypoints, draw start and stop markers and fit the map to the
+ * canvas.
  *
  * @param int id ID of the workout
  * @param string canvas_elem the canvas element to be rendered
@@ -63,13 +44,8 @@ function renderMap(id, canvas_elem, start_lat, start_lon) {
         "method": "POST",
         "format": "json"
     }).success(function (data) {
-        var arrWps = JSON.parse(data);
-        var mymap = L.map(canvas_elem);
-        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-        var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
-        var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 18, attribution: osmAttrib});
-        mymap.setView(new L.LatLng($("#"+start_lat).val(), $("#"+start_lon).val()), 14);
-        mymap.addLayer(osm);
+        var mymap = prepareMap(canvas_elem,start_lat,start_lon)
+
         var startIcon = new L.icon({
             iconUrl: "/img/marker-icon-green.png",
             iconSize: [40, 40]
@@ -81,88 +57,54 @@ function renderMap(id, canvas_elem, start_lat, start_lon) {
 
         new L.marker([$("#lat_start").val(), $("#lon_start").val()], {icon: startIcon}).addTo(mymap);
         new L.marker([$("#lat_finish").val(), $("#lon_finish").val()], {icon: finishIcon}).addTo(mymap);
-        var polyline = new L.polyline(arrWps, {color: 'red'}).addTo(mymap);
+        var polyline = new L.polyline(data, {color: 'red'}).addTo(mymap);
         mymap.fitBounds(polyline.getBounds());
     });
 }
 
-/*
- * Draws map based on longitude and latitude
- * @param array arrMarker: array of markers to be drawn
- * @param elemid: id of the element
- * @param prefix string: prefix
+/**
+ * Render an empty map with a single marker
+ *
+ * @param canvas_elem
+ * @param start_lat
+ * @param start_lon
  */
-function drawMap(arrWps, elemid, prefix) {
-    var arrMarker = new Array();
-    arrMarker[0] = fillStartMarker();
-    arrMarker[1] = fillStopMarker();
-
-    if (String(prefix).length === 0) {
-        prefix = '';
-    }
-    var lon = arrMarker[0][1];
-    var lat = arrMarker[0][0];
-
-    /*
-    var myOptions = {
-        zoom: 16,
-        center: new google.maps.LatLng(lat, lon),
-        streetViewControl: true,
-        mapTypeControl: false,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var infowindow = new google.maps.InfoWindow();
-    var map = new google.maps.Map(document.getElementById(elemid), myOptions);
-    $.each(arrMarker, function (elem, val) {
-        var tmpLatLng = new google.maps.LatLng(Number(val[0]), Number(val[1]));
-        var marker = new google.maps.Marker({
-            map: map,
-            draggable: true,
-            icon: "http://maps.google.com/mapfiles/ms/icons/" + val[2] + ".png",
-            position: tmpLatLng
-        });
-
-        google.maps.event.addListener(marker, 'click', (function (marker) {
-            return function () {
-                infowindow.setContent(val[3]);
-                infowindow.open(map, marker);
-            }
-        })(marker));
-        google.maps.event.addListener(marker, 'mouseup', function (e) {
-            var mypos = e.latLng;
-            $('#' + prefix + 'lat_start').val(mypos.lat());
-            $('#' + prefix + 'lon_start').val(mypos.lng());
-            map.setCenter(mypos);
-        });
-
+function renderEmptyMap(canvas_elem, start_lat, start_lon)
+{
+    var mymap = prepareMap(canvas_elem, start_lat, start_lon);
+    var startIcon = new L.icon({
+        iconUrl: "/img/marker-icon-green.png",
+        iconSize: [40, 40]
     });
-
-    if (arrWps.length > 0) {
-        var arrRoute = new Array();
-        var bounds = new google.maps.LatLngBounds();
-        $.each(arrWps, function (elem, val) {
-            var tmpLatLng = new google.maps.LatLng(Number(val[0]), Number(val[1]));
-            arrRoute.push(tmpLatLng);
-            bounds.extend(tmpLatLng);
-        });
-        var myRoute = new google.maps.Polyline({
-            path: arrRoute,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        });
-        map.setCenter(bounds.getCenter());
-        map.fitBounds(bounds);
-        myRoute.setMap(map);
-     }*/
-
+    new L.marker([$("#"+start_lat).val(), $("#"+start_lon).val()], {icon: startIcon}).addTo(mymap);
 }
 
-/*
- * 
- * @param {type} num
- * @returns {arr|Array}
+/**
+ * Render an empty map on canvas_elem based on start latitude and longitude
+ *
+ * @param canvas_elem
+ * @param start_lat
+ * @param start_lon
+ */
+function prepareMap(canvas_elem, start_lat, start_lon) {
+    console.log("Poging 2: " + $("#"+start_lat).val() + " -- " +$("#"+start_lon).val());
+
+    var mymap = L.map(canvas_elem);
+    var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+    var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 18, attribution: osmAttrib});
+    mymap.setView(new L.LatLng($("#"+start_lat).val(), $("#"+start_lon).val()), 14);
+    mymap.addLayer(osm);
+    return mymap;
+}
+
+
+
+
+/**
+ * Collect parameters and do an AJAX call that basically wraps around the weather.io APi
+ *
+ * @returns {boolean|void}
  */
 function fetch_weather() {
     if ($('#date').val() == '') {
@@ -215,17 +157,14 @@ function deg2compass(num) {
  * @returns {arrWps|Array}
  */
 function getWaypoints(id) {
-    arrWps = new Array();
     $.getJSON("/waypoints", {
         "id": id,
         "method": "POST",
         "format": "json"
     }).done(function (data) {
-        $.each(data, function (key, i) {
-            arrWps.push(new Array(i.lat, i.lon));
-        });
+        return data;
     });
-    return arrWps;
+    return false;
 }
 
 /*
