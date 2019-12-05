@@ -49,7 +49,7 @@
                 <tr>
                     <td>{{ date('d-m-Y', strtotime($workout->date)) }}
                     <td><a href="{{ route('workouts.show', $workout->slug)}}">{{ $workout->name }}</a></td>
-                    <td>{{ $workout->route['name'] }}</td>
+                    <td>{{ $workout->route['name'] ?? ''}}</td>
                     <td>{{ $workout->distance }} </td>
                     <td>{{ $workout->getTime() }}</td>
                 </tr>
