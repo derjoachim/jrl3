@@ -7,14 +7,14 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
         <h3>{{ ucfirst(trans('jrl.general_data')) }}</h3>
+    </div>
+    <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('name', ucfirst(trans('jrl.name')) .':',['class' => 'control-label']) !!}
             {!! Form::text('name',null,['class' => 'form-control input-lg']) !!}
         </div>
-    </div>
-    <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('date', ucfirst(trans('app.date')) .':',['class' => 'control-label']) !!}
             {!! Form::input('date','date',$date,['class' => 'form-control']) !!}
@@ -24,9 +24,15 @@
             {!! Form::text('start_time',null,['class' => 'form-control']) !!}
         </div>
     </div>
+    <div class="col-lg-6" id="map_canvas">
+        {!! Form::hidden('lon_start',null,['id' => 'lon_start']) !!}
+        {!! Form::hidden('lat_start',null,['id' => 'lat_start']) !!}
+        {!! Form::hidden('lon_finish',null,['id' => 'lon_finish']) !!}
+        {!! Form::hidden('lat_finish',null,['id' => 'lat_finish']) !!}
+    </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <h3>{{ ucfirst(trans('app.time')) }} {{ trans('app.and') }} {{ trans('jrl.distance') }}</h3>
         <div class="form-group">
             {!! Form::label('route_id', ucfirst(trans_choice('jrl.routes',1)).':',['class' => 'control-label']) !!}
@@ -41,9 +47,7 @@
             {!! Form::text('time_in_seconds',(isset($t) ? $t : null),['class' => 'form-control']) !!}
         </div>
     </div>
-</div>
-<div class="row">
-    <div class='col-lg-6'>
+    <div class='col-lg-4'>
         <h3>{{ ucfirst(trans('jrl.weather')) }}</h3>
         <a class="btn btn-warning" id="btn-weather"><i class="icon glyphicon glyphicon-cloud"></i> {{ ucfirst(trans('jrl.fetch')) }}</a>
         <div class="form-group">
@@ -67,9 +71,7 @@
             {!! Form::text('pressure',null,['class' => 'form-control']) !!}
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <h3>{{ ucfirst(trans('jrl.vibe')) }}</h3>
         <div class="form-group">
             {!! Form::label('finished', ucfirst(trans('jrl.finished')).':',['class' => 'control-label']) !!}
@@ -94,40 +96,31 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('description', ucfirst(trans('jrl.description')).':',['class' => 'control-label']) !!}
             {!! Form::textarea('description', null, ['class' => 'form-control ckeditor', 'rows' => '5']) !!}
         </div>
     </div>
 </div>
+{{--<div class="row">--}}
+{{--    <div class="col-lg-6">--}}
+{{--        <h3>{!! ucfirst(trans('jrl.coordinates')) !!}</h3>--}}
+{{--    </div>--}}
+{{--</div>--}}
 <div class="row">
-    <div class="col-lg-6">
-        <h3>{!! ucfirst(trans('jrl.coordinates')) !!}</h3>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6" id="map_canvas" style="min-height: 400px;"></div>
-    {!! Form::hidden('lon_start',null,['id' => 'lon_start']) !!}
-    {!! Form::hidden('lat_start',null,['id' => 'lat_start']) !!}
-    {!! Form::hidden('lon_finish',null,['id' => 'lon_finish']) !!}
-    {!! Form::hidden('lat_finish',null,['id' => 'lat_finish']) !!}
 
 </div>
 <script type="text/javascript">
-    /*
-     * @TODO: Retrieve data from Strava
-     */
     $(document).ready(function() {
-        AddGMToHead();
-        var arrWps = new Array();     
-        
         $("#lon_start","#lat_start").on("change", function(event) {
-            drawMap(new Array(),'map_canvas');
+            // drawMap(new Array(),'map_canvas');
+            //TODO
         });
 
         $("#lon_finish","#lat_finish").on("change", function(event) {
-            drawMap(new Array(),'map_canvas');
+            //drawMap(new Array(),'map_canvas');
+            //TODO
         });
         
         // If lat/lon is empty, try by finding the coordinates
@@ -135,10 +128,7 @@
             getcoords();
         }
         
-        @if (isset($workout) and $workout->id > 0 )
-        arrWps = getWaypoints({{ $workout->id }});
-        @endif
-        
+
         $("#route_id").on("change",function(elem){
             if($("#route_id").val() == "") {
                 $("#distance").val("");
@@ -160,12 +150,12 @@
             });
         });
 
-        setTimeout(function() {
-            drawMap(arrWps,'map_canvas');
-        },700);
-
         $('#btn-weather').on("click", function(event){
             fetch_weather();
         });
+
+        @if (isset($workout) and $workout->id > 0 )
+        renderMap({{$workout->id}}, "map_canvas", "lon_start", "lat_start");
+        @endif
     });   
 </script>

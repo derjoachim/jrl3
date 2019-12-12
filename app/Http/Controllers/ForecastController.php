@@ -28,7 +28,7 @@ final class ForecastController extends Controller {
             return $res->getBody()->getContents();
         } else {
             Log::alert("Unexpected response from forecast.io:" . $res->getStatusCode() . ' '. $res->getReasonPhrase());
-        }      
+        }
     }
     
     
