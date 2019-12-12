@@ -48,11 +48,13 @@ function renderMap(id, canvas_elem, start_lat, start_lon) {
 
         var startIcon = new L.icon({
             iconUrl: "/img/marker-icon-green.png",
-            iconSize: [40, 40]
+            iconSize: [50, 40],
+            iconAnchor: [13,18]
         });
         var finishIcon = new L.icon({
             iconUrl: "/img/marker-icon-red.png",
-            iconSize: [40, 40]
+            iconSize: [50, 40],
+            iconAnchor: [13,18]
         });
 
         new L.marker([$("#lat_start").val(), $("#lon_start").val()], {icon: startIcon}).addTo(mymap);
@@ -74,7 +76,8 @@ function renderEmptyMap(canvas_elem, start_lat, start_lon)
     var mymap = prepareMap(canvas_elem, start_lat, start_lon);
     var startIcon = new L.icon({
         iconUrl: "/img/marker-icon-green.png",
-        iconSize: [40, 40]
+        iconSize: [50, 40],
+        iconAnchor: [13,18]
     });
     new L.marker([$("#"+start_lat).val(), $("#"+start_lon).val()], {icon: startIcon}).addTo(mymap);
 }
@@ -149,34 +152,4 @@ function deg2compass(num) {
     val = Math.round((parseInt(num) / 22.5) + .5);
     arr = new Array("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW");
     return arr[(val % 16)];
-}
-
-/*
- * Retrieve all waypoints for a workout
- * @param {integer} id
- * @returns {arrWps|Array}
- */
-function getWaypoints(id) {
-    $.getJSON("/waypoints", {
-        "id": id,
-        "method": "POST",
-        "format": "json"
-    }).done(function (data) {
-        return data;
-    });
-    return false;
-}
-
-/*
- * Opens a Jquery modal
- * @param id: ID of the modal element
- * @param url: URL of the route to be opened into the modal
- */
-function jqmodal(elem, yeoldeurl) {
-    $.ajax({
-        type: "GET",
-        url: yeoldeurl
-    }).done(function (html) {
-        $('#' + elem).html(html);
-    });
 }
