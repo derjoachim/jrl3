@@ -1,15 +1,6 @@
 @extends('app')
  
 @section('content')
-@if ($workout->lon_start && $workout->lat_start)
-<script type="text/javascript" defer>
-    $(document).ready(function() {
-        AddGMToHead();
-        var arrWps = getWaypoints({{ $workout->id }});
-        setTimeout(function() {drawMap(arrWps,'map_canvas');},700);
-    });
-</script>
-@endif
 <div class="row">
     <div class="col-lg-9">
         <div class="page-header">
@@ -105,9 +96,17 @@
         <input type="hidden" id="lon_start" value="{{ $workout->lon_start }}" />
         <input type="hidden" id="lat_finish" value="{{ $workout->lat_finish }}" />
         <input type="hidden" id="lon_finish" value="{{ $workout->lon_finish }}" />
-        <div class="col-lg-6" style="height: 300px;" id="map_canvas"></div>
+        <div class="col-lg-6"  id="map_canvas"></div>
     @else
         <div class="col-lg-6"><div class="alert alert-info">{{ trans('jrl.no_known_coordinates')}}</div></div>
     @endif        
 </div>
+@if ($workout->lon_start && $workout->lat_start)
+    <script type="text/javascript" defer>
+        $(document).ready(function() {
+            renderMap({{$workout->id}}, "map_canvas", "lon_start", "lat_start");
+        });
+    </script>
+@endif
+
 @endsection

@@ -182,8 +182,10 @@ class WorkoutsController extends Controller {
     public function waypoints(Request $request)
     {
         $id = $request->get('id');
-        return Workout::find($id)->waypoints;
+        return response()->json(Workout::find($id)->waypoints);
     }
+    
+    
     /*
      * Parse an uploaded .gpx file into a workout and its trackpoints.
      * 

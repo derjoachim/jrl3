@@ -1,7 +1,6 @@
 /node_modules
 /public/storage
 /public/hot
-/public/mix-manifest.json
 /public/build/
 /public/css/
 /public/fonts/
@@ -18,3 +17,4 @@ Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
+/public/mix-manifest.json

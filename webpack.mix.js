@@ -12,5 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-    .scripts(['resources/assets/js/jrl.js'], 'public/js/all.js').version()
-   .less('resources/assets/less/app.less', 'public/css').version();
+    .extract(['leaflet','bootstrap'])
+    .less('resources/assets/less/app.less', 'public/css').version()
+    .copy('resources/assets/css/leaflet.css', 'public/css')
+    .scripts(['resources/assets/js/jrl.js'], 'public/js/all.js').version();

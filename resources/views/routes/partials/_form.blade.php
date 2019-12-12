@@ -33,7 +33,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6" id="map_canvas" style="min-height: 400px;">
+    <div class="col-lg-6" id="map_canvas">
     </div>
 </div>
 <div class="row">
@@ -61,16 +61,16 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-	AddGMToHead();
-	$("#lon_start").on("change", function(event) {
-        drawMap(new Array(),'map_canvas');
-	});
-	$("#lat_start").on("change", function(event) {
-        drawMap(new Array(),'map_canvas');
-	});
-	if(!($('#lat_start').val()) || !($('#lon_start').val())) {
-        getcoords();
- 	}
-	setTimeout(function() {drawMap(new Array(),'map_canvas');},700);
+	    $("#lon_start").on("change", function(event) {
+            // draw Map(new Array(),'map_canvas');
+	    });
+	    $("#lat_start").on("change", function(event) {
+            // draw Map(new Array(),'map_canvas');
+	    });
+	    if(!($('#lat_start').val()) || !($('#lon_start').val())) {
+            getcoords();
+     	}
+        renderEmptyMap("map_canvas", "lon_start", "lat_start");
+
     });
 </script>
