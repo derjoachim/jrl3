@@ -169,7 +169,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-        CodeToad\Strava\StravaServiceProvider::class,
+//        CodeToad\Strava\StravaServiceProvider::class,
         /*
          * Package Service Providers...
          */

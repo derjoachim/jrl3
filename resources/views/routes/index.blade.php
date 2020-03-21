@@ -26,7 +26,7 @@
             @foreach( $routes as $route )
                 <tr>
                     <td/>
-                    <td><a href="{{ route('routes.show', $route->slug)}}">{{ $route->name }}</a></td>
+                    <td><a href="{{ route('routes.show', ['route' => $route->slug])}}">{{ $route->name }}</a></td>
                     <td>{{ $route->distance }}</td>
                     <td>{{ $route->lon_start }} - {{ $route->lat_start }}</td>
                     <td>{{ $route->lon_finish }} - {{ $route->lat_finish }}</td>
@@ -38,7 +38,7 @@
                     <td>
                         <div class="pull-right">
                             {!! Form::open(array('id' => 'form-delete-' . $route->id, 'class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('routes.destroy', $route->slug))) !!}
-                            <a href="{{ route('routes.edit', ['slug' => $route->slug]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                            <a href="{{ route('routes.edit', ['route' => $route->slug]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
                             <a href="#" onclick="dothedeletethingy({{ $route->id }});"><i class="glyphicon glyphicon-trash"></i></a>
                             {!! Form::close() !!}
                         </div>
