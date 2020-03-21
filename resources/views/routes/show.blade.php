@@ -17,7 +17,7 @@
     </div>
     <div class="col-lg-3">
         <div class="btn-group" role="group" >
-            <a href="{{ route('routes.edit', ['slug' => $route->slug]) }}" class="btn btn-default" role="button">
+            <a href="{{ route('routes.edit', ['route' => $route->slug]) }}" class="btn btn-default" role="button">
                 <i class="glyphicon glyphicon-pencil"></i> {{ ucfirst(trans('app.edit')) }}
             </a>
         </div>
