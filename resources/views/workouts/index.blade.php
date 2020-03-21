@@ -31,7 +31,7 @@
                     <td>
                         <div class="pull-right">
                         {!! Form::open(array('id' => 'form-delete-'.$workout->id, 'class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
-                            <a href="{{ route('workouts.edit', ['slug' => $workout->slug]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                            <a href="{{ route('workouts.edit', ['workout' => $workout->slug]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
                             <a href="#" onclick="dothedeletethingy({{ $workout->id }});"><i class="glyphicon glyphicon-trash"></i></a>
                             {!! Form::close() !!}
                         </div>
