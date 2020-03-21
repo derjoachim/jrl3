@@ -3,8 +3,8 @@
 use Config;
 use Carbon\Carbon;
 use DB;
-use Input;
 use Strava;
+//use Illuminate\Support\Facades\Request;
 use App\Repositories\StravaServiceRepository;
 use App\Models\{Route,Workout};
 use Illuminate\Http\Request;
@@ -114,7 +114,7 @@ final class StravaController extends Controller
         $arSrv = array(
             'workout_id' => $workout_id,
             'fitness_service_id' => $this->fs->service_id,
-            'fitness_service_remote_identifier' => Input::get('id'),
+            'fitness_service_remote_identifier' => $request->input('id'),
             'timestamp' => Carbon::now()
         );
         DB::table('workouts_fitness_services')->insert($arSrv);

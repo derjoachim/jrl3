@@ -33,7 +33,7 @@
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}
                             <a href="/logs/{{ $log->id }}/download" target="_blank"><i class="glyphicon glyphicon-download"></i></a>&nbsp;
-                            <a href="{{ route('logs.edit', ['id' => $log->id]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                            <a href="{{ route('logs.edit', ['log' => $log->id]) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
                             <a href="#" onclick="dothedeletethingy({{ $log->id }});"><i class="glyphicon glyphicon-trash"></i></a>
                             {!! Form::close() !!}
                         </div>
