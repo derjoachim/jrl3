@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a338adfb029c08120335cf3414a9c62",
+    "content-hash": "828479311b33b77bc3b1627e90e7dc06",
     "packages": [
         {
             "name": "barryvdh/laravel-snappy",
@@ -136,6 +136,53 @@
                 "slugify"
             ],
             "time": "2019-12-14T13:04:14+00:00"
+        },
+        {
+            "name": "codetoad/strava",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RichieMcMullen/laravel-strava.git",
+                "reference": "3224418d80839facab2710cc37827c23e975c014"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RichieMcMullen/laravel-strava/zipball/3224418d80839facab2710cc37827c23e975c014",
+                "reference": "3224418d80839facab2710cc37827c23e975c014",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3",
+                "illuminate/support": "^6.12"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "CodeToad\\Strava\\StravaServiceProvider"
+                    ],
+                    "aliases": {
+                        "Strava": "CodeToad\\Strava\\StravaFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CodeToad\\Strava\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Richie McMullen",
+                    "email": "richiemcmullen007@gmail.com"
+                }
+            ],
+            "description": "A laravel package to access data from the Strava API.",
+            "time": "2020-01-22T17:44:17+00:00"
         },
         {
             "name": "cviebrock/eloquent-sluggable",
@@ -5752,7 +5799,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "codetoad/strava": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
