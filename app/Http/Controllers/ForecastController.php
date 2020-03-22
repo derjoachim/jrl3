@@ -57,8 +57,8 @@ final class ForecastController extends Controller {
      * 
      * @return type
      */
-    protected function _getKey()
+    private function _getKey()
     {
-        return env('DARKSKY_NET_API_KEY');
+        return Config::get('services.forecast_io.key');//env('DARKSKY_NET_API_KEY');
     }
 }
