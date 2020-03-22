@@ -34,5 +34,9 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    
+    'forecast_io' => [
+        'key' => env('DARKSKY_NET_API_KEY')
+    ]
 
 ];
