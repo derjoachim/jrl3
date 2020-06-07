@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 
-class Workout extends Model {
+final class Workout extends Model {
 
     protected $guarded = ['id'];
     
@@ -27,19 +27,19 @@ class Workout extends Model {
     {
         return 'slug';
     }
-    
-    public function getEntryAttribute() 
-    {
-        $dt = Carbon::parse($this->attributes['date']);
-        $strdt = $dt->year.'-'.($dt->month < 10 ? '0': '').$dt->month.'-'.
-            ($dt->day < 10 ? '0' : '').$dt->day;
-        return $strdt. ' ' . $this->name;
-    }
-    
-    public function setDateAttribute($date) 
-    {
-        $this->attributes['date'] = Carbon::createFromFormat('Y-m-d', $date);
-    }
+//
+//    public function getEntryAttribute()
+//    {
+//        $dt = Carbon::parse($this->attributes['date']);
+//        $strdt = $dt->year.'-'.($dt->month < 10 ? '0': '').$dt->month.'-'.
+//            ($dt->day < 10 ? '0' : '').$dt->day;
+//        return $strdt. ' ' . $this->name;
+//    }
+//
+//    public function setDateAttribute($date)
+//    {
+//        $this->attributes['date'] = Carbon::createFromFormat('Y-m-d', $date);
+//    }
 
     /*
      * Times are saved in seconds. This method converts this value in a readable 
@@ -53,7 +53,7 @@ class Workout extends Model {
         $t = ($secs > 3600 ? 'H:' : '') . 'i:s';
         return gmdate($t, $secs);
     }
-    
+
     public function setTimeInSecondsAttribute($time)
     {
         $this->attributes['time_in_seconds'] = $this->_time_to_seconds($time);
@@ -83,7 +83,7 @@ class Workout extends Model {
     {
         return $this->hasOne('App\Models\WorkoutsFitnessServices');
     }
-    
+
     private function _time_to_seconds($time)
     {
         $arTime = array_reverse(explode(':',$time));

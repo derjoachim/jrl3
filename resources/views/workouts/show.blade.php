@@ -76,11 +76,11 @@
             </dd>
             <dt>{{ ucfirst(trans('jrl.mood')) }}:</dt>
             <dd>{{ $workout->mood }}</dd>
-            <dt>{{ ucfirst(trans('jrl.health')) }}</dt>
+            <dt>{{ ucfirst(trans('jrl.health')) }}:</dt>
             <dd>{{ $workout->health }}</dd>
-            <dt>{{ ucfirst(trans('jrl.avg_hr')) }}</dt>
+            <dt>{{ ucfirst(trans('jrl.avg_hr')) }}:</dt>
             <dd>{{ $workout->avg_hr }}</dd>
-            <dt>{{ ucfirst(trans('jrl.max_hr')) }}</dt>
+            <dt>{{ ucfirst(trans('jrl.max_hr')) }}:</dt>
             <dd>{{ $workout->max_hr }}</dd>
 
         </dl>

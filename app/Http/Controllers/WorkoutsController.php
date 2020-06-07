@@ -11,14 +11,14 @@ use Illuminate\Http\Request;
 use Redirect;
 use Validator;
 
-class WorkoutsController extends Controller {
+final class WorkoutsController extends Controller {
 
     protected $rules = [
-        'date' => ['required','date'],
-        'name' => ['required','min:3'],
-        'description' => ['required','min:10'],
-        'avg_hr' => ['numeric', 'digits:3'],
-        'max_hr' => ['numeric', 'digits:3'],
+        'date' => 'required|date',
+        'name' => 'required|min:3',
+        'description' => 'required|min:10',
+        'avg_hr' => 'nullable|numeric|digits:3',
+        'max_hr' => 'nullable|numeric|digits:3',
     ];
 
     /**
