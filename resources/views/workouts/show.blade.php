@@ -78,10 +78,14 @@
             <dd>{{ $workout->mood }}</dd>
             <dt>{{ ucfirst(trans('jrl.health')) }}:</dt>
             <dd>{{ $workout->health }}</dd>
+            @if ($workout->avg_hr)
             <dt>{{ ucfirst(trans('jrl.avg_hr')) }}:</dt>
             <dd>{{ $workout->avg_hr }}</dd>
+            @endif
+            @if ($workout->max_hr)
             <dt>{{ ucfirst(trans('jrl.max_hr')) }}:</dt>
             <dd>{{ $workout->max_hr }}</dd>
+            @endif
 
         </dl>
     </div>
