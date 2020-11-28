@@ -207,7 +207,7 @@
             "dist": {
                 "type": "path",
                 "url": "/home/joachim/src/laravel-strava",
-                "reference": "c18615bd2dbcb893f2599c0afbe59db754c024d5"
+                "reference": "dc3aa170793fcb23ac2e96979068f914890c02fc"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3|^7.0.1",
