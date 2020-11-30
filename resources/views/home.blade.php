@@ -42,6 +42,7 @@
                     <th>{{ ucfirst(trans_choice('jrl.routes',1)) }}</th>
                     <th>{{ ucfirst(trans('jrl.distance')) }}</th>
                     <th>{{ ucfirst(trans('jrl.finish_time')) }}</th>
+                    <th>{{ ucfirst(trans('jrl.min/km')) }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +53,7 @@
                     <td>{{ $workout->route['name'] ?? ''}}</td>
                     <td>{{ $workout->distance }} </td>
                     <td>{{ $workout->getTime() }}</td>
+                    <td>{{ $workout->getAvg() }}</td>
                 </tr>
                 @endforeach
             </tbody>

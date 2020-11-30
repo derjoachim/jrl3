@@ -9,7 +9,7 @@
             </h2>
             <h3>{{ $workout->distance }} {{ trans('jrl.kilometers')}} 
                 @if ( $workout->finished == '1')
-                - {{ $t }}
+                - {{ $workout->getTime() }}
                 @endif
             </h3>    
         </div>
@@ -44,7 +44,9 @@
                 <dd>{{ $route }}</dd>
             @endunless
             <dt>{{ ucfirst(trans('jrl.finish_time')) }}:</dt>
-            <dd>{{ $t }}</dd>
+            <dd>{{ $workout->getTime() }}</dd>
+            <dt>{{ ucfirst(trans('jrl.average_time')) }}:</dt>
+            <dd>{{ $workout->getAvg() }}</dd>
             <dt>{{ ucfirst(trans('jrl.distance')) }}:</dt>
             <dd>{{ $workout->distance }}</dd>
         </dl>

@@ -13,6 +13,7 @@
             <th>{{ ucfirst(trans_choice('jrl.routes',2)) }}</th>
             <th>{{ ucfirst(trans('jrl.distance')) }}</th>
             <th>{{ ucfirst(trans('jrl.finish_time')) }}</th>
+            <th>{{ ucfirst(trans('jrl.min/km')) }}</th>
             <th></th>
         </thead>
         <tfoot>
@@ -28,6 +29,7 @@
                     <td>{{ $workout->route }}</td>
                     <td>{{ $workout->distance }} </td>
                     <td>{{ $workout->time }}</td>
+                    <td>{{ $workout->getAvg() }}</td>
                     <td>
                         <div class="pull-right">
                         {!! Form::open(array('id' => 'form-delete-'.$workout->id, 'class'=>'form-inline', 'method'=>'DELETE', 'route'=> array('workouts.destroy', $workout->slug))) !!}
