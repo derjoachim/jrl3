@@ -4,12 +4,12 @@ use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Route extends Model {
+final class Route extends Model {
     use Sluggable;
 
     protected $guarded = ['id'];
 
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [

@@ -2,7 +2,7 @@
 use App\Models\Workout;
 use Illuminate\Database\Eloquent\Model;
 
-class waypoint extends Model {
+final class waypoint extends Model {
     protected $guarded = ['id'];
 	//
     public function workout() 

@@ -3,14 +3,14 @@
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class FitnessService extends Model
+final class FitnessService extends Model
 {
     use Sluggable;
     protected $guarded = ['id'];
     protected $fillable = ['refresh_token', 'access_token', 'expires_at'];
     public $timestamps = false;
     
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [
