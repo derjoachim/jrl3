@@ -7,7 +7,7 @@ use App\Events\LogDeleting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+final class Log extends Model
 {
     protected $guarded = ['id'];
     
