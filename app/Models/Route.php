@@ -1,8 +1,10 @@
 <?php namespace App\Models;
 
 use Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Carbon\Carbon;
 
 final class Route extends Model {
     use Sluggable;
@@ -47,14 +49,21 @@ final class Route extends Model {
             ->where('time_in_seconds','>',0)
             ->orderBy('time_in_seconds')->first();
         if(!empty($oWorkout)) {
-            $strPR = $oWorkout->getTime();
+            $strPR = $oWorkout->getTime() . ' - ' . Carbon::parse($oWorkout->date, Config::get('app.timezone'))
+                    ->format('d-m-Y');
         }
         return $strPR;
     }
     
     
-    public function getLatestWorkouts($iNumRecords = 5)
+    public function getLatestWorkouts(?int $iNumRecords = 5)
     {
         return $this->workouts()->latest('date')->take($iNumRecords)->get();
+    }
+    
+    public function getFastestWorkouts(?int $iNumRecords = 5)
+    {
+        return $this->workouts()->where('time_in_seconds', '>',0)
+            ->orderBy('time_in_seconds')->take($iNumRecords)->get();
     }
 }

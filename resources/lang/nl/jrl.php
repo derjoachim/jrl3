@@ -54,6 +54,7 @@ return [
     'max_hr' => 'maximale hartslag',
     'favorite_routes' => 'favoriete routes',
     'latest_workouts' => 'laatste workouts',
+    'fastest_workouts' => 'snelste workouts',
     'quantity' => 'aantal',
     'current_pr' => 'huidige PR',
     'logs' => 'logboek|logboeken',

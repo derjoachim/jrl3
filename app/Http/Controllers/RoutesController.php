@@ -10,7 +10,7 @@ use Auth;
 use Redirect;
 use Lang;
 
-class RoutesController extends Controller {
+final class RoutesController extends Controller {
 
     /**
      * Array of validation rules
@@ -78,6 +78,7 @@ class RoutesController extends Controller {
         $Data['route'] = $route;
         $Data['pr'] = $route->getPR();
         $Data['latest_workouts'] = $route->getLatestWorkouts();
+        $Data['fastest_workouts'] = $route->getFastestWorkouts();
         return view('routes.show', $Data);
     }
 

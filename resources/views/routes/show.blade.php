@@ -50,6 +50,25 @@
             @endforeach
             </tbody>
         </table>
+        <h4>{{ ucfirst(trans('jrl.fastest_workouts')) }}</h4>
+        <table class="table table-responsive table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>{{ ucfirst(trans('app.date')) }}</th>
+                <th>{{ ucfirst(trans('jrl.name')) }}</th>
+                <th>{{ ucfirst(trans('jrl.finish_time')) }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($fastest_workouts as $workout)
+                <tr>
+                    <td>{{ date('d-m-Y', strtotime($workout->date)) }}
+                    <td><a href="{{ route('workouts.show', $workout->slug)}}">{{ $workout->name }}</a></td>
+                    <td>{{ $workout->getTime() }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
     <div class="col-lg-6">
         @if ( $route->lon_start && $route->lat_start )
