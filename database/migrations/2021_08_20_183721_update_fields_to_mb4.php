@@ -14,10 +14,11 @@ class UpdateFieldsToMb4 extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE workouts CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        DB::statement("ALTER TABLE routes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        DB::statement("ALTER TABLE logs CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        
+        if('sqlite' !== env('DB_CONNECTION')) {
+            DB::statement("ALTER TABLE workouts CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            DB::statement("ALTER TABLE routes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            DB::statement("ALTER TABLE logs CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        }
     }
     
     /**
