@@ -10,7 +10,8 @@ final class ForecastController extends Controller {
      * Fetches weather data based on workout form request
      * @param Request $request
      * @return json
-     * 
+     *
+     * https://api.openweathermap.org/data/3.0/onecall/timemachine?lat={lat}&lon={lon}&dt={time}&appid={API key}
      * @TODO: Refactor into a more generic class, based on the ServicesRepository
      */
     public function fetch(Request $request)
@@ -19,15 +20,14 @@ final class ForecastController extends Controller {
         $oTs = new Carbon($strTime, Config::get('app.timezone'));
         
         $client = $this->_getClient();
-        $url = 'forecast/' . $this->_getKey() . '/' . 
-            $request->input('lat') . ',' .$request->input('lon') .
-            ',' . $oTs->getTimestamp() .
-            '?units=auto&exclude=hourly,daily';
+        $url = 'data/3.0/onecall/timemachine/lat=' .
+            $request->input('lat') . '&lon=,' .$request->input('lon') .
+            '&dt' . $oTs->getTimestamp() .'&appid='.$this->_getKey();
         $res = $client->request('GET', $url);
         if($res->getStatusCode() == 200) {
             return $res->getBody()->getContents();
         } else {
-            Log::alert("Unexpected response from forecast.io:" . $res->getStatusCode() . ' '. $res->getReasonPhrase());
+            Log::alert("Unexpected response from openweather.org:" . $res->getStatusCode() . ' '. $res->getReasonPhrase());
         }
     }
     
@@ -39,7 +39,7 @@ final class ForecastController extends Controller {
      */
     protected function _getClient()
     {
-        return new Client(['base_uri' => 'https://api.darksky.net/',
+        return new Client(['base_uri' => 'https://api.openweathermap.org/',
                 'headers' => [
                     'content-type' => 'application/json',
                     'Accept' => 'json',
@@ -59,6 +59,6 @@ final class ForecastController extends Controller {
      */
     private function _getKey()
     {
-        return Config::get('services.forecast_io.key');
+        return Config::get('services.openweather_org.key');
     }
 }

@@ -4,13 +4,11 @@
  * @returns {Boolean}
  */
 function getcoords(prefix) {
-    if (!prefix) {
-        prefix = '';
-    }
+    prefix = prefix || '';
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
+            const lat = position.coords.latitude,
+                lon = position.coords.longitude;
             $('#' + prefix + 'lat_start').val(lat);
             $('#' + prefix + 'lon_start').val(lon);
             if (sessionStorage && (sessionStorage.getItem("lon_start") != lon || sessionStorage.getItem("lat_start") != lat)) {
@@ -44,22 +42,22 @@ function renderMap(id, canvas_elem, start_lat, start_lon) {
         "method": "POST",
         "format": "json"
     }).success(function (data) {
-        var mymap = prepareMap(canvas_elem,start_lat,start_lon)
+        const mymap = prepareMap(canvas_elem, start_lat, start_lon);
 
-        var startIcon = new L.icon({
+        const startIcon = new L.icon({
             iconUrl: "/img/marker-icon-green.png",
             iconSize: [50, 40],
-            iconAnchor: [13,18]
+            iconAnchor: [13, 18]
         });
-        var finishIcon = new L.icon({
+        const finishIcon = new L.icon({
             iconUrl: "/img/marker-icon-red.png",
             iconSize: [50, 40],
-            iconAnchor: [13,18]
+            iconAnchor: [13, 18]
         });
 
         new L.marker([$("#lat_start").val(), $("#lon_start").val()], {icon: startIcon}).addTo(mymap);
         new L.marker([$("#lat_finish").val(), $("#lon_finish").val()], {icon: finishIcon}).addTo(mymap);
-        var polyline = new L.polyline(data, {color: 'red'}).addTo(mymap);
+        const polyline = new L.polyline(data, {color: 'red'}).addTo(mymap);
         mymap.fitBounds(polyline.getBounds());
     });
 }
@@ -73,11 +71,11 @@ function renderMap(id, canvas_elem, start_lat, start_lon) {
  */
 function renderEmptyMap(canvas_elem, start_lat, start_lon)
 {
-    var mymap = prepareMap(canvas_elem, start_lat, start_lon);
-    var startIcon = new L.icon({
+    const mymap = prepareMap(canvas_elem, start_lat, start_lon);
+    const startIcon = new L.icon({
         iconUrl: "/img/marker-icon-green.png",
         iconSize: [50, 40],
-        iconAnchor: [13,18]
+        iconAnchor: [13, 18]
     });
     new L.marker([$("#"+start_lat).val(), $("#"+start_lon).val()], {icon: startIcon}).addTo(mymap);
 }
@@ -90,12 +88,10 @@ function renderEmptyMap(canvas_elem, start_lat, start_lon)
  * @param start_lon
  */
 function prepareMap(canvas_elem, start_lat, start_lon) {
-    console.log("Poging 2: " + $("#"+start_lat).val() + " -- " +$("#"+start_lon).val());
-
-    var mymap = L.map(canvas_elem);
-    var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
-    var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 18, attribution: osmAttrib});
+    const mymap = L.map(canvas_elem);
+    const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+    const osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 18, attribution: osmAttrib});
     mymap.setView(new L.LatLng($("#"+start_lat).val(), $("#"+start_lon).val()), 14);
     mymap.addLayer(osm);
     return mymap;
@@ -131,11 +127,12 @@ function fetch_weather() {
         method: "POST"
     })
         .done(function (data) {
-            $('#temperature').val(Math.round(data.currently.temperature));
-            $('#pressure').val(Math.round(data.currently.pressure));
-            $('#humidity').val(Math.round(100 * data.currently.humidity));
-            $('#wind_speed').val(Math.round(data.currently.windSpeed * 3.6));
-            $('#wind_direction').val(deg2compass(data.currently.windBearing));
+            debugger
+            $('#temperature').val(Math.round(data.data.temp));
+            $('#pressure').val(Math.round(data.data.pressure));
+            $('#humidity').val(Math.round(data.data.humidity));
+            $('#wind_speed').val(Math.round(data.data.wind_speed * 3.6));
+            $('#wind_direction').val(deg2compass(data.data.wind_deg));
         })
         .fail(function (data) {
             console.log("Fout bij ophalen weer.");
@@ -149,7 +146,7 @@ function fetch_weather() {
  * @return string compass direction e.g. NNW
  */
 function deg2compass(num) {
-    val = Math.round((parseInt(num) / 22.5) + .5);
-    arr = new Array("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW");
+    const val = Math.round((parseInt(num) / 22.5) + .5),
+        arr = new Array("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW");
     return arr[(val % 16)];
 }

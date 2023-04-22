@@ -108,8 +108,8 @@
                             </a>
                         </li>
                         <li>
-                            <a class="navbar-link" href="https://darksky.net/poweredby" target="_blank">
-                                <img src="{{ asset('/img/poweredby.png') }}" style="height:40px"/>
+                            <a class="navbar-link" href="https://openweathermap.org/api" target="_blank">
+                                <img src="{{ asset('/img/OpenWeather-Master-Logo-RGB.png') }}" style="height:40px"/>
                             </a>
                         </li>
                     </ul>
