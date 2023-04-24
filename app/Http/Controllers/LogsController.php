@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Redirect;
 
-class LogsController extends Controller
+final class LogsController extends Controller
 {
     
     protected $rules = [
