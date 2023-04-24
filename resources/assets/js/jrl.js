@@ -127,7 +127,6 @@ function fetch_weather() {
         method: "POST"
     })
         .done(function (response) {
-            debugger
             const data = response.data[0];
             $('#temperature').val(Math.round(data["temp"]));
             $('#pressure').val(Math.round(data["pressure"]));
