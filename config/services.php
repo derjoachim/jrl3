@@ -37,6 +37,10 @@ return [
     
     'forecast_io' => [
         'key' => env('DARKSKY_NET_API_KEY')
+    ],
+
+    'openweather_org' => [
+        'key' => env('OPENWEATHER_API_KEY')
     ]
 
 ];
