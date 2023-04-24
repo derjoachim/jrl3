@@ -126,13 +126,14 @@ function fetch_weather() {
         format: "json",
         method: "POST"
     })
-        .done(function (data) {
+        .done(function (response) {
             debugger
-            $('#temperature').val(Math.round(data.data.temp));
-            $('#pressure').val(Math.round(data.data.pressure));
-            $('#humidity').val(Math.round(data.data.humidity));
-            $('#wind_speed').val(Math.round(data.data.wind_speed * 3.6));
-            $('#wind_direction').val(deg2compass(data.data.wind_deg));
+            const data = response.data[0];
+            $('#temperature').val(Math.round(data["temp"]));
+            $('#pressure').val(Math.round(data["pressure"]));
+            $('#humidity').val(Math.round(data["humidity"]));
+            $('#wind_speed').val(Math.round(data["wind_speed"] * 3.6));
+            $('#wind_direction').val(deg2compass(data["wind_deg"]));
         })
         .fail(function (data) {
             console.log("Fout bij ophalen weer.");
