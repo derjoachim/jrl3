@@ -193,13 +193,15 @@ final class WorkoutsController extends Controller
      */
     public function parse(Request $request)
     {
-        $file = $request->get('file');
+        //$file = $request->get('file');
+        $file = $request->file;
         $arrVal = array('file' => $file);
         $validator = Validator::make($arrVal, [
             'file' => ['required', 'mimes:xml,gpx']
         ]);
         
         if ($validator->fails()) {
+            die("WOEF");
             return Redirect::to('upload')->withInput()->withErrors($validator);
         }
         
@@ -264,8 +266,10 @@ final class WorkoutsController extends Controller
         $workout->date = $ts->format('Y-m-d');
         $workout->user_id = Auth::user()->id;
         $workout->distance = $distance;
-        $workout->start_time = $ts->format('H:i:s');
+//        $workout->start_time = $ts->format('H:i:s');
+        $workout->start_time = $ts;
         $workout->time_in_seconds = $moving_time;
+        $workout->description = "";
         $workout->lat_start = $first->{'@attributes'}->lat;
         $workout->lon_start = $first->{'@attributes'}->lon;
         $workout->lat_finish = $last->{'@attributes'}->lat;
@@ -278,7 +282,7 @@ final class WorkoutsController extends Controller
         foreach ($trkseg as $t) {
             $arrWps[] = array(
                 'workout_id' => $workout_id,
-                'timestamp' => $t->time,
+                'timestamp' => Carbon::parse($t->time),
                 'lon' => $t->{'@attributes'}->lon,
                 'lat' => $t->{'@attributes'}->lat,
             );

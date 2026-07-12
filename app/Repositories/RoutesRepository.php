@@ -11,10 +11,10 @@ class RoutesRepository
      * 
      * This method shows my love for eloquent!
      * 
-     * @param integer $iNumFavorites number of results to retrieve
+     * @param int $iNumFavorites number of results to retrieve
      * @return collection
      */
-    public function favorites($iNumFavorites=5)
+    public function favorites(int $iNumFavorites=5)
     {
         return Route::whereUserId(Auth::user()->id)
             ->withCount('workouts')

@@ -2,7 +2,7 @@
 
 use Auth;
 
-class FilesController extends Controller {
+final class FilesController extends Controller {
     
     public function __construct() {
         $this->middleware('auth');
