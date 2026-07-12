@@ -3,6 +3,6 @@
 interface FitnessServicesInterface
 {
     
-    public function __construct($name);
+    public function __construct(string $name);
     public function latest();
 }

@@ -13,7 +13,7 @@ abstract class ServicesRepository implements FitnessServicesInterface
     public $api_key;
     public $service_user_id;
 
-    public function __construct( $name )
+    public function __construct( string $name )
     {
         $user_id = Auth::id();
         $srv = FitnessService::whereSlug($name)->first();
@@ -50,11 +50,11 @@ abstract class ServicesRepository implements FitnessServicesInterface
      * function is not specified when an invalid expression is supplied.
      *
      * @param String $encoded the encoded polyline.
-     * @return Array an Nx2 array with the first element of each entry containing
+     * @return array an Nx2 array with the first element of each entry containing
      *  the latitude and the second containing the longitude of the
      *  corresponding point.
      */
-    public function decodePolylineToArray($encoded)
+    public function decodePolylineToArray($encoded): array
     {
       $length = strlen($encoded);
       $index = 0;
