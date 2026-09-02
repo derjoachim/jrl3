@@ -17,3 +17,4 @@ Homestead.yaml
 /src/.env
 /src/.phpunit.result.cache
 /src/public/mix-manifest.json
+compose.yaml
