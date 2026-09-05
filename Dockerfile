@@ -24,10 +24,6 @@ COPY --chown=1000:1000 . /var/www
 
 USER 1000
 
-# Install dependencies
-#RUN composer install --optimize-autoloader
-#RUN npm install && npm run development
-
 # Copy existing application key, storage and vendor folder permissions
 RUN chmod -R 755 /var/www/storage
 
