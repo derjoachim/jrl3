@@ -25,7 +25,7 @@ final class LogsController extends Controller
     
     public function index()
     {
-        $logs = User::find(Auth::id())->logs;
+        $logs = User::find(Auth::id())->logs()->orderBy('end_date','desc')->get();
         return view('logs.index', compact('logs'));
     }
     

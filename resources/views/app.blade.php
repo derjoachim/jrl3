@@ -71,7 +71,7 @@
                     <li><a href="{{ url('upload') }}">
                         {{ ucfirst(trans('app.upload')) }} {{ trans_choice('jrl.workout_files',1)}}
                     </a></li>
-                    <li><a href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a></li>
+                    <!--<li><a href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a></li>-->
                 </ul>
                 <div class="divider">&nbsp;</div>
                 <ul class="nav nav-sidebar" role="menu">

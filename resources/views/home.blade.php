@@ -4,9 +4,9 @@
 <div class="page-header">
     <h1>{{ ucfirst(trans('app.home')) }}&nbsp;<small>{{ trans('jrl.welcome_to_jrl') }}</small></h1>
 </div>
-<div class="row">
+<div class="row" style="display: none;">
     <div class="col-sm-2 col-sm-offset-10 clearfix">
-        <a class="btn btn-primary float-right" href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a>
+        <a class="btn btn-primary disabled float-right" href="{{ url('/strava/getlatest') }}">{{ ucfirst(trans('app.import_from')) }} Strava</a>
     </div>
 </div>
 <div class="row">

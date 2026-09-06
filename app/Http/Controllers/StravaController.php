@@ -9,6 +9,9 @@ use App\Repositories\StravaServiceRepository;
 use App\Models\{Route,Workout};
 use Illuminate\Http\Request;
 
+/**
+ * @deprecated since july 2026 due to Strava API access being paywalled.
+ */
 
 final class StravaController extends Controller
 {
